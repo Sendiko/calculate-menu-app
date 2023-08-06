@@ -4,43 +4,61 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import androidx.navigation.compose.rememberNavController
+import com.sendiko.calcmenus.ui.screens.Graphs
+import com.sendiko.calcmenus.ui.screens.Routes
+import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
+import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreenEvents
 import com.sendiko.calcmenus.ui.theme.CalcMenusTheme
+import com.sendiko.calcmenus.ui.theme.NotWhite
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             CalcMenusTheme {
-                // A surface container using the 'background' color from the theme
+                val navController = rememberNavController()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = NotWhite
                 ) {
-                    Greeting("Android")
+                    NavHost(
+                        navController = navController,
+                        startDestination = Routes.WelcomeScreenRoute.route,
+                        builder = {
+                            composable(
+                                route = Routes.WelcomeScreenRoute.route,
+                                content = {
+                                    WelcomeScreen(
+                                        onNavigate = { route ->
+                                            WelcomeScreenEvents.OnNavigate(route)
+                                        }
+                                    )
+                                }
+                            )
+                            navigation(
+                                route = Graphs.RestoAuthGraph.graph,
+                                startDestination = Routes.RestoWelcome.route,
+                                builder = {
+
+                                }
+                            )
+                            navigation(
+                                route = Graphs.EmpAuthGraph.graph,
+                                startDestination = Routes.EmployeeLogin.route,
+                                builder = {
+
+                                }
+                            )
+                        }
+                    )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CalcMenusTheme {
-        Greeting("Android")
     }
 }
