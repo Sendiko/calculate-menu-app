@@ -25,6 +25,7 @@ import com.sendiko.calcmenus.ui.components.buttons.ButtonSize
 import com.sendiko.calcmenus.ui.components.buttons.OutlineButton
 import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
 import com.sendiko.calcmenus.ui.components.others.OrDividers
+import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
@@ -86,7 +87,7 @@ fun WelcomeResto(
                         text = "Register new restaurant",
                         buttonSize = ButtonSize.BIG,
                         onClick = {
-
+                            onNavigate(Routes.RestoLogin.route)
                         }
                     )
                     OrDividers()
