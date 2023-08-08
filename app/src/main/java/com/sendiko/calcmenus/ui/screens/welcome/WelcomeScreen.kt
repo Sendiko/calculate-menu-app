@@ -2,6 +2,7 @@
 
 package com.sendiko.calcmenus.ui.screens.welcome
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,10 +28,13 @@ import com.sendiko.calcmenus.ui.components.buttons.ButtonSize.BIG
 import com.sendiko.calcmenus.ui.components.buttons.OutlineButton
 import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
 import com.sendiko.calcmenus.ui.components.others.OrDividers
+import com.sendiko.calcmenus.ui.screens.Graphs
+import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WelcomeScreen(
@@ -39,9 +43,9 @@ fun WelcomeScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = NotWhite
-    ) { values ->
+    ) {
         Column(
-            modifier = Modifier.padding(top = values.calculateTopPadding(), start = 16.dp)
+            modifier = Modifier.padding(start = 16.dp)
         ) {
             Box(
                 modifier = Modifier
@@ -87,7 +91,7 @@ fun WelcomeScreen(
                         text = "Login as Employee",
                         buttonSize = BIG,
                         onClick = {
-
+                            onNavigate(Routes.EmployeeLogin.route)
                         }
                     )
                     OrDividers()
@@ -96,7 +100,7 @@ fun WelcomeScreen(
                         text = "Resto owner? Click Here!",
                         buttonSize = BIG,
                         onClick = {
-
+                            onNavigate(Graphs.RestoAuthGraph.graph)
                         }
                     )
                     Spacer(modifier = Modifier.weight(1f))
