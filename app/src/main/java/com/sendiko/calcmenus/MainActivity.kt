@@ -12,6 +12,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
+import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreenEvents
 import com.sendiko.calcmenus.ui.theme.CalcMenusTheme
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
                                 content = {
                                     WelcomeScreen(
                                         onNavigate = { route ->
+                                            navController.navigate(route = Graphs.RestoAuthGraph.graph)
                                             WelcomeScreenEvents.OnNavigate(route)
                                         }
                                     )
@@ -45,7 +47,16 @@ class MainActivity : ComponentActivity() {
                                 route = Graphs.RestoAuthGraph.graph,
                                 startDestination = Routes.RestoWelcome.route,
                                 builder = {
+                                    composable(
+                                        route = Routes.RestoWelcome.route,
+                                        content = {
+                                            WelcomeResto(
+                                                onNavigate = {
 
+                                                }
+                                            )
+                                        }
+                                    )
                                 }
                             )
                             navigation(
