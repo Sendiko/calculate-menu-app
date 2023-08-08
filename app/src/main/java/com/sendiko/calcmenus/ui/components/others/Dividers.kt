@@ -19,12 +19,17 @@ import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 
 @Composable
-fun OrDividers() {
+fun OrDividers(
+    modifier: Modifier = Modifier
+) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier.padding(horizontal = 16.dp)
     ) {
         Divider(
-            modifier = Modifier.weight(3f).padding(vertical = 10.dp),
+            modifier = Modifier
+                .weight(3f)
+                .padding(vertical = 10.dp),
             color = LessGray
         )
         Text(
@@ -34,7 +39,9 @@ fun OrDividers() {
             )
         )
         Divider(
-            modifier = Modifier.weight(3f).padding(vertical = 10.dp),
+            modifier = Modifier
+                .weight(3f)
+                .padding(vertical = 10.dp),
             color = LessGray
         )
     }
