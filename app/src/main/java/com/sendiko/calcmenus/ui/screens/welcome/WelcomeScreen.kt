@@ -3,6 +3,7 @@
 package com.sendiko.calcmenus.ui.screens.welcome
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,6 +28,7 @@ import com.sendiko.calcmenus.ui.components.buttons.OutlineButton
 import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
 import com.sendiko.calcmenus.ui.components.others.OrDividers
 import com.sendiko.calcmenus.ui.theme.LessGray
+import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +37,8 @@ fun WelcomeScreen(
     onNavigate: (route: String) -> Unit
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        containerColor = NotWhite
     ) { values ->
         Column(
             modifier = Modifier.padding(top = values.calculateTopPadding(), start = 16.dp)
@@ -76,7 +79,8 @@ fun WelcomeScreen(
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(36.dp)
+                    modifier = Modifier.padding(36.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ){
                     PrimaryButton(
                         modifier = Modifier.fillMaxWidth(),
@@ -89,7 +93,7 @@ fun WelcomeScreen(
                     OrDividers()
                     OutlineButton(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "Resto owner? Click Here1",
+                        text = "Resto owner? Click Here!",
                         buttonSize = BIG,
                         onClick = {
 
