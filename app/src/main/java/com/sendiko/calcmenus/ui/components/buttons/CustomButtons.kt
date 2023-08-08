@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,6 +27,7 @@ import com.sendiko.calcmenus.ui.components.buttons.ButtonSize.*
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
+import com.sendiko.calcmenus.ui.theme.myFont
 
 @Composable
 fun PrimaryButton(
@@ -45,11 +47,13 @@ fun PrimaryButton(
             Text(
                 text = text,
                 style = TextStyle(
-                    fontSize = when(buttonSize){
+                    fontSize = when (buttonSize) {
                         BIG -> 18.sp
                         REGULAR -> 14.sp
                         SMALL -> 12.sp
-                    }
+                    },
+                    fontFamily = myFont,
+                    fontWeight = FontWeight.Bold
                 )
             )
         }
@@ -75,11 +79,13 @@ fun OutlineButton(
             Text(
                 text = text,
                 style = TextStyle(
-                    fontSize = when(buttonSize){
+                    fontSize = when (buttonSize) {
                         BIG -> 18.sp
                         REGULAR -> 14.sp
                         SMALL -> 12.sp
-                    }
+                    },
+                    fontFamily = myFont,
+                    fontWeight = FontWeight.Bold
                 )
             )
         }
@@ -92,6 +98,7 @@ fun SmallOutlineButton(
     modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     AssistChip(
         modifier = modifier,
@@ -107,8 +114,13 @@ fun SmallOutlineButton(
             trailingIconContentColor = LessGray
         ),
         shape = RoundedCornerShape(100),
+        trailingIcon = trailingIcon,
         label = {
-            Text(text = text)
+            Text(
+                text = text,
+                fontFamily = myFont,
+                fontWeight = FontWeight.Bold
+            )
         }
     )
 }
