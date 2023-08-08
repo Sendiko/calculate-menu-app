@@ -15,6 +15,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
+import com.sendiko.calcmenus.ui.screens.restaurant.LoginScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreenEvents
@@ -61,7 +62,7 @@ class MainActivity : ComponentActivity() {
                                     content = {
                                         WelcomeScreen(
                                             onNavigate = { route ->
-                                                navController.navigate(route = Graphs.RestoAuthGraph.graph)
+                                                navController.navigate(route = route)
                                                 WelcomeScreenEvents.OnNavigate(route)
                                             }
                                         )
@@ -75,7 +76,20 @@ class MainActivity : ComponentActivity() {
                                             route = Routes.RestoWelcome.route,
                                             content = {
                                                 WelcomeResto(
+                                                    onNavigate = { route ->
+                                                        navController.navigate(route = route)
+                                                    }
+                                                )
+                                            }
+                                        )
+                                        composable(
+                                            route = Routes.RestoLogin.route,
+                                            content = {
+                                                LoginScreen(
                                                     onNavigate = {
+
+                                                    },
+                                                    onLogin = {
 
                                                     }
                                                 )
