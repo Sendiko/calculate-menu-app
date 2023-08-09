@@ -41,7 +41,7 @@ fun WelcomeResto(
         containerColor = NotWhite
     ) {
         Column(
-            modifier = Modifier.padding(start = 16.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
             Box(
                 modifier = Modifier
@@ -87,7 +87,7 @@ fun WelcomeResto(
                         text = "Register new restaurant",
                         buttonSize = ButtonSize.BIG,
                         onClick = {
-                            onNavigate(Routes.RestoLogin.route)
+                            onNavigate(Routes.RestoRegister.route)
                         }
                     )
                     OrDividers()
@@ -96,7 +96,7 @@ fun WelcomeResto(
                         text = "Have a restaurant? Login Here!",
                         buttonSize = ButtonSize.BIG,
                         onClick = {
-
+                            onNavigate(Routes.RestoLogin.route)
                         }
                     )
                     Spacer(modifier = Modifier.weight(1f))
