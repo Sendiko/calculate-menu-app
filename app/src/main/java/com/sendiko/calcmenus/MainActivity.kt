@@ -5,7 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
@@ -16,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.restaurant.LoginScreen
+import com.sendiko.calcmenus.ui.screens.restaurant.RegisterScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreenEvents
@@ -85,13 +89,21 @@ class MainActivity : ComponentActivity() {
                                         composable(
                                             route = Routes.RestoLogin.route,
                                             content = {
-                                                LoginScreen(
-                                                    onNavigate = {
+                                                LoginScreen {
 
+                                                }
+                                            }
+                                        )
+                                        composable(
+                                            route = Routes.RestoRegister.route,
+                                            content = {
+                                                var registerPart by remember { mutableStateOf(1) }
+                                                RegisterScreen(
+                                                    onRegister = { /*TODO*/ },
+                                                    onNavigatePart = { part ->
+                                                        registerPart = part
                                                     },
-                                                    onLogin = {
-
-                                                    }
+                                                    registerPart = registerPart
                                                 )
                                             }
                                         )
