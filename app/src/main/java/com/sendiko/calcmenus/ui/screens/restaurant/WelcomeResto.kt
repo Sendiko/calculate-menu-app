@@ -1,6 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
-package com.sendiko.calcmenus.ui.screens.welcome
+package com.sendiko.calcmenus.ui.screens.restaurant
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -20,24 +18,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sendiko.calcmenus.R
-import com.sendiko.calcmenus.ui.components.buttons.ButtonSize.BIG
+import com.sendiko.calcmenus.ui.components.buttons.ButtonSize
 import com.sendiko.calcmenus.ui.components.buttons.OutlineButton
 import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
 import com.sendiko.calcmenus.ui.components.others.OrDividers
-import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun WelcomeScreen(
+fun WelcomeResto(
     onNavigate: (route: String) -> Unit
 ) {
     Scaffold(
@@ -59,7 +55,7 @@ fun WelcomeScreen(
                 )
                 Column{
                     Text(
-                        text = "Welcome Back!",
+                        text = "Welcome Owner!",
                         style = TextStyle(
                             fontSize = 32.sp,
                             color = PrimaryRed,
@@ -88,19 +84,19 @@ fun WelcomeScreen(
                 ){
                     PrimaryButton(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "Login as Employee",
-                        buttonSize = BIG,
+                        text = "Register new restaurant",
+                        buttonSize = ButtonSize.BIG,
                         onClick = {
-                            onNavigate(Routes.EmployeeLogin.route)
+                            onNavigate(Routes.RestoRegister.route)
                         }
                     )
                     OrDividers()
                     OutlineButton(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "Resto owner? Click Here!",
-                        buttonSize = BIG,
+                        text = "Have a restaurant? Login Here!",
+                        buttonSize = ButtonSize.BIG,
                         onClick = {
-                            onNavigate(Graphs.RestoAuthGraph.graph)
+                            onNavigate(Routes.RestoLogin.route)
                         }
                     )
                     Spacer(modifier = Modifier.weight(1f))
@@ -108,10 +104,4 @@ fun WelcomeScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun WelcomePrev() {
-    WelcomeScreen(onNavigate = {})
 }
