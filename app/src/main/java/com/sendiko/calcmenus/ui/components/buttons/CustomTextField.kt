@@ -36,6 +36,8 @@ fun OutlinedTextField(
     hint: String,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    prefix: @Composable (() -> Unit)? = null,
+    suffix: @Composable (() -> Unit)? = null,
     passwordVisible: Boolean = false,
     isError: Boolean,
     supportingText: String? = null,
@@ -51,6 +53,8 @@ fun OutlinedTextField(
         shape = RoundedCornerShape(100),
         singleLine = true,
         isError = isError,
+        prefix = prefix,
+        suffix = suffix,
         supportingText = {
             supportingText?.let { Text(it) }
         },
