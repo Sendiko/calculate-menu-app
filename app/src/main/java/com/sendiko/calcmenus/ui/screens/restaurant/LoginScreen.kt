@@ -39,7 +39,6 @@ import com.sendiko.calcmenus.ui.theme.PrimaryRed
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(
-    onNavigate: () -> Unit,
     onLogin: () -> Unit,
 ) {
     Scaffold(
@@ -47,7 +46,7 @@ fun LoginScreen(
         containerColor = NotWhite
     ) {
         Column(
-            modifier = Modifier.padding(start = 16.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
             Box(
                 modifier = Modifier
@@ -160,9 +159,6 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPrev() {
     LoginScreen (
-        onNavigate = {
-
-        },
         onLogin = {
 
         }
