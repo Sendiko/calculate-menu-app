@@ -45,7 +45,7 @@ fun WelcomeScreen(
         containerColor = NotWhite
     ) {
         Column(
-            modifier = Modifier.padding(start = 16.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
             Box(
                 modifier = Modifier
