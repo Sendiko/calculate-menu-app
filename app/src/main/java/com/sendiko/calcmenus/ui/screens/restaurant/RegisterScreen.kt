@@ -21,7 +21,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PhoneAndroid
-import androidx.compose.material.icons.filled.Restaurant
+import androidx.compose.material.icons.filled.Store
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -147,7 +147,7 @@ fun RegisterPartOne(
             textValue = "",
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Filled.Restaurant,
+                    imageVector = Icons.Filled.Store,
                     contentDescription = "Restaurant",
                     modifier = Modifier.padding(
                         start = 8.dp
@@ -306,7 +306,7 @@ fun RegisterPartTwo(
 @Composable
 fun RegisterScreenPrev() {
     RegisterScreen(
-        registerPart = 2,
+        registerPart = 1,
         onNavigatePart = {
 
         },
