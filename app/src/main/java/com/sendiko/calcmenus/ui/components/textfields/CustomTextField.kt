@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.ui.components.buttons
+package com.sendiko.calcmenus.ui.components.textfields
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
