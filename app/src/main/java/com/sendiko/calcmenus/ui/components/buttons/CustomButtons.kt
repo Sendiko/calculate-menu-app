@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -126,6 +127,7 @@ fun OutlineButton(
 @Composable
 fun SmallOutlineButton(
     modifier: Modifier = Modifier,
+    background: Color = NotWhite,
     text: String,
     onClick: () -> Unit,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -138,7 +140,7 @@ fun SmallOutlineButton(
             borderWidth = 1.dp,
         ),
         colors = AssistChipDefaults.assistChipColors(
-            containerColor = NotWhite,
+            containerColor = background,
             labelColor = LessGray,
             leadingIconContentColor = LessGray,
             trailingIconContentColor = LessGray
@@ -149,7 +151,6 @@ fun SmallOutlineButton(
             Text(
                 text = text,
                 fontFamily = myFont,
-                fontWeight = FontWeight.Bold
             )
         }
     )
