@@ -33,6 +33,7 @@ import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
+import com.sendiko.calcmenus.ui.theme.TextColor
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,7 +71,7 @@ fun WelcomeScreen(
                         text = "Please log in to your account",
                         style = TextStyle(
                             fontSize = 14.sp,
-                            color = LessGray,
+                            color = TextColor,
                         )
                     )
                 }
