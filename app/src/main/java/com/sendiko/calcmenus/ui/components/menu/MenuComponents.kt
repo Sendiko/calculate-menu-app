@@ -1,8 +1,6 @@
 package com.sendiko.calcmenus.ui.components.menu
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -10,17 +8,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,10 +28,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.sendiko.calcmenus.ui.components.buttons.SmallOutlineButton
+import com.sendiko.calcmenus.ui.components.others.SimpleCounter
 import com.sendiko.calcmenus.ui.theme.CardBackgroundColor
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
+import com.sendiko.calcmenus.ui.theme.myFont
 
 const val defaultImageUrl =
     "http://192.168.100.12:8000/storage/images/menu/MbaC4FwN5iRwoSAVgmk3ORcVcsiumkXw93I9Fd9s.jpg"
@@ -94,7 +87,8 @@ fun MenuCard(
                         style = TextStyle(
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Start
+                            textAlign = TextAlign.Start,
+                            fontFamily = myFont
                         )
                     )
                     Text(
@@ -102,63 +96,20 @@ fun MenuCard(
                         style = TextStyle(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Start
+                            textAlign = TextAlign.Start,
+                            fontFamily = myFont
                         )
                     )
                 }
 
                 when {
                     amount > 1 -> {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            IconButton(
-                                modifier = Modifier.size(32.dp),
-                                colors = IconButtonDefaults.filledIconButtonColors(
-                                    containerColor = NotWhite
-                                ),
-                                content = {
-                                    Icon(
-                                        imageVector = Icons.Default.Remove,
-                                        contentDescription = "Minus",
-                                    )
-                                },
-                                onClick = {
-
-                                }
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(20))
-                                    .background(NotWhite)
-                                    .size(32.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = amount.toString(),
-                                    style = TextStyle(
-                                        fontSize = 18.sp,
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                )
-                            }
-                            IconButton(
-                                modifier = Modifier.size(32.dp),
-                                colors = IconButtonDefaults.filledIconButtonColors(
-                                    containerColor = NotWhite
-                                ),
-                                content = {
-                                    Icon(
-                                        imageVector = Icons.Default.Add,
-                                        contentDescription = "Add"
-                                    )
-                                },
-                                onClick = {
-
-                                }
-                            )
-                        }
+                        SimpleCounter(
+                            modifier = Modifier.padding(top = 16.dp),
+                            amount = amount,
+                            onMinusClick = { /*TODO*/ },
+                            onPlusClick = { /*TODO*/ }
+                        )
                     }
 
                     else -> {

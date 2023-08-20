@@ -34,6 +34,7 @@ import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
+import com.sendiko.calcmenus.ui.theme.myFont
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -63,7 +64,8 @@ fun LoginScreen(
                         style = TextStyle(
                             fontSize = 32.sp,
                             color = PrimaryRed,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = myFont
                         )
                     )
                     Text(
@@ -71,7 +73,8 @@ fun LoginScreen(
                         style = TextStyle(
                             fontSize = 24.sp,
                             color = PrimaryRed,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = myFont
                         )
                     )
                 }

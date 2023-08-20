@@ -82,6 +82,51 @@ fun PrimaryButton(
 }
 
 @Composable
+fun SecondaryButton(
+    modifier: Modifier = Modifier,
+    buttonSize: ButtonSize = REGULAR,
+    icon: ImageVector? = null,
+    iconPosition: IconInButtonPosition = BeforeText,
+    text: String,
+    onClick: () -> Unit,
+) {
+    Button(
+        modifier = modifier,
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = NotWhite,
+            contentColor = PrimaryRed
+        ),
+        content = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                if (icon!= null && iconPosition == BeforeText){
+                    Icon(imageVector = icon, contentDescription = null)
+                }
+                Text(
+                    text = text,
+                    style = TextStyle(
+                        fontSize = when (buttonSize) {
+                            BIG -> 18.sp
+                            REGULAR -> 14.sp
+                            SMALL -> 12.sp
+                        },
+                        fontFamily = myFont,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                )
+                if (icon != null && iconPosition == AfterText) {
+                    Icon(imageVector = icon, contentDescription = null)
+                }
+            }
+        }
+    )
+}
+
+@Composable
 fun OutlineButton(
     modifier: Modifier = Modifier,
     buttonSize: ButtonSize = REGULAR,

@@ -30,10 +30,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sendiko.calcmenus.R
 import com.sendiko.calcmenus.ui.components.buttons.ButtonSize.BIG
-import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
+import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
+import com.sendiko.calcmenus.ui.theme.myFont
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -64,7 +65,8 @@ fun LoginScreen(
                         style = TextStyle(
                             fontSize = 32.sp,
                             color = PrimaryRed,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = myFont
                         )
                     )
                     Text(
@@ -72,7 +74,8 @@ fun LoginScreen(
                         style = TextStyle(
                             fontSize = 24.sp,
                             color = PrimaryRed,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = myFont
                         )
                     )
                 }

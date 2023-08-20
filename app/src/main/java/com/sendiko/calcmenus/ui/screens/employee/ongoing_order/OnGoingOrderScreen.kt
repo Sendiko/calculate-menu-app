@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.ui.screens.employee.ongoingorder
+package com.sendiko.calcmenus.ui.screens.employee.ongoing_order
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -35,6 +35,7 @@ import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.theme.Yellowyellow
+import com.sendiko.calcmenus.ui.theme.myFont
 
 @Composable
 fun OnGoingOrderScreen(
@@ -123,7 +124,8 @@ fun OnGoingOrderScreen(
                                 style = TextStyle(
                                     fontWeight = FontWeight.Black,
                                     color = PrimaryRed,
-                                    fontSize = 32.sp
+                                    fontSize = 32.sp,
+                                    fontFamily = myFont
                                 )
                             )
                         }

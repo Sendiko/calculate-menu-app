@@ -41,8 +41,8 @@ import com.sendiko.calcmenus.R
 import com.sendiko.calcmenus.ui.components.buttons.ButtonSize
 import com.sendiko.calcmenus.ui.components.buttons.IconInButtonPosition
 import com.sendiko.calcmenus.ui.components.buttons.OutlineButton
-import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
+import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.theme.myFont
@@ -78,7 +78,8 @@ fun RegisterScreen(
                         style = TextStyle(
                             fontSize = 32.sp,
                             color = PrimaryRed,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = myFont
                         )
                     )
                     Text(
@@ -86,7 +87,8 @@ fun RegisterScreen(
                         style = TextStyle(
                             fontSize = 24.sp,
                             color = PrimaryRed,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = myFont
                         )
                     )
                 }

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.sendiko.calcmenus.ui.components.textfields
 
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sendiko.calcmenus.ui.theme.NotWhite
@@ -69,7 +72,12 @@ fun OutlinedTextField(
             containerColor = NotWhite
         ),
         placeholder = {
-            Text(hint)
+            Text(
+                text = hint,
+                style = TextStyle(
+                    fontFamily = myFont,
+                )
+            )
         },
         visualTransformation = if (passwordVisible) {
             PasswordVisualTransformation()
@@ -101,7 +109,47 @@ fun FilledTextField(
             containerColor = NotWhite
         ),
         placeholder = {
-            Text(hint)
+            Text(
+                text = hint,
+                style = TextStyle(
+                    fontFamily = myFont,
+                )
+            )
+        },
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SmallTextArea(
+    modifier: Modifier = Modifier,
+    hint: String,
+    textValue: String,
+    onNewValue: (newValue: String) -> Unit
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = textValue,
+        onValueChange = onNewValue,
+        shape = RoundedCornerShape(15),
+        singleLine = false,
+        textStyle = TextStyle(
+            fontFamily = myFont,
+        ),
+        minLines = 3,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = PrimaryRed,
+            focusedTrailingIconColor = PrimaryRed,
+            containerColor = NotWhite
+        ),
+        placeholder = {
+            Text(
+                hint,
+                style = TextStyle(
+                    textAlign = TextAlign.Right,
+                    fontFamily = myFont
+                )
+            )
         },
     )
 }
