@@ -41,6 +41,7 @@ import com.sendiko.calcmenus.ui.theme.CardBackgroundColor
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
+import com.sendiko.calcmenus.ui.theme.myFont
 
 const val defaultImageUrl =
     "http://192.168.100.12:8000/storage/images/menu/MbaC4FwN5iRwoSAVgmk3ORcVcsiumkXw93I9Fd9s.jpg"
@@ -94,7 +95,8 @@ fun MenuCard(
                         style = TextStyle(
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Start
+                            textAlign = TextAlign.Start,
+                            fontFamily = myFont
                         )
                     )
                     Text(
@@ -102,7 +104,8 @@ fun MenuCard(
                         style = TextStyle(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Start
+                            textAlign = TextAlign.Start,
+                            fontFamily = myFont
                         )
                     )
                 }

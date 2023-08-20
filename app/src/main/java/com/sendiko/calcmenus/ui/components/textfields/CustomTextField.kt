@@ -69,7 +69,12 @@ fun OutlinedTextField(
             containerColor = NotWhite
         ),
         placeholder = {
-            Text(hint)
+            Text(
+                text = hint,
+                style = TextStyle(
+                    fontFamily = myFont,
+                )
+            )
         },
         visualTransformation = if (passwordVisible) {
             PasswordVisualTransformation()
@@ -101,7 +106,12 @@ fun FilledTextField(
             containerColor = NotWhite
         ),
         placeholder = {
-            Text(hint)
+            Text(
+                text = hint,
+                style = TextStyle(
+                    fontFamily = myFont,
+                )
+            )
         },
     )
 }

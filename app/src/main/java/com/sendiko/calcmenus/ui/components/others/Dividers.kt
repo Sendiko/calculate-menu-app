@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
+import com.sendiko.calcmenus.ui.theme.myFont
 
 @Composable
 fun OrDividers(
@@ -35,7 +36,8 @@ fun OrDividers(
         Text(
             text = "or", style = TextStyle(
                 color = LessGray,
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                fontFamily = myFont
             )
         )
         Divider(

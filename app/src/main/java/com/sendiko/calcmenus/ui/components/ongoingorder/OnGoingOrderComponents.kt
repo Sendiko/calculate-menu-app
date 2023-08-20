@@ -23,6 +23,7 @@ import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
 import com.sendiko.calcmenus.ui.theme.CardBackgroundColor
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
+import com.sendiko.calcmenus.ui.theme.myFont
 import com.sendiko.calcmenus.ui.utils.formatCurrency
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,7 +53,8 @@ fun OnGoingOrderCard(
                 style = TextStyle(
                     fontSize = 18.sp,
                     textAlign = TextAlign.Start,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = myFont
                 )
             )
             Text(
@@ -61,7 +63,8 @@ fun OnGoingOrderCard(
                 style = TextStyle(
                     fontSize = 24.sp,
                     textAlign = TextAlign.End,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = myFont
                 )
             )
             PrimaryButton(

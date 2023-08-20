@@ -30,10 +30,10 @@ import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
 import com.sendiko.calcmenus.ui.components.others.OrDividers
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
-import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.theme.TextColor
+import com.sendiko.calcmenus.ui.theme.myFont
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +64,8 @@ fun WelcomeScreen(
                         style = TextStyle(
                             fontSize = 32.sp,
                             color = PrimaryRed,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = myFont
                         )
                     )
                     Text(
@@ -72,6 +73,7 @@ fun WelcomeScreen(
                         style = TextStyle(
                             fontSize = 14.sp,
                             color = TextColor,
+                            fontFamily = myFont
                         )
                     )
                 }

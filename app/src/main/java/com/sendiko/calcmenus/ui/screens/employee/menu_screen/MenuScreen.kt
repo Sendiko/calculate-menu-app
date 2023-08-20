@@ -50,6 +50,7 @@ import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.theme.Yellowyellow
+import com.sendiko.calcmenus.ui.theme.myFont
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -77,7 +78,8 @@ fun MenuScreen(
                             text = "Place Order",
                             style = TextStyle(
                                 fontSize = 20.sp,
-                                fontWeight = FontWeight.Black
+                                fontWeight = FontWeight.Black,
+                                fontFamily = myFont
                             )
                         )
                     },
@@ -194,7 +196,8 @@ fun MenuScreen(
                                     style = TextStyle(
                                         fontWeight = FontWeight.Black,
                                         color = PrimaryRed,
-                                        fontSize = 32.sp
+                                        fontSize = 32.sp,
+                                        fontFamily = myFont
                                     )
                                 )
                             }
@@ -223,7 +226,8 @@ fun MenuScreen(
                                     style = TextStyle(
                                         fontWeight = FontWeight.Black,
                                         color = PrimaryRed,
-                                        fontSize = 32.sp
+                                        fontSize = 32.sp,
+                                        fontFamily = myFont
                                     )
                                 )
                             }
