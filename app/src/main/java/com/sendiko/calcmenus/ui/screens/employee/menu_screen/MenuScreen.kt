@@ -9,10 +9,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -21,6 +24,7 @@ import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -56,36 +60,37 @@ import com.sendiko.calcmenus.ui.theme.myFont
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MenuScreen(
-    onPlaceOrder: () -> Unit,
+    onPlaceOrder: (route: String) -> Unit,
     onNavigate: (route: String) -> Unit
 ) {
     var menuSelection by rememberSaveable {
         mutableStateOf(0)
     }
     var selectedMenu = mutableListOf<IntArray>()
+    val lazyState = rememberLazyListState()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = PrimaryRed,
         floatingActionButton = {
-            when{
-                selectedMenu.isNotEmpty() -> FloatingActionButton(
-                    containerColor = PrimaryRed,
-                    contentColor = NotWhite,
-                    shape = RoundedCornerShape(100),
-                    content = {
-                        Text(
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            text = "Place Order",
-                            style = TextStyle(
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Black,
-                                fontFamily = myFont
-                            )
+            FloatingActionButton(
+                containerColor = PrimaryRed,
+                contentColor = NotWhite,
+                shape = RoundedCornerShape(100),
+                content = {
+                    Text(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        text = "Place Order",
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Black,
+                            fontFamily = myFont
                         )
-                    },
-                    onClick = { /*TODO*/ }
-                )
-            }
+                    )
+                },
+                onClick = {
+                    onPlaceOrder(Routes.EmployeeOrderResumeScreen.route)
+                }
+            )
         },
         floatingActionButtonPosition = FabPosition.Center,
         topBar = {
@@ -187,7 +192,8 @@ fun MenuScreen(
                     ) {
                         LazyColumn(
                             contentPadding = PaddingValues(horizontal = 16.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            state = lazyState
                         ) {
                             item {
                                 Text(
@@ -210,6 +216,9 @@ fun MenuScreen(
                                     amount = 9
                                 )
                             }
+                            item {
+                                Spacer(modifier = Modifier.height(FloatingActionButtonDefaults.LargeIconSize * 2))
+                            }
                         }
                     }
                     this@Column.AnimatedVisibility(
@@ -217,7 +226,8 @@ fun MenuScreen(
                     ) {
                         LazyColumn(
                             contentPadding = PaddingValues(horizontal = 16.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            state = lazyState
                         ) {
                             item {
                                 Text(
@@ -238,6 +248,9 @@ fun MenuScreen(
                                     description = "Susu sapi segar dipadukan dengan $it",
                                     price = "Rp. 15.000"
                                 )
+                            }
+                            item {
+                                Spacer(modifier = Modifier.height(FloatingActionButtonDefaults.LargeIconSize * 2))
                             }
                         }
                     }
