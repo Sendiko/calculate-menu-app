@@ -19,6 +19,7 @@ import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreen
 import com.sendiko.calcmenus.ui.screens.employee.ongoing_order.OnGoingOrderScreen
+import com.sendiko.calcmenus.ui.screens.employee.order_resume.OrderResumeScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.RegisterScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
@@ -54,8 +55,6 @@ class MainActivity : ComponentActivity() {
                             Routes.WelcomeScreenRoute.route -> true
                             Graphs.RestoAuthGraph.graph -> true
                             Graphs.EmpAuthGraph.graph -> true
-                            Routes.RestoWelcome.route -> true
-                            Routes.EmployeeLogin.route -> true
                             else -> false
                         }
                         NavHost(
@@ -123,10 +122,10 @@ class MainActivity : ComponentActivity() {
                                                     onLogin = { route ->
                                                         navController.navigate(
                                                             route = route
-                                                        ){
+                                                        ) {
                                                             popUpTo(
                                                                 navController.graph.id,
-                                                            ){ inclusive = true }
+                                                            ) { inclusive = true }
                                                         }
                                                     }
                                                 )
@@ -141,12 +140,12 @@ class MainActivity : ComponentActivity() {
                                         composable(
                                             route = Routes.EmployeeMenuScreen.route,
                                             content = {
-                                                MenuScreen (
+                                                MenuScreen(
                                                     onNavigate = { route ->
                                                         navController.navigate(route)
                                                     },
-                                                    onPlaceOrder = {
-
+                                                    onPlaceOrder = { route ->
+                                                        navController.navigate(route)
                                                     }
                                                 )
                                             }
@@ -157,6 +156,19 @@ class MainActivity : ComponentActivity() {
                                                 OnGoingOrderScreen(
                                                     onNavigate = { route ->
                                                         navController.navigate(route)
+                                                    }
+                                                )
+                                            }
+                                        )
+                                        composable(
+                                            route = Routes.EmployeeOrderResumeScreen.route,
+                                            content = {
+                                                OrderResumeScreen(
+                                                    onAddMoreMenu = { route ->
+                                                        navController.navigate(route)
+                                                    },
+                                                    onPlaceOrder = {
+
                                                     }
                                                 )
                                             }
