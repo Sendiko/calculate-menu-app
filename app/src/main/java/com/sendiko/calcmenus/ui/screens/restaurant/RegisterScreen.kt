@@ -41,7 +41,7 @@ import com.sendiko.calcmenus.R
 import com.sendiko.calcmenus.ui.components.buttons.ButtonSize
 import com.sendiko.calcmenus.ui.components.buttons.IconInButtonPosition
 import com.sendiko.calcmenus.ui.components.buttons.OutlineButton
-import com.sendiko.calcmenus.ui.components.buttons.OutlinedTextField
+import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed

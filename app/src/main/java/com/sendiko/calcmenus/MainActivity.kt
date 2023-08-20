@@ -11,24 +11,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
-import com.sendiko.calcmenus.ui.screens.restaurant.LoginScreen
+import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.RegisterScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreenEvents
 import com.sendiko.calcmenus.ui.theme.CalcMenusTheme
 import com.sendiko.calcmenus.ui.theme.NotWhite
+import com.sendiko.calcmenus.ui.theme.PrimaryRed
+import com.sendiko.calcmenus.ui.screens.employee.LoginScreen as EmployeeLoginScreen
+import com.sendiko.calcmenus.ui.screens.restaurant.LoginScreen as RestoLoginScreen
 
 class MainActivity : ComponentActivity() {
 
-    lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,19 +38,18 @@ class MainActivity : ComponentActivity() {
             false
         )
 
-        val outsideApp = mutableStateOf(true)
-
         setContent {
+            var outsideApp by remember { mutableStateOf(true) }
             CalcMenusTheme(
-                outsideApp = outsideApp.value,
+                outsideApp = outsideApp,
                 content = {
                     val navController = rememberNavController()
                     Surface(
                         modifier = Modifier.fillMaxSize(),
-                        color = NotWhite
+                        color = if (outsideApp) NotWhite else PrimaryRed
                     ) {
                         val currentRoute = navController.currentDestination?.route
-                        outsideApp.value = when (currentRoute) {
+                        outsideApp = when (currentRoute) {
                             Routes.WelcomeScreenRoute.route -> true
                             Graphs.RestoAuthGraph.graph -> true
                             Graphs.EmpAuthGraph.graph -> true
@@ -89,9 +89,11 @@ class MainActivity : ComponentActivity() {
                                         composable(
                                             route = Routes.RestoLogin.route,
                                             content = {
-                                                LoginScreen {
+                                                RestoLoginScreen(
+                                                    onLogin = {
 
-                                                }
+                                                    }
+                                                )
                                             }
                                         )
                                         composable(
@@ -113,7 +115,38 @@ class MainActivity : ComponentActivity() {
                                     route = Graphs.EmpAuthGraph.graph,
                                     startDestination = Routes.EmployeeLogin.route,
                                     builder = {
+                                        composable(
+                                            route = Routes.EmployeeLogin.route,
+                                            content = {
+                                                EmployeeLoginScreen(
+                                                    onLogin = { route ->
+                                                        navController.navigate(
+                                                            route = route
+                                                        ){
+                                                            popUpTo(
+                                                                navController.graph.id,
+                                                            ){ inclusive = true }
+                                                        }
+                                                    }
+                                                )
+                                            }
+                                        )
+                                    }
+                                )
+                                navigation(
+                                    route = Graphs.EmpMainGraph.graph,
+                                    startDestination = Routes.EmployeeMenuScreen.route,
+                                    builder = {
+                                        composable(
+                                            route = Routes.EmployeeMenuScreen.route,
+                                            content = {
+                                                MenuScreen (
+                                                    onPlaceOrder = {
 
+                                                    }
+                                                )
+                                            }
+                                        )
                                     }
                                 )
                             }

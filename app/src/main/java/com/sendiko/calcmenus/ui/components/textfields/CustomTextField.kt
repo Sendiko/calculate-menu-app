@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.ui.components.buttons
+package com.sendiko.calcmenus.ui.components.textfields
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -41,6 +41,7 @@ fun OutlinedTextField(
     passwordVisible: Boolean = false,
     isError: Boolean,
     supportingText: String? = null,
+    enabled: Boolean = true,
     textValue: String,
     onNewValue: (newValue: String) -> Unit
 ) {
@@ -55,6 +56,7 @@ fun OutlinedTextField(
         isError = isError,
         prefix = prefix,
         suffix = suffix,
+        enabled = enabled,
         supportingText = {
             supportingText?.let { Text(it) }
         },
