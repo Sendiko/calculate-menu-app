@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,6 +60,7 @@ fun PrimaryButton(
                     Icon(imageVector = icon, contentDescription = null)
                 }
                 Text(
+                    modifier = Modifier.fillMaxWidth(),
                     text = text,
                     style = TextStyle(
                         fontSize = when (buttonSize) {
@@ -67,7 +69,8 @@ fun PrimaryButton(
                             SMALL -> 12.sp
                         },
                         fontFamily = myFont,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
                     )
                 )
                 if (icon != null && iconPosition == AfterText) {
@@ -104,6 +107,7 @@ fun OutlineButton(
                     Icon(imageVector = icon, contentDescription = null)
                 }
                 Text(
+                    modifier = Modifier.fillMaxWidth(),
                     text = text,
                     style = TextStyle(
                         fontSize = when (buttonSize) {
@@ -112,7 +116,8 @@ fun OutlineButton(
                             SMALL -> 12.sp
                         },
                         fontFamily = myFont,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
                     )
                 )
                 if (icon != null && iconPosition == AfterText) {
@@ -129,6 +134,7 @@ fun SmallOutlineButton(
     modifier: Modifier = Modifier,
     background: Color = NotWhite,
     text: String,
+    textColor: Color = LessGray,
     onClick: () -> Unit,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
@@ -151,6 +157,45 @@ fun SmallOutlineButton(
             Text(
                 text = text,
                 fontFamily = myFont,
+            )
+        }
+    )
+}
+
+@Composable
+fun SelectableOutlineButton(
+    modifier: Modifier = Modifier,
+    isSelected: Boolean = true,
+    text: String,
+    buttonSize: ButtonSize = BIG,
+    textColor: Color = LessGray,
+    onClick: () -> Unit,
+    trailingIcon: @Composable (() -> Unit)? = null,
+) {
+    AssistChip(
+        modifier = modifier,
+        onClick = onClick,
+        border = AssistChipDefaults.assistChipBorder(
+            borderColor = LessGray,
+            borderWidth = 1.dp,
+        ),
+        colors = AssistChipDefaults.assistChipColors(
+            containerColor = if (isSelected) NotWhite else PrimaryRed,
+            labelColor = if (isSelected) LessGray else NotWhite,
+            leadingIconContentColor = if (isSelected) LessGray else NotWhite,
+            trailingIconContentColor = if (isSelected) LessGray else NotWhite,
+        ),
+        shape = RoundedCornerShape(100),
+        trailingIcon = trailingIcon,
+        label = {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = text,
+                fontFamily = myFont,
+                style = TextStyle(
+                    fontSize = if(buttonSize == REGULAR) 14.sp else 18.sp,
+                    textAlign = TextAlign.Center
+                )
             )
         }
     )
@@ -185,6 +230,12 @@ fun CustomButtonPrev() {
             SmallOutlineButton(
                 text = "Add",
                 onClick = {}
+            )
+            SelectableOutlineButton(
+                text = "FOod",
+                onClick = {
+
+                }
             )
         }
     }
