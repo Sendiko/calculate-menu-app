@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.ui.screens.employee.ongoingorder
+package com.sendiko.calcmenus.ui.screens.employee.ongoing_order
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
