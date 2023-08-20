@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreen
+import com.sendiko.calcmenus.ui.screens.employee.ongoingorder.OnGoingOrderScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.RegisterScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
@@ -141,8 +142,21 @@ class MainActivity : ComponentActivity() {
                                             route = Routes.EmployeeMenuScreen.route,
                                             content = {
                                                 MenuScreen (
+                                                    onNavigate = { route ->
+                                                        navController.navigate(route)
+                                                    },
                                                     onPlaceOrder = {
 
+                                                    }
+                                                )
+                                            }
+                                        )
+                                        composable(
+                                            route = Routes.EmployeeOngoingOrdersScreen.route,
+                                            content = {
+                                                OnGoingOrderScreen(
+                                                    onNavigate = { route ->
+                                                        navController.navigate(route)
                                                     }
                                                 )
                                             }

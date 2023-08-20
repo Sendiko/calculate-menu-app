@@ -44,6 +44,7 @@ import com.sendiko.calcmenus.ui.components.buttons.SelectableOutlineButton
 import com.sendiko.calcmenus.ui.components.buttons.SmallOutlineButton
 import com.sendiko.calcmenus.ui.components.menu.MenuCard
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
+import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuTypeList.menuTypeList
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
@@ -54,7 +55,8 @@ import com.sendiko.calcmenus.ui.theme.Yellowyellow
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MenuScreen(
-    onPlaceOrder: () -> Unit
+    onPlaceOrder: () -> Unit,
+    onNavigate: (route: String) -> Unit
 ) {
     var menuSelection by rememberSaveable {
         mutableStateOf(0)
@@ -114,7 +116,7 @@ fun MenuScreen(
                         text = "On Going Orders",
                         background = Yellowyellow,
                         onClick = {
-
+                            onNavigate(Routes.EmployeeOngoingOrdersScreen.route)
                         }
                     )
                 }
@@ -248,6 +250,9 @@ fun MenuScreenPrev() {
         color = PrimaryRed
     ) {
         MenuScreen(
+            onNavigate = {
+
+            },
             onPlaceOrder = {
 
             }
