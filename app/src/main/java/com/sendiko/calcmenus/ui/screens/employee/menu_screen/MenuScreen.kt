@@ -213,7 +213,16 @@ fun MenuScreen(
                                     title = "French fries $it",
                                     description = "Kentang kualitan tinggi yang di goreng sempurna $it",
                                     price = "Rp. 12.500",
-                                    amount = 9
+                                    amount = 9,
+                                    onPlusClick = {
+
+                                    },
+                                    onMinusClick = {
+
+                                    },
+                                    onAddButtonClick = {
+
+                                    }
                                 )
                             }
                             item {
@@ -246,7 +255,16 @@ fun MenuScreen(
                                     imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi0.wp.com%2Fi.gojekapi.com%2Fdarkroom%2Fgofood-indonesia%2Fv2%2Fimages%2Fuploads%2F7940780d-1f6e-45a9-afee-5bfc8644c9af.jpg&f=1&nofb=1&ipt=096540f75f2332b259c906bb0a5a2c9905adb3cc07fa2910c9fdf1eeffbe44fc&ipo=images",
                                     title = "Milkmax Rasa $it",
                                     description = "Susu sapi segar dipadukan dengan $it",
-                                    price = "Rp. 15.000"
+                                    price = "Rp. 15.000",
+                                    onPlusClick = {
+
+                                    },
+                                    onMinusClick = {
+
+                                    },
+                                    onAddButtonClick = {
+
+                                    }
                                 )
                             }
                             item {

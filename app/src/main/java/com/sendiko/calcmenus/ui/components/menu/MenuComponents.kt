@@ -1,12 +1,15 @@
 package com.sendiko.calcmenus.ui.components.menu
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -45,7 +48,10 @@ fun MenuCard(
     title: String,
     description: String,
     price: String,
-    amount: Int = 0
+    amount: Int = 0,
+    onAddButtonClick: () -> Unit,
+    onMinusClick: () -> Unit,
+    onPlusClick: () -> Unit,
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -54,7 +60,9 @@ fun MenuCard(
         )
     ) {
         Row(
-            modifier = Modifier.fillMaxHeight()
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(4.dp)
         ) {
             SubcomposeAsyncImage(
                 model = imageUrl,
@@ -76,9 +84,10 @@ fun MenuCard(
             Column(
                 modifier = Modifier
                     .weight(5f)
-                    .padding(top = 8.dp, end = 8.dp)
-                    .fillMaxHeight(),
+                    .fillMaxHeight()
+                    .padding(top = 8.dp, end = 8.dp),
                 horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
                     Text(
@@ -102,25 +111,21 @@ fun MenuCard(
                     )
                 }
 
-                when {
-                    amount > 1 -> {
-                        SimpleCounter(
-                            modifier = Modifier.padding(top = 16.dp),
-                            amount = amount,
-                            onMinusClick = { /*TODO*/ },
-                            onPlusClick = { /*TODO*/ }
-                        )
-                    }
+                AnimatedVisibility(visible = amount > 1) {
+                    SimpleCounter(
+                        modifier = Modifier.padding(top = 16.dp),
+                        amount = amount,
+                        onMinusClick = onMinusClick,
+                        onPlusClick = onPlusClick
+                    )
+                }
 
-                    else -> {
-                        SmallOutlineButton(
-                            modifier = Modifier.padding(end = 8.dp),
-                            text = "Add",
-                            onClick = {
-
-                            }
-                        )
-                    }
+                AnimatedVisibility(visible = amount == 0) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    SmallOutlineButton(
+                        text = "Add",
+                        onClick = onAddButtonClick
+                    )
                 }
             }
         }
@@ -141,7 +146,16 @@ fun MenuComponentPrev() {
                 title = "Beautiful Boobies",
                 description = "My girlfriend's big beautiful boobies",
                 price = "priceless",
-                amount = 4
+                amount = 4,
+                onPlusClick = {
+
+                },
+                onMinusClick = {
+
+                },
+                onAddButtonClick = {
+
+                }
             )
         }
     }

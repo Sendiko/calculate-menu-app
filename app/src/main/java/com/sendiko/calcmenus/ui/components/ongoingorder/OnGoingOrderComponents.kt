@@ -44,7 +44,7 @@ fun OnGoingOrderCard(
         onClick = onCardClick
     ){
         Column(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ){
             Text(
