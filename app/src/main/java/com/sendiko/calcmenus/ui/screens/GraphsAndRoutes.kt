@@ -16,4 +16,5 @@ sealed class Routes(val route: String){
     object EmployeeMenuScreen: Routes("emp_menu_screen")
     object EmployeeOngoingOrdersScreen: Routes("emp_ongoing_orders")
     object EmployeeOrderResumeScreen: Routes("emp_order_resume")
+    object EmployeePostOrderScreen: Routes("emp_post_order")
 }
