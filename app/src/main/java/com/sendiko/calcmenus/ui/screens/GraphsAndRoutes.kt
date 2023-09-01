@@ -12,6 +12,7 @@ sealed class Routes(val route: String){
     object RestoWelcome: Routes("resto_welcome")
     object RestoLogin: Routes("resto_login")
     object RestoRegister: Routes("resto_register")
+    object RestoDashboardScreen: Routes("resto_dashboard")
     object EmployeeLogin: Routes("emp_login")
     object EmployeeMenuScreen: Routes("emp_menu_screen")
     object EmployeeOngoingOrdersScreen: Routes("emp_ongoing_orders")
