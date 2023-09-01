@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,6 +47,8 @@ fun OutlinedTextField(
     isError: Boolean,
     supportingText: String? = null,
     enabled: Boolean = true,
+    keyboardActions: KeyboardActions = KeyboardActions(),
+    keyboardOptions: KeyboardOptions = KeyboardOptions(),
     textValue: String,
     onNewValue: (newValue: String) -> Unit
 ) {
@@ -82,6 +86,8 @@ fun OutlinedTextField(
         visualTransformation = if (passwordVisible) {
             PasswordVisualTransformation()
         } else VisualTransformation.None,
+        keyboardActions = keyboardActions,
+        keyboardOptions = keyboardOptions,
     )
 }
 
@@ -91,6 +97,8 @@ fun FilledTextField(
     modifier: Modifier = Modifier,
     hint: String,
     passwordField: Boolean = false,
+    keyboardActions: KeyboardActions = KeyboardActions(),
+    keyboardOptions: KeyboardOptions = KeyboardOptions(),
     textValue: String,
     onNewValue: (newValue: String) -> Unit
 ) {
@@ -116,6 +124,8 @@ fun FilledTextField(
                 )
             )
         },
+        keyboardActions = keyboardActions,
+        keyboardOptions = keyboardOptions,
     )
 }
 
@@ -124,6 +134,8 @@ fun FilledTextField(
 fun SmallTextArea(
     modifier: Modifier = Modifier,
     hint: String,
+    keyboardActions: KeyboardActions = KeyboardActions(),
+    keyboardOptions: KeyboardOptions = KeyboardOptions(),
     textValue: String,
     onNewValue: (newValue: String) -> Unit
 ) {
@@ -151,6 +163,8 @@ fun SmallTextArea(
                 )
             )
         },
+        keyboardActions = keyboardActions,
+        keyboardOptions = keyboardOptions,
     )
 }
 

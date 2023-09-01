@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.ui.screens.restaurant
+package com.sendiko.calcmenus.ui.screens.restaurant.auth
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -32,6 +32,7 @@ import com.sendiko.calcmenus.R
 import com.sendiko.calcmenus.ui.components.buttons.ButtonSize.BIG
 import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
+import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.theme.myFont
@@ -40,7 +41,7 @@ import com.sendiko.calcmenus.ui.theme.myFont
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(
-    onLogin: () -> Unit,
+    onLogin: (route: String) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -149,7 +150,7 @@ fun LoginScreen(
                         text = "Login",
                         buttonSize = BIG,
                         onClick = {
-
+                            onLogin(Routes.RestoDashboardScreen.route)
                         }
                     )
                 }

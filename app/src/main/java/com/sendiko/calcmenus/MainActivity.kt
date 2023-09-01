@@ -20,15 +20,17 @@ import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreen
 import com.sendiko.calcmenus.ui.screens.employee.ongoing_order.OnGoingOrderScreen
 import com.sendiko.calcmenus.ui.screens.employee.order_resume.OrderResumeScreen
-import com.sendiko.calcmenus.ui.screens.restaurant.RegisterScreen
+import com.sendiko.calcmenus.ui.screens.employee.order_resume.PostOrderResumeScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
+import com.sendiko.calcmenus.ui.screens.restaurant.auth.RegisterScreen
+import com.sendiko.calcmenus.ui.screens.restaurant.main.DashboardScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreenEvents
 import com.sendiko.calcmenus.ui.theme.CalcMenusTheme
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.screens.employee.LoginScreen as EmployeeLoginScreen
-import com.sendiko.calcmenus.ui.screens.restaurant.LoginScreen as RestoLoginScreen
+import com.sendiko.calcmenus.ui.screens.restaurant.auth.LoginScreen as RestoLoginScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -90,8 +92,14 @@ class MainActivity : ComponentActivity() {
                                             route = Routes.RestoLogin.route,
                                             content = {
                                                 RestoLoginScreen(
-                                                    onLogin = {
-
+                                                    onLogin = { route ->
+                                                        navController.navigate(
+                                                            route = route
+                                                        ) {
+                                                            popUpTo(
+                                                                navController.graph.id,
+                                                            ) { inclusive = true }
+                                                        }
                                                     }
                                                 )
                                             }
@@ -134,6 +142,18 @@ class MainActivity : ComponentActivity() {
                                     }
                                 )
                                 navigation(
+                                    route = Graphs.RestoMainGraph.graph,
+                                    startDestination = Routes.RestoDashboardScreen.route,
+                                    builder = {
+                                        composable(
+                                            route = Routes.RestoDashboardScreen.route,
+                                            content = {
+                                                DashboardScreen()
+                                            }
+                                        )
+                                    }
+                                )
+                                navigation(
                                     route = Graphs.EmpMainGraph.graph,
                                     startDestination = Routes.EmployeeMenuScreen.route,
                                     builder = {
@@ -168,8 +188,16 @@ class MainActivity : ComponentActivity() {
                                                         navController.navigate(route)
                                                     },
                                                     onPlaceOrder = {
-
+                                                        navController.navigate(Routes.EmployeePostOrderScreen.route)
                                                     }
+                                                )
+                                            }
+                                        )
+                                        composable(
+                                            route = Routes.EmployeePostOrderScreen.route,
+                                            content = {
+                                                PostOrderResumeScreen(
+                                                    navController = navController
                                                 )
                                             }
                                         )

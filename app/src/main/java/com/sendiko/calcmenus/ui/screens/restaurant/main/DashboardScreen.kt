@@ -1,7 +1,9 @@
-package com.sendiko.calcmenus.ui.screens.employee.menu_screen
+package com.sendiko.calcmenus.ui.screens.restaurant.main
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +17,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -23,14 +28,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SortByAlpha
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,72 +50,44 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sendiko.calcmenus.ui.components.appbars.CustomAppBar
+import com.sendiko.calcmenus.ui.components.buttons.ButtonSize.*
 import com.sendiko.calcmenus.ui.components.buttons.SelectableOutlineButton
-import com.sendiko.calcmenus.ui.components.buttons.SmallOutlineButton
+import com.sendiko.calcmenus.ui.components.employee.EmployeeCard
 import com.sendiko.calcmenus.ui.components.menu.MenuCard
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
-import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuTypeList.menuTypeList
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
-import com.sendiko.calcmenus.ui.theme.Yellowyellow
 import com.sendiko.calcmenus.ui.theme.myFont
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MenuScreen(
-    onPlaceOrder: (route: String) -> Unit,
-    onNavigate: (route: String) -> Unit
-) {
-    var menuSelection by rememberSaveable {
+fun DashboardScreen() {
+    val tab = listOf("Menu", "Employee")
+    var selectedTab by rememberSaveable {
         mutableIntStateOf(0)
     }
-    var selectedMenu = mutableListOf<IntArray>()
+    var selectedMenuTab by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+    val lazyGridState = rememberLazyGridState()
     val lazyState = rememberLazyListState()
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         containerColor = PrimaryRed,
-        floatingActionButton = {
-            FloatingActionButton(
-                containerColor = PrimaryRed,
-                contentColor = NotWhite,
-                shape = RoundedCornerShape(100),
-                content = {
-                    Text(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        text = "Place Order",
-                        style = TextStyle(
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Black,
-                            fontFamily = myFont
-                        )
-                    )
-                },
-                onClick = {
-                    onPlaceOrder(Routes.EmployeeOrderResumeScreen.route)
-                }
-            )
-        },
-        floatingActionButtonPosition = FabPosition.Center,
         topBar = {
             CustomAppBar(
-                title = "Employee",
+                title = "Restaurant",
                 headerIcon = {
                     Box(
                         modifier = Modifier
                             .border(
-                                width = 1.dp,
-                                color = Color.Black,
-                                shape = RoundedCornerShape(100)
+                                width = 1.dp, color = Color.Black, shape = RoundedCornerShape(100)
                             )
                             .clip(RoundedCornerShape(100))
                             .background(NotWhite),
                     ) {
-                        IconButton(
-                            onClick = { /*TODO*/ }
-                        ) {
+                        IconButton(onClick = { /*TODO*/ }) {
                             Icon(
                                 imageVector = Icons.Filled.Person,
                                 tint = LessGray,
@@ -121,85 +96,133 @@ fun MenuScreen(
                         }
                     }
                 },
-                trailingIcon = {
-                    SmallOutlineButton(
-                        text = "On Going Orders",
-                        background = Yellowyellow,
-                        onClick = {
-                            onNavigate(Routes.EmployeeOngoingOrdersScreen.route)
-                        }
-                    )
-                }
+                trailingIcon = { }
             )
+        },
+        floatingActionButtonPosition = if (selectedTab == 0) {
+            FabPosition.Center
+        } else FabPosition.End,
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = selectedTab == 0, enter = fadeIn(), exit = fadeOut()
+            ) {
+                FloatingActionButton(
+                    containerColor = PrimaryRed,
+                    contentColor = NotWhite,
+                    shape = RoundedCornerShape(100),
+                    content = {
+                        Text(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            text = "Add Menu",
+                            style = TextStyle(
+                                fontSize = 20.sp, fontWeight = FontWeight.Black, fontFamily = myFont
+                            )
+                        )
+                    },
+                    onClick = {
+
+                    }
+                )
+            }
+            AnimatedVisibility(
+                visible = selectedTab == 1,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                FloatingActionButton(
+                    containerColor = PrimaryRed,
+                    contentColor = NotWhite,
+                    shape = RoundedCornerShape(100),
+                    content = {
+                        Text(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            text = "Create Account",
+                            style = TextStyle(
+                                fontSize = 20.sp, fontWeight = FontWeight.Black, fontFamily = myFont
+                            )
+                        )
+                    },
+                    onClick = {
+
+                    }
+                )
+            }
         }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it),
-            verticalArrangement = Arrangement.Top
+                .padding(top = it.calculateTopPadding(), bottom = it.calculateBottomPadding())
         ) {
-            Column(
+            Row(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                tab.forEachIndexed { index, title ->
+                    SelectableOutlineButton(modifier = Modifier.weight(1f),
+                        isSelected = index == selectedTab,
+                        text = title,
+                        buttonSize = BIG,
+                        onClick = {
+                            selectedTab = index
+                        })
+                }
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-            ) {
-                Column(
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                ) {
-                    OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        hint = "Search",
-                        isError = false,
-                        keyboardOptions = KeyboardOptions().copy(
-                            imeAction = ImeAction.Search
-                        ),
-                        keyboardActions = KeyboardActions(
-                            onSearch = {
+                    .padding(horizontal = 8.dp),
+                hint = "Search",
+                isError = false,
+                textValue = "",
+                keyboardOptions = KeyboardOptions().copy(
+                    imeAction = ImeAction.Search
+                ),
+                keyboardActions = KeyboardActions(onSearch = {
 
-                            }
-                        ),
-                        textValue = "",
-                        onNewValue = {},
-                        leadingIcon = {
-                            Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")
-                        }
+                }),
+                onNewValue = { },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Search, contentDescription = "Search"
                     )
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        menuTypeList.forEachIndexed { index, menuType ->
-                            SelectableOutlineButton(
-                                modifier = Modifier.weight(1f),
-                                text = menuType.type,
-                                isSelected = menuSelection == index,
-                                onClick = {
-                                    menuSelection = index
-                                }
-                            )
-                        }
-                        IconButton(
-                            onClick = { /*TODO*/ },
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Filled.SortByAlpha,
-                                    contentDescription = "Sort Content"
-                                )
-                            }
-                        )
-                    }
-                }
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize(1f)
-                        .clip(
-                            RoundedCornerShape(
-                                topStartPercent = 10, topEndPercent = 10
-                            )
-                        )
-                        .background(NotWhite),
+                },
+            )
+            AnimatedVisibility(visible = selectedTab == 0) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    this@Column.AnimatedVisibility(
-                        visible = menuSelection == 0
+                    menuTypeList.forEachIndexed { index, menuType ->
+                        SelectableOutlineButton(modifier = Modifier.weight(1f),
+                            text = menuType.type,
+                            isSelected = selectedMenuTab == index,
+                            onClick = {
+                                selectedMenuTab = index
+                            })
+                    }
+                    IconButton(onClick = { /*TODO*/ }, content = {
+                        Icon(
+                            imageVector = Icons.Filled.SortByAlpha,
+                            contentDescription = "Sort Content"
+                        )
+                    })
+                }
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 24.dp, topEnd = 24.dp
+                        )
+                    )
+                    .background(NotWhite)
+            ) {
+                Column {
+                    AnimatedVisibility(
+                        visible = selectedMenuTab == 0 && selectedTab == 0
                     ) {
                         LazyColumn(
                             contentPadding = PaddingValues(horizontal = 16.dp),
@@ -241,8 +264,8 @@ fun MenuScreen(
                             }
                         }
                     }
-                    this@Column.AnimatedVisibility(
-                        visible = menuSelection == 1
+                    AnimatedVisibility(
+                        visible = selectedMenuTab == 1 && selectedTab == 0
                     ) {
                         LazyColumn(
                             contentPadding = PaddingValues(horizontal = 16.dp),
@@ -283,25 +306,35 @@ fun MenuScreen(
                             }
                         }
                     }
+                    AnimatedVisibility(visible = selectedTab == 1) {
+                        LazyHorizontalGrid(
+                            state = lazyGridState,
+                            rows = GridCells.Fixed(2),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(top = 16.dp, start = 16.dp, bottom = it.calculateBottomPadding(), end = 156.dp),
+                            content = {
+                                items(16) { index ->
+                                    EmployeeCard(
+                                        imageUrl = "http://192.168.122.106:8000/storage/images/menu/MbaC4FwN5iRwoSAVgmk3ORcVcsiumkXw93I9Fd9s.jpg",
+                                        title = "name $index",
+                                        onNextClick = {
+
+                                        }
+                                    )
+                                }
+                            }
+                        )
+                    }
                 }
             }
         }
+
     }
 }
 
 @Preview
 @Composable
-fun MenuScreenPrev() {
-    Surface(
-        color = PrimaryRed
-    ) {
-        MenuScreen(
-            onNavigate = {
-
-            },
-            onPlaceOrder = {
-
-            }
-        )
-    }
+fun DashboardPrev() {
+    DashboardScreen()
 }

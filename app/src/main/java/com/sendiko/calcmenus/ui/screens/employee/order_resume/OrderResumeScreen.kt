@@ -75,7 +75,7 @@ fun OrderResumeScreen(
                         )
                     )
                 },
-                onClick = { /*TODO*/ }
+                onClick = onPlaceOrder
             )
         },
         floatingActionButtonPosition = FabPosition.Center,

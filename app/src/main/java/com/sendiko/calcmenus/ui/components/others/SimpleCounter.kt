@@ -34,7 +34,7 @@ fun SimpleCounter(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = if(fillContainer) Arrangement.SpaceEvenly else Arrangement.spacedBy(4.dp),
+        horizontalArrangement = if(fillContainer) Arrangement.SpaceEvenly else Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(

@@ -212,7 +212,7 @@ fun SelectableOutlineButton(
     modifier: Modifier = Modifier,
     isSelected: Boolean = true,
     text: String,
-    buttonSize: ButtonSize = BIG,
+    buttonSize: ButtonSize = REGULAR,
     textColor: Color = LessGray,
     onClick: () -> Unit,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -234,11 +234,11 @@ fun SelectableOutlineButton(
         trailingIcon = trailingIcon,
         label = {
             Text(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(if(buttonSize == REGULAR) 0.dp else 8.dp),
                 text = text,
                 fontFamily = myFont,
                 style = TextStyle(
-                    fontSize = if(buttonSize == REGULAR) 14.sp else 18.sp,
+                    fontSize = if(buttonSize == REGULAR) 18.sp else 20.sp,
                     textAlign = TextAlign.Center
                 )
             )
