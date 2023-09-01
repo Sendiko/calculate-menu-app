@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.ui.screens.restaurant
+package com.sendiko.calcmenus.ui.screens.restaurant.auth
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
