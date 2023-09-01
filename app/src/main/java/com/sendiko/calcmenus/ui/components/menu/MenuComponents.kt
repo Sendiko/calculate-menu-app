@@ -39,7 +39,7 @@ import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.theme.myFont
 
 const val defaultImageUrl =
-    "http://192.168.100.12:8000/storage/images/menu/MbaC4FwN5iRwoSAVgmk3ORcVcsiumkXw93I9Fd9s.jpg"
+    "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.D6HwXltHATQkvUwx7ZX-mgHaHa%26pid%3DApi&f=1&ipt=578fd4b893ac4ec639601f594409c65c9e851c0e4544921d90ef777dc578f823&ipo=images"
 
 @Composable
 fun MenuCard(
