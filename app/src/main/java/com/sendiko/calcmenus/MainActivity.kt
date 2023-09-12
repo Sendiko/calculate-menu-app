@@ -1,6 +1,7 @@
 package com.sendiko.calcmenus
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +25,7 @@ import com.sendiko.calcmenus.ui.screens.employee.order_resume.PostOrderResumeScr
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.RegisterScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.DashboardScreen
+import com.sendiko.calcmenus.ui.screens.restaurant.main.menu.CreateMenuScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreenEvents
 import com.sendiko.calcmenus.ui.theme.CalcMenusTheme
@@ -148,7 +150,29 @@ class MainActivity : ComponentActivity() {
                                         composable(
                                             route = Routes.RestoDashboardScreen.route,
                                             content = {
-                                                DashboardScreen()
+                                                DashboardScreen(
+                                                    onCreateMenu = { route ->
+                                                        navController.navigate(route)
+                                                    }
+                                                )
+                                            }
+                                        )
+                                        composable(
+                                            route = Routes.RestoCreateMenuScreen.route,
+                                            content = {
+                                                CreateMenuScreen(
+                                                    onNavigateBack = { route ->
+                                                        navController.navigate(route)
+                                                    },
+                                                    onMenuCreated = {
+                                                        Toast.makeText(
+                                                            applicationContext,
+                                                            "IconButtonClicked",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+
+                                                    }
+                                                )
                                             }
                                         )
                                     }
