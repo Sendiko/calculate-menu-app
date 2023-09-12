@@ -55,6 +55,7 @@ import com.sendiko.calcmenus.ui.components.buttons.SelectableOutlineButton
 import com.sendiko.calcmenus.ui.components.employee.EmployeeCard
 import com.sendiko.calcmenus.ui.components.menu.MenuCard
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
+import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuTypeList.menuTypeList
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
@@ -63,7 +64,9 @@ import com.sendiko.calcmenus.ui.theme.myFont
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(
+    onCreateMenu: (route: String) -> Unit
+) {
     val tab = listOf("Menu", "Employee")
     var selectedTab by rememberSaveable {
         mutableIntStateOf(0)
@@ -120,7 +123,7 @@ fun DashboardScreen() {
                         )
                     },
                     onClick = {
-
+                        onCreateMenu(Routes.RestoCreateMenuScreen.route)
                     }
                 )
             }
@@ -336,5 +339,9 @@ fun DashboardScreen() {
 @Preview
 @Composable
 fun DashboardPrev() {
-    DashboardScreen()
+    DashboardScreen(
+        onCreateMenu = {
+
+        }
+    )
 }
