@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.SignalWifiConnectedNoInternet4
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -61,10 +63,19 @@ fun EmployeeCard(
                     strokeCap = StrokeCap.Butt
                 )
             },
+            error = {
+              Icon(
+                  modifier = Modifier.padding(16.dp),
+                  imageVector = Icons.Filled.SignalWifiConnectedNoInternet4,
+                  contentDescription = "No Connection"
+              )
+            },
             contentScale = ContentScale.Crop
         )
         Column(
-            modifier = Modifier.weight(1f).padding(horizontal = 8.dp),
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 8.dp),
         ) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -79,7 +90,9 @@ fun EmployeeCard(
             )
             Spacer(modifier = Modifier.height(8.dp))
             OutlineButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
                 text = "See details",
                 onClick = onNextClick,
                 icon = Icons.Filled.KeyboardArrowRight,

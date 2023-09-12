@@ -48,8 +48,9 @@ fun MenuCard(
     title: String,
     description: String,
     price: String,
+    editable: Boolean = false,
     amount: Int = 0,
-    onAddButtonClick: () -> Unit,
+    onButtonClick: () -> Unit,
     onMinusClick: () -> Unit,
     onPlusClick: () -> Unit,
 ) {
@@ -101,7 +102,8 @@ fun MenuCard(
                         )
                     )
                     Text(
-                        modifier = Modifier.fillMaxWidth(), text = description,
+                        modifier = Modifier.fillMaxWidth(),
+                        text = description,
                         style = TextStyle(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Normal,
@@ -111,7 +113,7 @@ fun MenuCard(
                     )
                 }
 
-                AnimatedVisibility(visible = amount > 1) {
+                AnimatedVisibility(visible = amount > 1 && !editable) {
                     SimpleCounter(
                         modifier = Modifier.padding(top = 16.dp),
                         amount = amount,
@@ -120,11 +122,11 @@ fun MenuCard(
                     )
                 }
 
-                AnimatedVisibility(visible = amount == 0) {
+                AnimatedVisibility(visible = amount == 0 || editable) {
                     Spacer(modifier = Modifier.height(16.dp))
                     SmallOutlineButton(
-                        text = "Add",
-                        onClick = onAddButtonClick
+                        text = if (editable) "Edit" else "Add",
+                        onClick = onButtonClick
                     )
                 }
             }
@@ -153,7 +155,7 @@ fun MenuComponentPrev() {
                 onMinusClick = {
 
                 },
-                onAddButtonClick = {
+                onButtonClick = {
 
                 }
             )

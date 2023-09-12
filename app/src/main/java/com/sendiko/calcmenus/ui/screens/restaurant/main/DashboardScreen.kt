@@ -55,6 +55,7 @@ import com.sendiko.calcmenus.ui.components.buttons.SelectableOutlineButton
 import com.sendiko.calcmenus.ui.components.employee.EmployeeCard
 import com.sendiko.calcmenus.ui.components.menu.MenuCard
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
+import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuTypeList.menuTypeList
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
@@ -63,7 +64,10 @@ import com.sendiko.calcmenus.ui.theme.myFont
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(
+    onCreateMenu: (route: String) -> Unit,
+    onEditMenu: (route: String) -> Unit
+) {
     val tab = listOf("Menu", "Employee")
     var selectedTab by rememberSaveable {
         mutableIntStateOf(0)
@@ -120,7 +124,7 @@ fun DashboardScreen() {
                         )
                     },
                     onClick = {
-
+                        onCreateMenu(Routes.RestoCreateMenuScreen.route)
                     }
                 )
             }
@@ -148,11 +152,11 @@ fun DashboardScreen() {
                 )
             }
         }
-    ) {
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = it.calculateTopPadding(), bottom = it.calculateBottomPadding())
+                .padding(top = paddingValues.calculateTopPadding(), bottom = paddingValues.calculateBottomPadding())
         ) {
             Row(
                 modifier = Modifier.padding(horizontal = 8.dp),
@@ -248,14 +252,15 @@ fun DashboardScreen() {
                                     description = "Kentang kualitan tinggi yang di goreng sempurna $it",
                                     price = "Rp. 12.500",
                                     amount = 9,
+                                    editable = true,
                                     onPlusClick = {
 
                                     },
                                     onMinusClick = {
 
                                     },
-                                    onAddButtonClick = {
-
+                                    onButtonClick = {
+                                        onEditMenu(Routes.RestoEditMenuScreen.route)
                                     }
                                 )
                             }
@@ -290,14 +295,15 @@ fun DashboardScreen() {
                                     title = "Milkmax Rasa $it",
                                     description = "Susu sapi segar dipadukan dengan $it",
                                     price = "Rp. 15.000",
+                                    editable = true,
                                     onPlusClick = {
 
                                     },
                                     onMinusClick = {
 
                                     },
-                                    onAddButtonClick = {
-
+                                    onButtonClick = {
+                                        onEditMenu(Routes.RestoEditMenuScreen.route)
                                     }
                                 )
                             }
@@ -312,7 +318,7 @@ fun DashboardScreen() {
                             rows = GridCells.Fixed(2),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
-                            contentPadding = PaddingValues(top = 16.dp, start = 16.dp, bottom = it.calculateBottomPadding(), end = 156.dp),
+                            contentPadding = PaddingValues(top = 16.dp, start = 16.dp, bottom = paddingValues.calculateBottomPadding(), end = 156.dp),
                             content = {
                                 items(16) { index ->
                                     EmployeeCard(
@@ -336,5 +342,12 @@ fun DashboardScreen() {
 @Preview
 @Composable
 fun DashboardPrev() {
-    DashboardScreen()
+    DashboardScreen(
+        onCreateMenu = {
+
+        },
+        onEditMenu = {
+
+        }
+    )
 }

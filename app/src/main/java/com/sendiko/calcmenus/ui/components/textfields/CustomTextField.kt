@@ -73,6 +73,9 @@ fun OutlinedTextField(
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = PrimaryRed,
             focusedTrailingIconColor = PrimaryRed,
+            focusedLeadingIconColor = PrimaryRed,
+            focusedPrefixColor = PrimaryRed,
+            focusedSuffixColor = PrimaryRed,
             containerColor = NotWhite
         ),
         placeholder = {
@@ -152,6 +155,50 @@ fun SmallTextArea(
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = PrimaryRed,
             focusedTrailingIconColor = PrimaryRed,
+            focusedLeadingIconColor = PrimaryRed,
+            focusedPrefixColor = PrimaryRed,
+            focusedSuffixColor = PrimaryRed,
+            containerColor = NotWhite
+        ),
+        placeholder = {
+            Text(
+                hint,
+                style = TextStyle(
+                    textAlign = TextAlign.Right,
+                    fontFamily = myFont
+                )
+            )
+        },
+        keyboardActions = keyboardActions,
+        keyboardOptions = keyboardOptions,
+    )
+}
+
+@Composable
+fun TextArea(
+    modifier: Modifier = Modifier,
+    hint: String,
+    keyboardActions: KeyboardActions = KeyboardActions(),
+    keyboardOptions: KeyboardOptions = KeyboardOptions(),
+    textValue: String,
+    onNewValue: (newValue: String) -> Unit
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = textValue,
+        onValueChange = onNewValue,
+        shape = RoundedCornerShape(15),
+        singleLine = false,
+        textStyle = TextStyle(
+            fontFamily = myFont,
+        ),
+        minLines = 5,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = PrimaryRed,
+            focusedTrailingIconColor = PrimaryRed,
+            focusedLeadingIconColor = PrimaryRed,
+            focusedPrefixColor = PrimaryRed,
+            focusedSuffixColor = PrimaryRed,
             containerColor = NotWhite
         ),
         placeholder = {
