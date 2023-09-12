@@ -1,5 +1,9 @@
 package com.sendiko.calcmenus.ui.screens.restaurant.main.menu
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,14 +25,20 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.sendiko.calcmenus.ui.components.appbars.CustomAppBar
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.components.textfields.TextArea
@@ -42,6 +52,15 @@ fun CreateMenuScreen(
     onNavigateBack: (route: String) -> Unit,
     onMenuCreated: () -> Unit
 ) {
+    var imageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+    val imagePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri ->
+            imageUri = uri
+        }
+    )
     Scaffold(
         containerColor = PrimaryRed,
         topBar = {
@@ -101,21 +120,62 @@ fun CreateMenuScreen(
                             modifier = Modifier.padding(8.dp)
                         ) {
                             Box(modifier = Modifier.weight(1f))
-                            IconButton(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(10))
-                                    .background(Color.Gray)
-                                    .aspectRatio(1f)
-                                    .weight(2f),
-                                onClick = { onMenuCreated() },
-                                content = {
-                                    Icon(
-                                        modifier = Modifier.padding(48.dp).fillMaxSize(),
-                                        imageVector = Icons.Filled.AddAPhoto,
-                                        contentDescription = "Add picture"
+                            if (imageUri == null) {
+                                IconButton(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(10))
+                                        .background(Color.Gray)
+                                        .aspectRatio(1f)
+                                        .weight(2f),
+                                    onClick = {
+                                        imagePicker.launch(
+                                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                        )
+                                    },
+                                    content = {
+                                        Icon(
+                                            modifier = Modifier
+                                                .padding(48.dp)
+                                                .fillMaxSize(),
+                                            imageVector = Icons.Filled.AddAPhoto,
+                                            contentDescription = "Add picture"
+                                        )
+                                    }
+                                )
+                            } else {
+                                Box(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(10))
+                                        .background(Color.Gray)
+                                        .aspectRatio(1f)
+                                        .weight(2f),
+                                ){
+                                    AsyncImage(
+                                        model = imageUri,
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Crop
+                                    )
+                                    IconButton(
+                                        modifier = Modifier
+                                            .aspectRatio(1f),
+                                        onClick = {
+                                            imagePicker.launch(
+                                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                            )
+                                        },
+                                        content = {
+                                            Icon(
+                                                modifier = Modifier
+                                                    .padding(48.dp)
+                                                    .fillMaxSize(),
+                                                imageVector = Icons.Filled.AddAPhoto,
+                                                contentDescription = "Add picture",
+                                                tint = Color(0x7F000000)
+                                            )
+                                        }
                                     )
                                 }
-                            )
+                            }
                             Box(modifier = Modifier.weight(1f))
                         }
                     }
