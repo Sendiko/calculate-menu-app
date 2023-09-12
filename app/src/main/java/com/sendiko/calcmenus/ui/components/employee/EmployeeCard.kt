@@ -89,7 +89,7 @@ fun EmployeeCard(
             )
             Spacer(modifier = Modifier.height(8.dp))
             OutlineButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
                 text = "See details",
                 onClick = onNextClick,
                 icon = Icons.Filled.KeyboardArrowRight,
