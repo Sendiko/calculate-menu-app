@@ -65,6 +65,7 @@ fun EmployeeCard(
             },
             error = {
               Icon(
+                  modifier = Modifier.padding(16.dp),
                   imageVector = Icons.Filled.SignalWifiConnectedNoInternet4,
                   contentDescription = "No Connection"
               )
@@ -89,7 +90,9 @@ fun EmployeeCard(
             )
             Spacer(modifier = Modifier.height(8.dp))
             OutlineButton(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
                 text = "See details",
                 onClick = onNextClick,
                 icon = Icons.Filled.KeyboardArrowRight,
