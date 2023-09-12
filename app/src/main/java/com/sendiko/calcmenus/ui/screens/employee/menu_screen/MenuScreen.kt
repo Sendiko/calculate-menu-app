@@ -231,7 +231,7 @@ fun MenuScreen(
                                     onMinusClick = {
 
                                     },
-                                    onAddButtonClick = {
+                                    onButtonClick = {
 
                                     }
                                 )
@@ -273,7 +273,7 @@ fun MenuScreen(
                                     onMinusClick = {
 
                                     },
-                                    onAddButtonClick = {
+                                    onButtonClick = {
 
                                     }
                                 )
