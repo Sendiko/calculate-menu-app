@@ -26,6 +26,7 @@ import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.RegisterScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.DashboardScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.menu.CreateMenuScreen
+import com.sendiko.calcmenus.ui.screens.restaurant.main.menu.EditMenuScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreenEvents
 import com.sendiko.calcmenus.ui.theme.CalcMenusTheme
@@ -153,6 +154,9 @@ class MainActivity : ComponentActivity() {
                                                 DashboardScreen(
                                                     onCreateMenu = { route ->
                                                         navController.navigate(route)
+                                                    },
+                                                    onEditMenu = { route ->
+                                                        navController.navigate(route)
                                                     }
                                                 )
                                             }
@@ -172,6 +176,17 @@ class MainActivity : ComponentActivity() {
                                                         ).show()
 
                                                     }
+                                                )
+                                            }
+                                        )
+                                        composable(
+                                            route = Routes.RestoEditMenuScreen.route,
+                                            content = {
+                                                EditMenuScreen(
+                                                    onNavigateBack = { route ->
+                                                        navController.navigate(route)
+                                                    },
+                                                    onMenuUpdated = {}
                                                 )
                                             }
                                         )
