@@ -40,7 +40,7 @@ fun EmployeeCard(
     imageUrl: String = defaultImageUrl,
     contentDescription: String? = "",
     title: String,
-    onNextClick: () -> Unit
+    onDetailClick: () -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -94,7 +94,7 @@ fun EmployeeCard(
                     .fillMaxWidth()
                     .padding(bottom = 8.dp),
                 text = "See details",
-                onClick = onNextClick,
+                onClick = onDetailClick,
                 icon = Icons.Filled.KeyboardArrowRight,
                 iconPosition = IconInButtonPosition.AfterText
             )
@@ -107,7 +107,7 @@ fun EmployeeCard(
 fun EmployeeCardPrev() {
     EmployeeCard(
         title = "Nama",
-        onNextClick = {
+        onDetailClick = {
 
         }
     )
