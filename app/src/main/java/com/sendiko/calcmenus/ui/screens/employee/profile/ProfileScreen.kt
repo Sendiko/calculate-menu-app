@@ -2,6 +2,7 @@ package com.sendiko.calcmenus.ui.screens.employee.profile
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Lock
@@ -34,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
@@ -134,30 +137,80 @@ fun ProfileScreen(
                             modifier = Modifier.padding(8.dp)
                         ) {
                             Box(modifier = Modifier.weight(1f))
-                            SubcomposeAsyncImage(
-                                modifier = Modifier
-                                    .weight(2f)
-                                    .padding(8.dp)
-                                    .aspectRatio(1f)
-                                    .clip(RoundedCornerShape(5)),
-                                model = imageUri,
-                                contentDescription = null,
-                                loading = {
-                                    CircularProgressIndicator(
-                                        modifier = Modifier.padding(32.dp),
-                                        color = PrimaryRed,
-                                        strokeCap = StrokeCap.Butt
+                            if (imageUri == null) {
+                                IconButton(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(10))
+                                        .background(Color.Gray)
+                                        .aspectRatio(1f)
+                                        .weight(2f),
+                                    onClick = {
+                                        imagePicker.launch(
+                                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                        )
+                                    },
+                                    content = {
+                                        Icon(
+                                            modifier = Modifier
+                                                .padding(48.dp)
+                                                .fillMaxSize(),
+                                            imageVector = Icons.Filled.AddAPhoto,
+                                            contentDescription = "Add picture"
+                                        )
+                                    }
+                                )
+                            } else {
+                                Box(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(10))
+                                        .background(Color.Gray)
+                                        .aspectRatio(1f)
+                                        .weight(2f),
+                                ){
+                                    SubcomposeAsyncImage(
+                                        modifier = Modifier
+                                            .padding(8.dp)
+                                            .aspectRatio(1f)
+                                            .clip(RoundedCornerShape(5)),
+                                        model = imageUri,
+                                        contentDescription = null,
+                                        loading = {
+                                            CircularProgressIndicator(
+                                                modifier = Modifier.padding(32.dp),
+                                                color = PrimaryRed,
+                                                strokeCap = StrokeCap.Butt
+                                            )
+                                        },
+                                        error = {
+                                            Icon(
+                                                modifier = Modifier.padding(16.dp),
+                                                imageVector = Icons.Filled.SignalWifiConnectedNoInternet4,
+                                                contentDescription = "No Connection"
+                                            )
+                                        },
+                                        contentScale = ContentScale.Crop
                                     )
-                                },
-                                error = {
-                                    Icon(
-                                        modifier = Modifier.padding(16.dp),
-                                        imageVector = Icons.Filled.SignalWifiConnectedNoInternet4,
-                                        contentDescription = "No Connection"
+                                    IconButton(
+                                        modifier = Modifier
+                                            .aspectRatio(1f),
+                                        onClick = {
+                                            imagePicker.launch(
+                                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                            )
+                                        },
+                                        content = {
+                                            Icon(
+                                                modifier = Modifier
+                                                    .padding(48.dp)
+                                                    .fillMaxSize(),
+                                                imageVector = Icons.Filled.AddAPhoto,
+                                                contentDescription = "Add picture",
+                                                tint = Color(0x7F000000)
+                                            )
+                                        }
                                     )
-                                },
-                                contentScale = ContentScale.Crop
-                            )
+                                }
+                            }
                             Box(modifier = Modifier.weight(1f))
                         }
                     }
