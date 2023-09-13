@@ -17,6 +17,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.RestaurantMenu
+import androidx.compose.material.icons.filled.SignalWifiConnectedNoInternet4
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -27,10 +29,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.sendiko.calcmenus.ui.components.appbars.CustomAppBar
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.screens.Routes
@@ -90,14 +92,28 @@ fun ViewEmployeeScreen(
                             modifier = Modifier.padding(8.dp)
                         ) {
                             Box(modifier = Modifier.weight(1f))
-                            AsyncImage(
+                            SubcomposeAsyncImage(
                                 modifier = Modifier
-                                    .clip(RoundedCornerShape(10))
-                                    .background(Color.Gray)
+                                    .padding(8.dp)
                                     .aspectRatio(1f)
+                                    .clip(RoundedCornerShape(5))
                                     .weight(2f),
                                 model = imageUri,
                                 contentDescription = null,
+                                loading = {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.padding(32.dp),
+                                        color = PrimaryRed,
+                                        strokeCap = StrokeCap.Butt
+                                    )
+                                },
+                                error = {
+                                    Icon(
+                                        modifier = Modifier.padding(16.dp),
+                                        imageVector = Icons.Filled.SignalWifiConnectedNoInternet4,
+                                        contentDescription = "No Connection"
+                                    )
+                                },
                                 contentScale = ContentScale.Crop
                             )
                             Box(modifier = Modifier.weight(1f))

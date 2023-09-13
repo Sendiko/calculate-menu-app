@@ -21,7 +21,10 @@ import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreen
 import com.sendiko.calcmenus.ui.screens.employee.ongoing_order.OnGoingOrderScreen
 import com.sendiko.calcmenus.ui.screens.employee.order_resume.OrderResumeScreen
-import com.sendiko.calcmenus.ui.screens.employee.order_resume.PostOrderResumeScreen
+import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostDeliverScreen
+import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostOrderResumeScreen
+import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostPayedScreen
+import com.sendiko.calcmenus.ui.screens.employee.profile.ProfileScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.RegisterScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.DashboardScreen
@@ -36,6 +39,7 @@ import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.screens.employee.LoginScreen as EmployeeLoginScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.LoginScreen as RestoLoginScreen
+import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreen as RestoProfileScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -151,6 +155,16 @@ class MainActivity : ComponentActivity() {
                                     startDestination = Routes.RestoDashboardScreen.route,
                                     builder = {
                                         composable(
+                                            route = Routes.RestoProfileScreen.route,
+                                            content = {
+                                                RestoProfileScreen(
+                                                    onNavigateBack = { route ->
+                                                        navController.navigate(route)
+                                                    }
+                                                )
+                                            }
+                                        )
+                                        composable(
                                             route = Routes.RestoDashboardScreen.route,
                                             content = {
                                                 DashboardScreen(
@@ -164,6 +178,9 @@ class MainActivity : ComponentActivity() {
                                                         navController.navigate(route)
                                                     },
                                                     onCreateEmployee = { route ->
+                                                        navController.navigate(route)
+                                                    },
+                                                    onNavigate = { route ->
                                                         navController.navigate(route)
                                                     }
                                                 )
@@ -228,6 +245,14 @@ class MainActivity : ComponentActivity() {
                                     startDestination = Routes.EmployeeMenuScreen.route,
                                     builder = {
                                         composable(
+                                            route = Routes.EmployeeProfileScreen.route,
+                                            content = {
+                                                ProfileScreen(onNavigateBack = { route ->
+                                                    navController.navigate(route )
+                                                })
+                                            }
+                                        )
+                                        composable(
                                             route = Routes.EmployeeMenuScreen.route,
                                             content = {
                                                 MenuScreen(
@@ -267,6 +292,22 @@ class MainActivity : ComponentActivity() {
                                             route = Routes.EmployeePostOrderScreen.route,
                                             content = {
                                                 PostOrderResumeScreen(
+                                                    navController = navController
+                                                )
+                                            }
+                                        )
+                                        composable(
+                                            route = Routes.EmployeePostDeliverScreen.route,
+                                            content = {
+                                                PostDeliverScreen(
+                                                    navController = navController
+                                                )
+                                            }
+                                        )
+                                        composable(
+                                            route = Routes.EmployeePostPayedScreen.route,
+                                            content = {
+                                                PostPayedScreen(
                                                     navController = navController
                                                 )
                                             }

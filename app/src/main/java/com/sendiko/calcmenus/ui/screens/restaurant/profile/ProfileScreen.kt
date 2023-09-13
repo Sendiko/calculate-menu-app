@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.ui.screens.restaurant.main.employee
+package com.sendiko.calcmenus.ui.screens.restaurant.profile
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -18,9 +18,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.RestaurantMenu
+import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.SignalWifiConnectedNoInternet4
+import androidx.compose.material.icons.filled.Store
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FabPosition
@@ -45,19 +47,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.sendiko.calcmenus.ui.components.appbars.CustomAppBar
+import com.sendiko.calcmenus.ui.components.buttons.SmallOutlineButton
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
+import com.sendiko.calcmenus.ui.theme.Yellowyellow
 import com.sendiko.calcmenus.ui.theme.myFont
 
 @Composable
-fun CreateEmployeeScreen(
-    onNavigateBack: (route: String) -> Unit,
-    onEmployeeCreated: () -> Unit
+fun ProfileScreen(
+    onNavigateBack: (route: String) -> Unit
 ) {
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
+    }
+    var editable by remember {
+        mutableStateOf(false)
     }
     val imagePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
@@ -65,11 +71,12 @@ fun CreateEmployeeScreen(
             imageUri = uri
         }
     )
+    imageUri = Uri.parse("http://192.168.1.8:8000/storage/images/menu/MbaC4FwN5iRwoSAVgmk3ORcVcsiumkXw93I9Fd9s.jpg")
     Scaffold(
         containerColor = PrimaryRed,
         topBar = {
             CustomAppBar(
-                title = "Create Account",
+                title = "Profile",
                 headerIcon = {
                     IconButton(
                         onClick = { onNavigateBack(Routes.RestoDashboardScreen.route) },
@@ -82,28 +89,38 @@ fun CreateEmployeeScreen(
                         }
                     )
                 },
-                trailingIcon = { }
+                trailingIcon = {
+                    SmallOutlineButton(
+                        text = "Edit Profile",
+                        background = Yellowyellow,
+                        onClick = {
+                            editable = !editable
+                        }
+                    )
+                }
             )
         },
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
-            FloatingActionButton(
-                containerColor = PrimaryRed,
-                contentColor = NotWhite,
-                shape = RoundedCornerShape(100),
-                content = {
-                    Text(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        text = "Save Account",
-                        style = TextStyle(
-                            fontSize = 20.sp, fontWeight = FontWeight.Black, fontFamily = myFont
+            if(editable){
+                FloatingActionButton(
+                    containerColor = PrimaryRed,
+                    contentColor = NotWhite,
+                    shape = RoundedCornerShape(100),
+                    content = {
+                        Text(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            text = "Update Profile",
+                            style = TextStyle(
+                                fontSize = 20.sp, fontWeight = FontWeight.Black, fontFamily = myFont
+                            )
                         )
-                    )
-                },
-                onClick = {
-                    onEmployeeCreated()
-                }
-            )
+                    },
+                    onClick = {
+
+                    }
+                )
+            }
         }
     ) {
         Column(
@@ -153,7 +170,7 @@ fun CreateEmployeeScreen(
                                         .background(Color.Gray)
                                         .aspectRatio(1f)
                                         .weight(2f),
-                                ) {
+                                ){
                                     SubcomposeAsyncImage(
                                         modifier = Modifier
                                             .aspectRatio(1f)
@@ -176,25 +193,27 @@ fun CreateEmployeeScreen(
                                         },
                                         contentScale = ContentScale.Crop
                                     )
-                                    IconButton(
-                                        modifier = Modifier
-                                            .aspectRatio(1f),
-                                        onClick = {
-                                            imagePicker.launch(
-                                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                                            )
-                                        },
-                                        content = {
-                                            Icon(
-                                                modifier = Modifier
-                                                    .padding(48.dp)
-                                                    .fillMaxSize(),
-                                                imageVector = Icons.Filled.AddAPhoto,
-                                                contentDescription = "Add picture",
-                                                tint = Color(0x7F000000)
-                                            )
-                                        }
-                                    )
+                                    if(editable){
+                                        IconButton(
+                                            modifier = Modifier
+                                                .aspectRatio(1f),
+                                            onClick = {
+                                                imagePicker.launch(
+                                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                                )
+                                            },
+                                            content = {
+                                                Icon(
+                                                    modifier = Modifier
+                                                        .padding(48.dp)
+                                                        .fillMaxSize(),
+                                                    imageVector = Icons.Filled.AddAPhoto,
+                                                    contentDescription = "Add picture",
+                                                    tint = Color(0x7F000000)
+                                                )
+                                            }
+                                        )
+                                    }
                                 }
                             }
                             Box(modifier = Modifier.weight(1f))
@@ -205,13 +224,17 @@ fun CreateEmployeeScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(8.dp),
-                            hint = "Username",
+                            hint = "Nama Resto",
                             isError = false,
                             textValue = "",
+                            enabled = editable,
                             leadingIcon = {
                                 Icon(
-                                    imageVector = Icons.Filled.RestaurantMenu,
-                                    contentDescription = "Menu"
+                                    imageVector = Icons.Filled.Store,
+                                    contentDescription = "Restaurant",
+                                    modifier = Modifier.padding(
+                                        start = 8.dp
+                                    )
                                 )
                             },
                             onNewValue = {}
@@ -222,11 +245,18 @@ fun CreateEmployeeScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(8.dp),
-                            hint = "Email",
+                            hint = "Address",
                             isError = false,
                             textValue = "",
+                            enabled = editable,
                             leadingIcon = {
-                                Icon(imageVector = Icons.Filled.Email, contentDescription = "Email")
+                                Icon(
+                                    imageVector = Icons.Filled.LocationOn,
+                                    contentDescription = "Address",
+                                    modifier = Modifier.padding(
+                                        start = 8.dp
+                                    )
+                                )
                             },
                             onNewValue = {}
                         )
@@ -236,27 +266,90 @@ fun CreateEmployeeScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(8.dp),
-                            hint = "Password",
+                            hint = "82241626760",
                             isError = false,
                             textValue = "",
+                            enabled = editable,
+                            prefix = {
+                                Text(
+                                    "+62",
+                                    style = TextStyle(
+                                        fontFamily = myFont,
+                                        fontWeight = FontWeight.Bold,
+                                    )
+                                )
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Filled.PhoneAndroid,
+                                    contentDescription = "Phone",
+                                    modifier = Modifier.padding(
+                                        start = 8.dp
+                                    )
+                                )
+                            },
+                            trailingIcon = {
+
+                            },
+                            onNewValue = {}
+                        )
+                    }
+                    item {
+                        OutlinedTextField(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(8.dp),
+                            hint = "Email",
+                            isError = false,
+                            textValue = "",
+                            enabled = editable,
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Filled.Email,
+                                    contentDescription = "Email",
+                                    modifier = Modifier.padding(
+                                        start = 8.dp
+                                    )
+                                )
+                            },
+                            onNewValue = {
+
+                            }
+                        )
+                    }
+                    item {
+                        OutlinedTextField(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(8.dp),
+                            hint = "*******",
+                            isError = false,
+                            textValue = "",
+                            passwordVisible = true,
+                            enabled = editable,
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.Lock,
-                                    contentDescription = "Password"
+                                    contentDescription = "Password",
+                                    modifier = Modifier.padding(
+                                        start = 8.dp
+                                    )
                                 )
                             },
                             trailingIcon = {
                                 IconButton(
                                     onClick = { /*TODO*/ },
-                                    content = {
-                                        Icon(
-                                            imageVector = Icons.Filled.VisibilityOff,
-                                            contentDescription = ""
-                                        )
-                                    }
-                                )
+                                    modifier = Modifier.padding(
+                                        end = 8.dp
+                                    )
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.VisibilityOff,
+                                        contentDescription = "Password"
+                                    )
+                                }
                             },
-                            onNewValue = {}
+                            onNewValue = {
+
+                            }
                         )
                     }
                 }
