@@ -179,7 +179,7 @@ fun OnGoingOrderScreen(
 
                                     },
                                     onButtonClick = {
-
+                                        onNavigate(Routes.EmployeePostDeliverScreen.route)
                                     }
                                 )
                             }
@@ -212,7 +212,7 @@ fun OnGoingOrderScreen(
 
                                     },
                                     onButtonClick = {
-
+                                        onNavigate(Routes.EmployeePostPayedScreen.route)
                                     }
                                 )
                             }
