@@ -24,6 +24,7 @@ import com.sendiko.calcmenus.ui.screens.employee.order_resume.OrderResumeScreen
 import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostDeliverScreen
 import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostOrderResumeScreen
 import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostPayedScreen
+import com.sendiko.calcmenus.ui.screens.employee.profile.ProfileScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.RegisterScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.DashboardScreen
@@ -229,6 +230,14 @@ class MainActivity : ComponentActivity() {
                                     route = Graphs.EmpMainGraph.graph,
                                     startDestination = Routes.EmployeeMenuScreen.route,
                                     builder = {
+                                        composable(
+                                            route = Routes.EmployeeProfileScreen.route,
+                                            content = {
+                                                ProfileScreen(onNavigateBack = { route ->
+                                                    navController.navigate(route )
+                                                })
+                                            }
+                                        )
                                         composable(
                                             route = Routes.EmployeeMenuScreen.route,
                                             content = {
