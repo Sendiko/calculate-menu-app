@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.ui.screens.employee.order_resume
+package com.sendiko.calcmenus.ui.screens.employee.post_screen
 
 import android.os.Handler
 import android.os.Looper
@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +39,6 @@ fun PostOrderResumeScreen(
     var isVisible by remember {
         mutableStateOf(false)
     }
-    val coroutine = rememberCoroutineScope()
 
     Scaffold(
         containerColor = PrimaryRed
