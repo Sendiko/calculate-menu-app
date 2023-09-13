@@ -69,6 +69,7 @@ fun DashboardScreen(
     onEditMenu: (route: String) -> Unit,
     onEmployeeDetails: (route: String) -> Unit,
     onCreateEmployee: (route: String) -> Unit,
+    onNavigate: (route: String) -> Unit
 ) {
     val tab = listOf("Menu", "Employee")
     var selectedTab by rememberSaveable {
@@ -93,7 +94,9 @@ fun DashboardScreen(
                             .clip(RoundedCornerShape(100))
                             .background(NotWhite),
                     ) {
-                        IconButton(onClick = { /*TODO*/ }) {
+                        IconButton(onClick = {
+                            onNavigate(Routes.RestoProfileScreen.route)
+                        }) {
                             Icon(
                                 imageVector = Icons.Filled.Person,
                                 tint = LessGray,
@@ -355,6 +358,9 @@ fun DashboardPrev() {
 
         },
         onCreateEmployee = {
+
+        },
+        onNavigate = {
 
         }
     )
