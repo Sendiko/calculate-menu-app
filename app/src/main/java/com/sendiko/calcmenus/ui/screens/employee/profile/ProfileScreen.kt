@@ -69,7 +69,8 @@ fun ProfileScreen(
             imageUri = uri
         }
     )
-    imageUri = Uri.parse("http://192.168.1.8:8000/storage/images/menu/MbaC4FwN5iRwoSAVgmk3ORcVcsiumkXw93I9Fd9s.jpg")
+    imageUri =
+        Uri.parse("http://192.168.1.8:8000/storage/images/menu/MbaC4FwN5iRwoSAVgmk3ORcVcsiumkXw93I9Fd9s.jpg")
     Scaffold(
         containerColor = PrimaryRed,
         topBar = {
@@ -100,23 +101,25 @@ fun ProfileScreen(
         },
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
-            FloatingActionButton(
-                containerColor = PrimaryRed,
-                contentColor = NotWhite,
-                shape = RoundedCornerShape(100),
-                content = {
-                    Text(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        text = "Update Profile",
-                        style = TextStyle(
-                            fontSize = 20.sp, fontWeight = FontWeight.Black, fontFamily = myFont
+            if (editable) {
+                FloatingActionButton(
+                    containerColor = PrimaryRed,
+                    contentColor = NotWhite,
+                    shape = RoundedCornerShape(100),
+                    content = {
+                        Text(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            text = "Update Profile",
+                            style = TextStyle(
+                                fontSize = 20.sp, fontWeight = FontWeight.Black, fontFamily = myFont
+                            )
                         )
-                    )
-                },
-                onClick = {
+                    },
+                    onClick = {
 
-                }
-            )
+                    }
+                )
+            }
         }
     ) {
         Column(
@@ -166,7 +169,7 @@ fun ProfileScreen(
                                         .background(Color.Gray)
                                         .aspectRatio(1f)
                                         .weight(2f),
-                                ){
+                                ) {
                                     SubcomposeAsyncImage(
                                         modifier = Modifier
                                             .aspectRatio(1f)
@@ -189,25 +192,27 @@ fun ProfileScreen(
                                         },
                                         contentScale = ContentScale.Crop
                                     )
-                                    IconButton(
-                                        modifier = Modifier
-                                            .aspectRatio(1f),
-                                        onClick = {
-                                            imagePicker.launch(
-                                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                                            )
-                                        },
-                                        content = {
-                                            Icon(
-                                                modifier = Modifier
-                                                    .padding(48.dp)
-                                                    .fillMaxSize(),
-                                                imageVector = Icons.Filled.AddAPhoto,
-                                                contentDescription = "Add picture",
-                                                tint = Color(0x7F000000)
-                                            )
-                                        }
-                                    )
+                                    if(editable){
+                                        IconButton(
+                                            modifier = Modifier
+                                                .aspectRatio(1f),
+                                            onClick = {
+                                                imagePicker.launch(
+                                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                                )
+                                            },
+                                            content = {
+                                                Icon(
+                                                    modifier = Modifier
+                                                        .padding(48.dp)
+                                                        .fillMaxSize(),
+                                                    imageVector = Icons.Filled.AddAPhoto,
+                                                    contentDescription = "Add picture",
+                                                    tint = Color(0x7F000000)
+                                                )
+                                            }
+                                        )
+                                    }
                                 }
                             }
                             Box(modifier = Modifier.weight(1f))
@@ -256,7 +261,10 @@ fun ProfileScreen(
                             textValue = "",
                             enabled = editable,
                             leadingIcon = {
-                                Icon(imageVector = Icons.Filled.Lock, contentDescription = "Password")
+                                Icon(
+                                    imageVector = Icons.Filled.Lock,
+                                    contentDescription = "Password"
+                                )
                             },
                             trailingIcon = {
                                 IconButton(
