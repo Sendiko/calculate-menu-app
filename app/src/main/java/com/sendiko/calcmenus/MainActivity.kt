@@ -39,6 +39,7 @@ import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.screens.employee.LoginScreen as EmployeeLoginScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.LoginScreen as RestoLoginScreen
+import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreen as RestoProfileScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -154,6 +155,16 @@ class MainActivity : ComponentActivity() {
                                     startDestination = Routes.RestoDashboardScreen.route,
                                     builder = {
                                         composable(
+                                            route = Routes.RestoProfileScreen.route,
+                                            content = {
+                                                RestoProfileScreen(
+                                                    onNavigateBack = { route ->
+                                                        navController.navigate(route)
+                                                    }
+                                                )
+                                            }
+                                        )
+                                        composable(
                                             route = Routes.RestoDashboardScreen.route,
                                             content = {
                                                 DashboardScreen(
@@ -167,6 +178,9 @@ class MainActivity : ComponentActivity() {
                                                         navController.navigate(route)
                                                     },
                                                     onCreateEmployee = { route ->
+                                                        navController.navigate(route)
+                                                    },
+                                                    onNavigate = { route ->
                                                         navController.navigate(route)
                                                     }
                                                 )
