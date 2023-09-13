@@ -22,4 +22,6 @@ sealed class Routes(val route: String){
     object EmployeeOngoingOrdersScreen: Routes("emp_ongoing_orders")
     object EmployeeOrderResumeScreen: Routes("emp_order_resume")
     object EmployeePostOrderScreen: Routes("emp_post_order")
+    object EmployeePostDeliverScreen: Routes("emp_post_deliver")
+    object EmployeePostPayedScreen: Routes("emp_post_payed")
 }
