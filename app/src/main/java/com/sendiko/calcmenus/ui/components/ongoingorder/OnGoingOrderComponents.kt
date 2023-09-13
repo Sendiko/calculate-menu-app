@@ -32,8 +32,9 @@ fun OnGoingOrderCard(
     tableNumber: String,
     transactionNumber: String,
     totalPrice: String,
+    textButton: String,
     onCardClick: () -> Unit,
-    onMarkAsPayed: () -> Unit,
+    onButtonClick: () -> Unit,
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -68,8 +69,8 @@ fun OnGoingOrderCard(
                 )
             )
             PrimaryButton(
-                text = "Mark As Payed",
-                onClick = onMarkAsPayed
+                text = textButton,
+                onClick = onButtonClick
             )
         }
     }
@@ -89,10 +90,11 @@ fun OGODPrev() {
                 tableNumber = "Table A3",
                 transactionNumber = "1234567890",
                 totalPrice = "125000",
+                textButton = "",
                 onCardClick = {
 
                 },
-                onMarkAsPayed = {
+                onButtonClick = {
 
                 }
             )

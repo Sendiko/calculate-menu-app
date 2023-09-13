@@ -1,11 +1,13 @@
 package com.sendiko.calcmenus.ui.screens.employee.ongoing_order
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,11 +16,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -27,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sendiko.calcmenus.ui.components.appbars.CustomAppBar
+import com.sendiko.calcmenus.ui.components.buttons.SelectableOutlineButton
 import com.sendiko.calcmenus.ui.components.buttons.SmallOutlineButton
 import com.sendiko.calcmenus.ui.components.ongoingorder.OnGoingOrderCard
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
@@ -41,6 +49,9 @@ import com.sendiko.calcmenus.ui.theme.myFont
 fun OnGoingOrderScreen(
     onNavigate: (route: String) -> Unit
 ) {
+    var orderTypeSelection by rememberSaveable {
+        mutableIntStateOf(0)
+    }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = PrimaryRed,
@@ -103,6 +114,34 @@ fun OnGoingOrderScreen(
                         Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")
                     }
                 )
+                Row(
+                    modifier = Modifier.padding(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    OrderTypeList.orderTypeList.forEachIndexed { index, orderType ->
+                        SelectableOutlineButton(
+                            modifier = Modifier.weight(1f),
+                            text = when{
+                                !orderType.isDelivered -> "Waiting on delivery"
+                                orderType.isDelivered && !orderType.isPayed -> "Waiting to be paid"
+                                else -> ""
+                            },
+                            isSelected = orderTypeSelection == index,
+                            onClick = {
+                                orderTypeSelection = index
+                            }
+                        )
+                    }
+                    IconButton(
+                        onClick = { /*TODO*/ },
+                        content = {
+                            Icon(
+                                imageVector = Icons.Filled.SortByAlpha,
+                                contentDescription = "Sort Content"
+                            )
+                        }
+                    )
+                }
                 Box(
                     modifier = Modifier
                         .fillMaxSize(1f)
@@ -113,34 +152,70 @@ fun OnGoingOrderScreen(
                         )
                         .background(NotWhite),
                 ) {
-                    LazyColumn(
-                        contentPadding = PaddingValues(horizontal = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        item {
-                            Text(
-                                modifier = Modifier.padding(start = 10.dp, top = 16.dp),
-                                text = "On going orders",
-                                style = TextStyle(
-                                    fontWeight = FontWeight.Black,
-                                    color = PrimaryRed,
-                                    fontSize = 32.sp,
-                                    fontFamily = myFont
+                    this@Column.AnimatedVisibility(visible = orderTypeSelection == 0) {
+                        LazyColumn(
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ){
+                            item {
+                                Text(
+                                    modifier = Modifier.padding(start = 10.dp, top = 16.dp),
+                                    text = "On going orders",
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.Black,
+                                        color = PrimaryRed,
+                                        fontSize = 32.sp,
+                                        fontFamily = myFont
+                                    )
                                 )
-                            )
+                            }
+                            items(30){ number ->
+                                OnGoingOrderCard(
+                                    tableNumber = "Table A$number",
+                                    transactionNumber = "$number$number$number$number$number$number$number",
+                                    totalPrice = "$number$number$number$number$number$number$number",
+                                    textButton = "Deliver order!",
+                                    onCardClick = {
+
+                                    },
+                                    onButtonClick = {
+
+                                    }
+                                )
+                            }
                         }
-                        items(count = 30) { number ->
-                            OnGoingOrderCard(
-                                tableNumber = "Table A$number",
-                                transactionNumber = "$number$number$number$number$number$number$number",
-                                totalPrice = "$number$number$number$number$number$number$number",
-                                onCardClick = {
+                    }
+                    this@Column.AnimatedVisibility(visible = orderTypeSelection == 1) {
+                        LazyColumn(
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ){
+                            item {
+                                Text(
+                                    modifier = Modifier.padding(start = 10.dp, top = 16.dp),
+                                    text = "On going orders",
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.Black,
+                                        color = PrimaryRed,
+                                        fontSize = 32.sp,
+                                        fontFamily = myFont
+                                    )
+                                )
+                            }
+                            items(30){ number ->
+                                OnGoingOrderCard(
+                                    tableNumber = "Table A$number",
+                                    transactionNumber = "$number$number$number$number$number$number$number",
+                                    totalPrice = "$number$number$number$number$number$number$number",
+                                    textButton = "Mark as payed",
+                                    onCardClick = {
 
-                                },
-                                onMarkAsPayed = {
+                                    },
+                                    onButtonClick = {
 
-                                }
-                            )
+                                    }
+                                )
+                            }
                         }
                     }
                 }
