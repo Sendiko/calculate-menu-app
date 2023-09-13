@@ -25,6 +25,8 @@ import com.sendiko.calcmenus.ui.screens.employee.order_resume.PostOrderResumeScr
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.RegisterScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.DashboardScreen
+import com.sendiko.calcmenus.ui.screens.restaurant.main.employee.CreateEmployeeScreen
+import com.sendiko.calcmenus.ui.screens.restaurant.main.employee.ViewEmployeeScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.menu.CreateMenuScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.menu.EditMenuScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
@@ -157,6 +159,12 @@ class MainActivity : ComponentActivity() {
                                                     },
                                                     onEditMenu = { route ->
                                                         navController.navigate(route)
+                                                    },
+                                                    onEmployeeDetails = { route ->
+                                                        navController.navigate(route)
+                                                    },
+                                                    onCreateEmployee = { route ->
+                                                        navController.navigate(route)
                                                     }
                                                 )
                                             }
@@ -187,6 +195,29 @@ class MainActivity : ComponentActivity() {
                                                         navController.navigate(route)
                                                     },
                                                     onMenuUpdated = {}
+                                                )
+                                            }
+                                        )
+                                        composable(
+                                            route = Routes.RestoViewEmployeeScreen.route,
+                                            content = {
+                                                ViewEmployeeScreen(
+                                                    onNavigateBack = { route ->
+                                                        navController.navigate(route)
+                                                    }
+                                                )
+                                            }
+                                        )
+                                        composable(
+                                            route = Routes.RestoCreateEmployeeScreen.route,
+                                            content = {
+                                                CreateEmployeeScreen(
+                                                    onNavigateBack = { route ->
+                                                        navController.navigate(route)
+                                                    },
+                                                    onEmployeeCreated = {
+
+                                                    }
                                                 )
                                             }
                                         )

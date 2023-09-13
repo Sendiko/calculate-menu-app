@@ -66,7 +66,9 @@ import com.sendiko.calcmenus.ui.theme.myFont
 @Composable
 fun DashboardScreen(
     onCreateMenu: (route: String) -> Unit,
-    onEditMenu: (route: String) -> Unit
+    onEditMenu: (route: String) -> Unit,
+    onEmployeeDetails: (route: String) -> Unit,
+    onCreateEmployee: (route: String) -> Unit,
 ) {
     val tab = listOf("Menu", "Employee")
     var selectedTab by rememberSaveable {
@@ -124,7 +126,7 @@ fun DashboardScreen(
                         )
                     },
                     onClick = {
-                        onCreateMenu(Routes.RestoCreateMenuScreen.route)
+                            onCreateMenu(Routes.RestoCreateMenuScreen.route)
                     }
                 )
             }
@@ -147,7 +149,7 @@ fun DashboardScreen(
                         )
                     },
                     onClick = {
-
+                        onCreateEmployee(Routes.RestoCreateEmployeeScreen.route)
                     }
                 )
             }
@@ -322,10 +324,10 @@ fun DashboardScreen(
                             content = {
                                 items(16) { index ->
                                     EmployeeCard(
-                                        imageUrl = "http://192.168.122.106:8000/storage/images/menu/MbaC4FwN5iRwoSAVgmk3ORcVcsiumkXw93I9Fd9s.jpg",
+                                        imageUrl = "http://192.168.1.8:8000/storage/images/menu/MbaC4FwN5iRwoSAVgmk3ORcVcsiumkXw93I9Fd9s.jpg",
                                         title = "name $index",
-                                        onNextClick = {
-
+                                        onDetailClick = {
+                                            onEmployeeDetails(Routes.RestoViewEmployeeScreen.route)
                                         }
                                     )
                                 }
@@ -347,6 +349,12 @@ fun DashboardPrev() {
 
         },
         onEditMenu = {
+
+        },
+        onEmployeeDetails = {
+
+        },
+        onCreateEmployee = {
 
         }
     )

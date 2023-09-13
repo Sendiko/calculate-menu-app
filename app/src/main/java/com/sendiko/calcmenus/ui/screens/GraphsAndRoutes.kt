@@ -15,6 +15,8 @@ sealed class Routes(val route: String){
     object RestoDashboardScreen: Routes("resto_dashboard")
     object RestoCreateMenuScreen: Routes("resto_create_menu")
     object RestoEditMenuScreen: Routes("resto_edit_menu")
+    object RestoCreateEmployeeScreen: Routes("resto_create_employee")
+    object RestoViewEmployeeScreen: Routes("resto_view_employee")
     object EmployeeLogin: Routes("emp_login")
     object EmployeeMenuScreen: Routes("emp_menu_screen")
     object EmployeeOngoingOrdersScreen: Routes("emp_ongoing_orders")
