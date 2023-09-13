@@ -96,7 +96,8 @@ fun ViewEmployeeScreen(
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .aspectRatio(1f)
-                                    .clip(RoundedCornerShape(5)),
+                                    .clip(RoundedCornerShape(5))
+                                    .weight(2f),
                                 model = imageUri,
                                 contentDescription = null,
                                 loading = {

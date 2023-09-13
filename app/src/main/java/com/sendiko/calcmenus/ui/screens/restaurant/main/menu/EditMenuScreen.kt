@@ -154,7 +154,6 @@ fun EditMenuScreen(
                                 ){
                                     SubcomposeAsyncImage(
                                         modifier = Modifier
-                                            .padding(8.dp)
                                             .aspectRatio(1f)
                                             .clip(RoundedCornerShape(5)),
                                         model = imageUri,
