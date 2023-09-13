@@ -111,7 +111,9 @@ fun MenuScreen(
                             .background(NotWhite),
                     ) {
                         IconButton(
-                            onClick = { /*TODO*/ }
+                            onClick = {
+                                onNavigate(Routes.EmployeeProfileScreen.route)
+                            }
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Person,
