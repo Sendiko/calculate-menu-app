@@ -323,7 +323,7 @@ fun ProfileScreen(
                             hint = "*******",
                             isError = false,
                             textValue = "",
-                            passwordVisible = true,
+                            isPasswordVisible = true,
                             enabled = editable,
                             leadingIcon = {
                                 Icon(

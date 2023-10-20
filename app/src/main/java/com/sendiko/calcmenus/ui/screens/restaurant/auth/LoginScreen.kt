@@ -117,7 +117,7 @@ fun LoginScreen(
                         hint = "Password",
                         isError = false,
                         textValue = "",
-                        passwordVisible = true,
+                        isPasswordVisible = true,
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Filled.Lock,

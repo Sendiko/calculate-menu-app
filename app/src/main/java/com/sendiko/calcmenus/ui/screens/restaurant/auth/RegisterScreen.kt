@@ -165,7 +165,7 @@ fun RegisterPartOne(
             hint = "Address",
             isError = false,
             textValue = "",
-            passwordVisible = true,
+            isPasswordVisible = true,
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Filled.LocationOn,
@@ -184,7 +184,7 @@ fun RegisterPartOne(
             hint = "Phone Contact",
             isError = false,
             textValue = "",
-            passwordVisible = true,
+            isPasswordVisible = true,
             prefix = {
                 Text(
                     "+62",
@@ -255,7 +255,7 @@ fun RegisterPartTwo(
             hint = "Password",
             isError = false,
             textValue = "",
-            passwordVisible = true,
+            isPasswordVisible = true,
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Filled.Lock,

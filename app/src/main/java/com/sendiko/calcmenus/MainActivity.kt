@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,8 +18,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.sendiko.calcmenus.repository.viewmodels.EmployeeLoginViewModel
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
+import com.sendiko.calcmenus.ui.screens.employee.login.EmployeeLoginScreen
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreen
 import com.sendiko.calcmenus.ui.screens.employee.ongoing_order.OnGoingOrderScreen
 import com.sendiko.calcmenus.ui.screens.employee.order_resume.OrderResumeScreen
@@ -37,7 +41,6 @@ import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreenEvents
 import com.sendiko.calcmenus.ui.theme.CalcMenusTheme
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
-import com.sendiko.calcmenus.ui.screens.employee.LoginScreen as EmployeeLoginScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.LoginScreen as RestoLoginScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreen as RestoProfileScreen
 
@@ -53,6 +56,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             var outsideApp by remember { mutableStateOf(true) }
+            val employeeLoginViewModel by viewModels<EmployeeLoginViewModel>()
             CalcMenusTheme(
                 outsideApp = outsideApp,
                 content = {
@@ -136,15 +140,9 @@ class MainActivity : ComponentActivity() {
                                             route = Routes.EmployeeLogin.route,
                                             content = {
                                                 EmployeeLoginScreen(
-                                                    onLogin = { route ->
-                                                        navController.navigate(
-                                                            route = route
-                                                        ) {
-                                                            popUpTo(
-                                                                navController.graph.id,
-                                                            ) { inclusive = true }
-                                                        }
-                                                    }
+                                                    state = employeeLoginViewModel.state.collectAsState().value,
+                                                    onEvents = employeeLoginViewModel::onEvent,
+                                                    navController = navController
                                                 )
                                             }
                                         )
