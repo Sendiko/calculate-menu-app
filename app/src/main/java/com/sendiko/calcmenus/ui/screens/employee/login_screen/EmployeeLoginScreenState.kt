@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.ui.screens.employee.login
+package com.sendiko.calcmenus.ui.screens.employee.login_screen
 
 import com.sendiko.calcmenus.ui.utils.FailedState
 
