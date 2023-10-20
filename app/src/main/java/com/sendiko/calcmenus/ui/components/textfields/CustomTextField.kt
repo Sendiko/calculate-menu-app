@@ -34,6 +34,26 @@ import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.theme.myFont
 
+/**
+ * @author Sendiko
+ * This is my own Custom Outlined TextField, i made this to differentiate
+ * with the material 3's Outlined TextField
+ *
+ * @param modifier to modify the component
+ * @param hint for the gray text that didn't move updwards when focused
+ * @param leadingIcon pretty self-explanatory
+ * @param trailingIcon pretty self-explanatory
+ * @param prefix for additional text beside the leadingIcon
+ * @param suffix for additional text beside traliningIcon
+ * @param isPasswordVisible for password visibility, false by default
+ * @param isError to show if there's any error
+ * @param supportingText for extra hint or to show error message
+ * @param enabled if the textfield is enabled, true by default
+ * @param keyboardActions actions for the keyboard
+ * @param keyboardOptions what type of keyboard used
+ * @param textValue the value of the text
+ * @param onNewValue to update the textValue
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OutlinedTextField(
@@ -43,7 +63,7 @@ fun OutlinedTextField(
     trailingIcon: @Composable (() -> Unit)? = null,
     prefix: @Composable (() -> Unit)? = null,
     suffix: @Composable (() -> Unit)? = null,
-    passwordVisible: Boolean = false,
+    isPasswordVisible: Boolean = true,
     isError: Boolean,
     supportingText: String? = null,
     enabled: Boolean = true,
@@ -86,9 +106,9 @@ fun OutlinedTextField(
                 )
             )
         },
-        visualTransformation = if (passwordVisible) {
-            PasswordVisualTransformation()
-        } else VisualTransformation.None,
+        visualTransformation = if (isPasswordVisible) {
+            VisualTransformation.None
+        } else PasswordVisualTransformation(),
         keyboardActions = keyboardActions,
         keyboardOptions = keyboardOptions,
     )
@@ -174,6 +194,7 @@ fun SmallTextArea(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextArea(
     modifier: Modifier = Modifier,
