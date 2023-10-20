@@ -42,11 +42,13 @@ fun PrimaryButton(
     icon: ImageVector? = null,
     iconPosition: IconInButtonPosition = BeforeText,
     text: String,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     Button(
         modifier = modifier,
         onClick = onClick,
+        enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = PrimaryRed,
             contentColor = NotWhite
@@ -234,7 +236,9 @@ fun SelectableOutlineButton(
         trailingIcon = trailingIcon,
         label = {
             Text(
-                modifier = Modifier.fillMaxWidth().padding(if(buttonSize == REGULAR) 0.dp else 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(if (buttonSize == REGULAR) 0.dp else 8.dp),
                 text = text,
                 fontFamily = myFont,
                 style = TextStyle(
