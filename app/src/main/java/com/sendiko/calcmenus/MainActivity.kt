@@ -18,7 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.sendiko.calcmenus.repository.viewmodels.EmployeeLoginViewModel
+import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeLoginViewModel
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.employee.login.EmployeeLoginScreen

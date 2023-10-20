@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.repository.viewmodels
+package com.sendiko.calcmenus.repository.viewmodels.employee
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
