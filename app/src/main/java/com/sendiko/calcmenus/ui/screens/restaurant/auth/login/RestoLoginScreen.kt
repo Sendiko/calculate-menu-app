@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -20,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -27,11 +29,19 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.sendiko.calcmenus.R
 import com.sendiko.calcmenus.ui.components.buttons.ButtonSize.BIG
 import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
+import com.sendiko.calcmenus.ui.components.others.ErrorMessageView
+import com.sendiko.calcmenus.ui.components.others.MessageNotificationView
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
-import com.sendiko.calcmenus.ui.screens.Routes
+import com.sendiko.calcmenus.ui.screens.Graphs
+import com.sendiko.calcmenus.ui.screens.restaurant.auth.login.RestoLoginScreenEvent.OnEmailInput
+import com.sendiko.calcmenus.ui.screens.restaurant.auth.login.RestoLoginScreenEvent.OnLoginClick
+import com.sendiko.calcmenus.ui.screens.restaurant.auth.login.RestoLoginScreenEvent.OnPasswordInput
+import com.sendiko.calcmenus.ui.screens.restaurant.auth.login.RestoLoginScreenEvent.OnPasswordVisibilityToggle
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.theme.myFont
@@ -40,8 +50,24 @@ import com.sendiko.calcmenus.ui.theme.myFont
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun RestoLoginScreen(
-    onLogin: (route: String) -> Unit,
+    state: RestoLoginScreenState,
+    onEvent: (RestoLoginScreenEvent) -> Unit,
+    navController: NavController = rememberNavController()
 ) {
+    LaunchedEffect(
+        key1 = state.loginSuccessful,
+        block = {
+            if (state.loginSuccessful) {
+                navController.navigate(
+                    route = Graphs.RestoMainGraph.graph
+                ) {
+                    popUpTo(
+                        navController.graph.id,
+                    ) { inclusive = true }
+                }
+            }
+        }
+    )
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = NotWhite
@@ -49,6 +75,14 @@ fun RestoLoginScreen(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
+            ErrorMessageView(
+                errorMessage = state.failedState.failedMessage.toString(),
+                isVisible = state.failedState.isFailed
+            )
+            MessageNotificationView(
+                message = "Login success.",
+                isVisible = state.loginSuccessful
+            )
             Box(
                 modifier = Modifier
                     .weight(1f),
@@ -59,7 +93,7 @@ fun RestoLoginScreen(
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize()
                 )
-                Column{
+                Column {
                     Text(
                         text = "Log In",
                         style = TextStyle(
@@ -92,12 +126,12 @@ fun RestoLoginScreen(
                         .padding(vertical = 16.dp)
                         .fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
-                ){
+                ) {
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         hint = "Email",
                         isError = false,
-                        textValue = "",
+                        textValue = state.email,
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Filled.Email,
@@ -108,15 +142,15 @@ fun RestoLoginScreen(
                             )
                         },
                         onNewValue = {
-
+                            onEvent(OnEmailInput(it))
                         }
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         hint = "Password",
                         isError = false,
-                        textValue = "",
-                        isPasswordVisible = true,
+                        textValue = state.password,
+                        isPasswordVisible = state.isPasswordVisible,
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Filled.Lock,
@@ -128,28 +162,31 @@ fun RestoLoginScreen(
                         },
                         trailingIcon = {
                             IconButton(
-                                onClick = { /*TODO*/ },
+                                onClick = { onEvent(OnPasswordVisibilityToggle(!state.isPasswordVisible)) },
                                 modifier = Modifier.padding(
                                     end = 8.dp
                                 )
                             ) {
                                 Icon(
-                                    imageVector = Icons.Filled.VisibilityOff,
+                                    imageVector = if (state.isPasswordVisible)
+                                        Icons.Default.Visibility
+                                    else Icons.Filled.VisibilityOff,
                                     contentDescription = "Password"
                                 )
                             }
                         },
                         onNewValue = {
-
+                            onEvent(OnPasswordInput(it))
                         }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     PrimaryButton(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "Login",
+                        text = if (!state.isLoading) "Login" else "Logging you in...",
                         buttonSize = BIG,
+                        enabled = !state.isLoading,
                         onClick = {
-                            onLogin(Routes.RestoDashboardScreen.route)
+                            onEvent(OnLoginClick)
                         }
                     )
                 }
