@@ -24,7 +24,7 @@ class EmployeeLoginViewModel : ViewModel() {
 
     private fun postLogin(employeeLoginRequest: EmployeeLoginRequest) {
         _state.update { it.copy(isLoading = true) }
-        val request = repository.postEmployeeLogin(employeeLoginRequest)
+        val request = repository.employeeLogin(employeeLoginRequest)
         request.enqueue(
             object : Callback<EmployeeLoginResponse> {
                 override fun onResponse(

@@ -7,5 +7,5 @@ class EmployeeRepository {
 
     private val client = ApiConfig.getInstance()
 
-    fun postEmployeeLogin(employeeLoginRequest: EmployeeLoginRequest) = client.employeeLogin(employeeLoginRequest)
+    fun employeeLogin(employeeLoginRequest: EmployeeLoginRequest) = client.employeeLogin(employeeLoginRequest)
 }
