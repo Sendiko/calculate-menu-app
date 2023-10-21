@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -130,6 +132,7 @@ fun EmployeeLoginScreen(
                             hint = "Email",
                             isError = false,
                             textValue = state.email,
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.Email,
@@ -149,6 +152,7 @@ fun EmployeeLoginScreen(
                             isError = false,
                             textValue = state.password,
                             isPasswordVisible = state.isPasswordVisible,
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.Lock,
