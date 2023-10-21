@@ -20,7 +20,7 @@ class RestoRegisterViewModel(private val repo: RestoRepository) : ViewModel() {
     private val _state = MutableStateFlow(RestoRegisterState())
     val state = _state.asStateFlow()
 
-    private fun postRegister(
+    private fun restoRegister(
         registerRequest: RestoRegisterRequest
     ) {
         _state.update { it.copy(isLoading = true) }
@@ -71,7 +71,7 @@ class RestoRegisterViewModel(private val repo: RestoRepository) : ViewModel() {
     fun onEvent(event: RestoRegisterEvent) {
         when (event) {
             RestoRegisterEvent.OnClickRegister -> {
-                postRegister(
+                restoRegister(
                     RestoRegisterRequest(
                         name = state.value.restoName,
                         address = state.value.restoAddress,
