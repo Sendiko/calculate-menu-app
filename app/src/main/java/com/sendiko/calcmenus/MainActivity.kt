@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -18,10 +19,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.sendiko.calcmenus.repository.viewmodels.EmployeeLoginViewModel
+import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeLoginViewModel
+import com.sendiko.calcmenus.repository.viewmodels.resto.RestoRegisterViewModel
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
-import com.sendiko.calcmenus.ui.screens.employee.login.EmployeeLoginScreen
+import com.sendiko.calcmenus.ui.screens.employee.login_screen.EmployeeLoginScreen
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreen
 import com.sendiko.calcmenus.ui.screens.employee.ongoing_order.OnGoingOrderScreen
 import com.sendiko.calcmenus.ui.screens.employee.order_resume.OrderResumeScreen
@@ -30,7 +32,7 @@ import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostOrderResumeScre
 import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostPayedScreen
 import com.sendiko.calcmenus.ui.screens.employee.profile.ProfileScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
-import com.sendiko.calcmenus.ui.screens.restaurant.auth.RegisterScreen
+import com.sendiko.calcmenus.ui.screens.restaurant.auth.register.RestoRegisterScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.DashboardScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.employee.CreateEmployeeScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.employee.ViewEmployeeScreen
@@ -57,6 +59,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             var outsideApp by remember { mutableStateOf(true) }
             val employeeLoginViewModel by viewModels<EmployeeLoginViewModel>()
+            val restoRegisterViewModel by viewModels<RestoRegisterViewModel>()
             CalcMenusTheme(
                 outsideApp = outsideApp,
                 content = {
@@ -120,13 +123,11 @@ class MainActivity : ComponentActivity() {
                                         composable(
                                             route = Routes.RestoRegister.route,
                                             content = {
-                                                var registerPart by remember { mutableStateOf(1) }
-                                                RegisterScreen(
-                                                    onRegister = { /*TODO*/ },
-                                                    onNavigatePart = { part ->
-                                                        registerPart = part
-                                                    },
-                                                    registerPart = registerPart
+                                                var registerPart by remember { mutableIntStateOf(1) }
+                                                RestoRegisterScreen(
+                                                    state = restoRegisterViewModel.state.collectAsState().value,
+                                                    onEvent = restoRegisterViewModel::onEvent,
+                                                    navController = navController
                                                 )
                                             }
                                         )

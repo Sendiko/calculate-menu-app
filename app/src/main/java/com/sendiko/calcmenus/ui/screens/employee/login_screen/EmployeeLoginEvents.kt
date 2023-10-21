@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.ui.screens.employee.login
+package com.sendiko.calcmenus.ui.screens.employee.login_screen
 
 sealed interface EmployeeLoginEvents {
     data class OnEmailInput(val email: String): EmployeeLoginEvents

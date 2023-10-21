@@ -1,12 +1,12 @@
-package com.sendiko.calcmenus.repository.viewmodels
+package com.sendiko.calcmenus.repository.viewmodels.employee
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.sendiko.calcmenus.remote.requests.EmployeeLoginRequest
 import com.sendiko.calcmenus.remote.responses.EmployeeLoginResponse
 import com.sendiko.calcmenus.repository.EmployeeRepository
-import com.sendiko.calcmenus.ui.screens.employee.login.EmployeeLoginEvents
-import com.sendiko.calcmenus.ui.screens.employee.login.EmployeeLoginScreenState
+import com.sendiko.calcmenus.ui.screens.employee.login_screen.EmployeeLoginEvents
+import com.sendiko.calcmenus.ui.screens.employee.login_screen.EmployeeLoginScreenState
 import com.sendiko.calcmenus.ui.utils.FailedState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -14,9 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ErrorMessageView(
-    errorMessage: String,
-    isVisible: Boolean
+fun MessageNotificationView(
+    message: String,
+    isVisible: Boolean,
+    action: (() -> Unit?)? = null
 ) {
     AnimatedVisibility(
         visible = isVisible,
@@ -28,13 +29,13 @@ fun ErrorMessageView(
                 .fillMaxWidth()
                 .padding(top = 32.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.error,
-                contentColor = MaterialTheme.colorScheme.onError
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                contentColor = MaterialTheme.colorScheme.onTertiaryContainer
             )
         ) {
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = errorMessage,
+                text = message,
             )
         }
     }

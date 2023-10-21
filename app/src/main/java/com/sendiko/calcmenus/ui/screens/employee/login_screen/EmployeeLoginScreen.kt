@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.ui.screens.employee.login
+package com.sendiko.calcmenus.ui.screens.employee.login_screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -34,6 +36,7 @@ import com.sendiko.calcmenus.R
 import com.sendiko.calcmenus.ui.components.buttons.ButtonSize
 import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
 import com.sendiko.calcmenus.ui.components.others.ErrorMessageView
+import com.sendiko.calcmenus.ui.components.others.MessageNotificationView
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.theme.NotWhite
@@ -73,14 +76,18 @@ fun EmployeeLoginScreen(
             }
         )
         Spacer(modifier = Modifier.height(32.dp))
-        ErrorMessageView(
-            errorMessage = state.failedState.failedMessage.toString(),
-            isVisible = state.failedState.isFailed
-        )
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
+                ErrorMessageView(
+                    errorMessage = state.failedState.failedMessage.toString(),
+                    isVisible = state.failedState.isFailed
+                )
+                MessageNotificationView(
+                    message = "Login success!",
+                    isVisible = state.loginSuccessful
+                )
                 Box(
                     modifier = Modifier
                         .weight(1f),
@@ -130,6 +137,7 @@ fun EmployeeLoginScreen(
                             hint = "Email",
                             isError = false,
                             textValue = state.email,
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.Email,
@@ -149,6 +157,7 @@ fun EmployeeLoginScreen(
                             isError = false,
                             textValue = state.password,
                             isPasswordVisible = state.isPasswordVisible,
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.Lock,

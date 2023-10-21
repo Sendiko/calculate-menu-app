@@ -91,19 +91,19 @@ fun WelcomeScreen(
                 ){
                     PrimaryButton(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "Login as Employee",
+                        text = "Resto owner? Click Here!",
                         buttonSize = BIG,
                         onClick = {
-                            onNavigate(Routes.EmployeeLogin.route)
+                            onNavigate(Graphs.RestoAuthGraph.graph)
                         }
                     )
                     OrDividers()
                     OutlineButton(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "Resto owner? Click Here!",
+                        text = "Login as Employee",
                         buttonSize = BIG,
                         onClick = {
-                            onNavigate(Graphs.RestoAuthGraph.graph)
+                            onNavigate(Routes.EmployeeLogin.route)
                         }
                     )
                     Spacer(modifier = Modifier.weight(1f))
