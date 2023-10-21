@@ -1,4 +1,4 @@
-package com.sendiko.calcmenus.ui.screens.restaurant.auth
+package com.sendiko.calcmenus.ui.screens.restaurant.auth.login
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
