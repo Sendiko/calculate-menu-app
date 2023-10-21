@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sendiko.calcmenus.R
@@ -40,7 +39,7 @@ import com.sendiko.calcmenus.ui.theme.myFont
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LoginScreen(
+fun RestoLoginScreen(
     onLogin: (route: String) -> Unit,
 ) {
     Scaffold(
@@ -157,14 +156,4 @@ fun LoginScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun LoginScreenPrev() {
-    LoginScreen (
-        onLogin = {
-
-        }
-    )
 }
