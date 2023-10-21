@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -19,7 +17,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.sendiko.calcmenus.repository.EmployeeRepository
+import com.sendiko.calcmenus.repository.RestoRepository
 import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeLoginViewModel
+import com.sendiko.calcmenus.repository.viewmodels.resto.RestoLoginViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoRegisterViewModel
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
@@ -32,6 +33,7 @@ import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostOrderResumeScre
 import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostPayedScreen
 import com.sendiko.calcmenus.ui.screens.employee.profile.ProfileScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
+import com.sendiko.calcmenus.ui.screens.restaurant.auth.login.RestoLoginScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.register.RestoRegisterScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.DashboardScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.employee.CreateEmployeeScreen
@@ -43,7 +45,6 @@ import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreenEvents
 import com.sendiko.calcmenus.ui.theme.CalcMenusTheme
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
-import com.sendiko.calcmenus.ui.screens.restaurant.auth.LoginScreen as RestoLoginScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreen as RestoProfileScreen
 
 class MainActivity : ComponentActivity() {
@@ -55,11 +56,15 @@ class MainActivity : ComponentActivity() {
             window,
             false
         )
+        val restoRepository = RestoRepository()
+        val employeeRepository = EmployeeRepository()
+
+        val employeeLoginViewModel = EmployeeLoginViewModel(employeeRepository)
+        val restoLoginViewModel = RestoLoginViewModel(restoRepository)
+        val restoRegisterViewModel = RestoRegisterViewModel(restoRepository)
 
         setContent {
             var outsideApp by remember { mutableStateOf(true) }
-            val employeeLoginViewModel by viewModels<EmployeeLoginViewModel>()
-            val restoRegisterViewModel by viewModels<RestoRegisterViewModel>()
             CalcMenusTheme(
                 outsideApp = outsideApp,
                 content = {
@@ -108,22 +113,15 @@ class MainActivity : ComponentActivity() {
                                             route = Routes.RestoLogin.route,
                                             content = {
                                                 RestoLoginScreen(
-                                                    onLogin = { route ->
-                                                        navController.navigate(
-                                                            route = route
-                                                        ) {
-                                                            popUpTo(
-                                                                navController.graph.id,
-                                                            ) { inclusive = true }
-                                                        }
-                                                    }
+                                                    state = restoLoginViewModel.state.collectAsState().value,
+                                                    onEvent = restoLoginViewModel::onEvent,
+                                                    navController = navController
                                                 )
                                             }
                                         )
                                         composable(
                                             route = Routes.RestoRegister.route,
                                             content = {
-                                                var registerPart by remember { mutableIntStateOf(1) }
                                                 RestoRegisterScreen(
                                                     state = restoRegisterViewModel.state.collectAsState().value,
                                                     onEvent = restoRegisterViewModel::onEvent,

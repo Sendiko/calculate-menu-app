@@ -1,11 +1,11 @@
-package com.sendiko.calcmenus.repository.viewmodels.employee
+package com.sendiko.calcmenus.repository.viewmodels.resto
 
 import androidx.lifecycle.ViewModel
-import com.sendiko.calcmenus.remote.requests.EmployeeLoginRequest
-import com.sendiko.calcmenus.remote.responses.EmployeeLoginResponse
-import com.sendiko.calcmenus.repository.EmployeeRepository
-import com.sendiko.calcmenus.ui.screens.employee.login_screen.EmployeeLoginEvents
-import com.sendiko.calcmenus.ui.screens.employee.login_screen.EmployeeLoginScreenState
+import com.sendiko.calcmenus.remote.requests.RestoLoginRequest
+import com.sendiko.calcmenus.remote.responses.RestoLoginResponse
+import com.sendiko.calcmenus.repository.RestoRepository
+import com.sendiko.calcmenus.ui.screens.restaurant.auth.login.RestoLoginScreenEvent
+import com.sendiko.calcmenus.ui.screens.restaurant.auth.login.RestoLoginScreenState
 import com.sendiko.calcmenus.ui.utils.FailedState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,20 +14,19 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class EmployeeLoginViewModel(private val repo: EmployeeRepository) : ViewModel() {
+class RestoLoginViewModel(private val repo: RestoRepository): ViewModel() {
 
-
-    private val _state = MutableStateFlow(EmployeeLoginScreenState())
+    private val _state = MutableStateFlow(RestoLoginScreenState())
     val state = _state.asStateFlow()
 
-    private fun postLogin(employeeLoginRequest: EmployeeLoginRequest) {
+    fun restoLogin(restoLoginRequest: RestoLoginRequest){
         _state.update { it.copy(isLoading = true) }
-        val request = repo.employeeLogin(employeeLoginRequest)
+        val request = repo.restoLogin(restoLoginRequest)
         request.enqueue(
-            object : Callback<EmployeeLoginResponse> {
+            object : Callback<RestoLoginResponse>{
                 override fun onResponse(
-                    call: Call<EmployeeLoginResponse>,
-                    response: Response<EmployeeLoginResponse>
+                    call: Call<RestoLoginResponse>,
+                    response: Response<RestoLoginResponse>
                 ) {
                     _state.update { it.copy(isLoading = false) }
                     when (response.code()) {
@@ -83,12 +82,12 @@ class EmployeeLoginViewModel(private val repo: EmployeeRepository) : ViewModel()
                     }
                 }
 
-                override fun onFailure(call: Call<EmployeeLoginResponse>, t: Throwable) {
+                override fun onFailure(call: Call<RestoLoginResponse>, t: Throwable) {
                     _state.update {
                         it.copy(
                             failedState = FailedState(
                                 isFailed = true,
-                                failedMessage = t.message
+                                failedMessage = "Server error."
                             )
                         )
                     }
@@ -98,39 +97,37 @@ class EmployeeLoginViewModel(private val repo: EmployeeRepository) : ViewModel()
         )
     }
 
-    private fun validateInput(email: String, password: String): Boolean{
-        return when{
-            email.isEmpty() -> false
-            password.isEmpty() -> false
-            password.length < 6 -> false
-            else -> true
-        }
-    }
-
-    fun onEvent(events: EmployeeLoginEvents) {
-        when (events) {
-            is EmployeeLoginEvents.OnEmailInput -> _state.update {
-                it.copy(email = events.email, failedState = FailedState(isFailed = false, failedMessage = ""))
+    fun onEvent(event: RestoLoginScreenEvent){
+        when(event){
+            RestoLoginScreenEvent.OnLoginClick -> {
+                val restoLoginRequest = RestoLoginRequest(
+                    email = state.value.email,
+                    password = state.value.password
+                )
+                restoLogin(restoLoginRequest)
             }
-
-            is EmployeeLoginEvents.OnPasswordInput -> _state.update {
-                it.copy(password = events.password, failedState = FailedState(isFailed = false, failedMessage = ""))
-            }
-
-            is EmployeeLoginEvents.OnClickLogin -> {
-                val employeeLoginRequest =
-                    EmployeeLoginRequest(email = state.value.email, password = state.value.password)
-                if (validateInput(state.value.email, state.value.password)){
-                    postLogin(employeeLoginRequest)
-                } else _state.update {
-                    it.copy(failedState = FailedState(isFailed = true, failedMessage = "Please check your data."))
+            is RestoLoginScreenEvent.OnEmailInput -> {
+                _state.update {
+                    it.copy(
+                        email = event.email,
+                        failedState = FailedState(isFailed = false)
+                    )
                 }
             }
-
-            is EmployeeLoginEvents.PasswordVisibilityToggle -> _state.update {
-                it.copy(
-                    isPasswordVisible = !it.isPasswordVisible
-                )
+            is RestoLoginScreenEvent.OnPasswordInput -> {
+                _state.update {
+                    it.copy(
+                        password = event.password,
+                        failedState = FailedState(isFailed = false)
+                    )
+                }
+            }
+            is RestoLoginScreenEvent.OnPasswordVisibilityToggle -> {
+                _state.update {
+                    it.copy(
+                        isPasswordVisible = event.isVisible,
+                    )
+                }
             }
         }
     }
