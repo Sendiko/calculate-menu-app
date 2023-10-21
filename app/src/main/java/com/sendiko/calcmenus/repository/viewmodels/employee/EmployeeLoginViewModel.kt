@@ -1,6 +1,5 @@
 package com.sendiko.calcmenus.repository.viewmodels.employee
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.sendiko.calcmenus.remote.requests.EmployeeLoginRequest
 import com.sendiko.calcmenus.remote.responses.EmployeeLoginResponse
@@ -31,7 +30,6 @@ class EmployeeLoginViewModel(private val repo: EmployeeRepository) : ViewModel()
                     response: Response<EmployeeLoginResponse>
                 ) {
                     _state.update { it.copy(isLoading = false) }
-                    Log.i("RESPONSE_CODE", "responseCode: ${response.code()}")
                     when (response.code()) {
                         401 -> {
                             _state.update {
