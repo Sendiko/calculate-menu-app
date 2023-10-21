@@ -36,6 +36,7 @@ import com.sendiko.calcmenus.R
 import com.sendiko.calcmenus.ui.components.buttons.ButtonSize
 import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
 import com.sendiko.calcmenus.ui.components.others.ErrorMessageView
+import com.sendiko.calcmenus.ui.components.others.MessageNotificationView
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.theme.NotWhite
@@ -82,6 +83,10 @@ fun EmployeeLoginScreen(
                 ErrorMessageView(
                     errorMessage = state.failedState.failedMessage.toString(),
                     isVisible = state.failedState.isFailed
+                )
+                MessageNotificationView(
+                    message = "Login success!",
+                    isVisible = state.loginSuccessful
                 )
                 Box(
                     modifier = Modifier
