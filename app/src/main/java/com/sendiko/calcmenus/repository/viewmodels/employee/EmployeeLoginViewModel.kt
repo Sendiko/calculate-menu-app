@@ -15,16 +15,15 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class EmployeeLoginViewModel : ViewModel() {
+class EmployeeLoginViewModel(private val repo: EmployeeRepository) : ViewModel() {
 
-    private val repository = EmployeeRepository()
 
     private val _state = MutableStateFlow(EmployeeLoginScreenState())
     val state = _state.asStateFlow()
 
     private fun postLogin(employeeLoginRequest: EmployeeLoginRequest) {
         _state.update { it.copy(isLoading = true) }
-        val request = repository.employeeLogin(employeeLoginRequest)
+        val request = repo.employeeLogin(employeeLoginRequest)
         request.enqueue(
             object : Callback<EmployeeLoginResponse> {
                 override fun onResponse(

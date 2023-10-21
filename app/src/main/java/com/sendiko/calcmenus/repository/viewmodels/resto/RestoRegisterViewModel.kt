@@ -15,9 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RestoRegisterViewModel : ViewModel() {
-
-    val repository = RestoRepository()
+class RestoRegisterViewModel(private val repo: RestoRepository) : ViewModel() {
 
     private val _state = MutableStateFlow(RestoRegisterState())
     val state = _state.asStateFlow()
@@ -26,7 +24,7 @@ class RestoRegisterViewModel : ViewModel() {
         registerRequest: RestoRegisterRequest
     ) {
         _state.update { it.copy(isLoading = true) }
-        val request = repository.restoRegister(registerRequest)
+        val request = repo.restoRegister(registerRequest)
         request.enqueue(
             object : Callback<RestoRegisterResponse> {
                 override fun onResponse(
