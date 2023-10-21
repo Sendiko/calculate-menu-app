@@ -75,14 +75,14 @@ fun EmployeeLoginScreen(
             }
         )
         Spacer(modifier = Modifier.height(32.dp))
-        ErrorMessageView(
-            errorMessage = state.failedState.failedMessage.toString(),
-            isVisible = state.failedState.isFailed
-        )
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
+                ErrorMessageView(
+                    errorMessage = state.failedState.failedMessage.toString(),
+                    isVisible = state.failedState.isFailed
+                )
                 Box(
                     modifier = Modifier
                         .weight(1f),

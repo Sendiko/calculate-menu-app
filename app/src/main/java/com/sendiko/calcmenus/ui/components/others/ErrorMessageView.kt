@@ -26,7 +26,7 @@ fun ErrorMessageView(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 32.dp, start = 16.dp, end = 16.dp),
+                .padding(top = 32.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.error,
                 contentColor = MaterialTheme.colorScheme.onError
