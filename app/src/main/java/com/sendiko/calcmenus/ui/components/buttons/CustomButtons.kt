@@ -134,6 +134,7 @@ fun OutlineButton(
     buttonSize: ButtonSize = REGULAR,
     icon: ImageVector? = null,
     iconPosition: IconInButtonPosition = BeforeText,
+    enabled: Boolean = true,
     text: String,
     onClick: () -> Unit,
 ) {
@@ -141,6 +142,7 @@ fun OutlineButton(
         modifier = modifier,
         onClick = onClick,
         border = BorderStroke(color = PrimaryRed, width = 1.dp),
+        enabled = enabled,
         colors = ButtonDefaults.outlinedButtonColors(
             containerColor = NotWhite,
             contentColor = PrimaryRed
