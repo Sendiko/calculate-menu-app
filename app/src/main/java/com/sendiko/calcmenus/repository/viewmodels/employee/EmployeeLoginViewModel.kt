@@ -1,22 +1,26 @@
 package com.sendiko.calcmenus.repository.viewmodels.employee
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sendiko.calcmenus.remote.requests.EmployeeLoginRequest
 import com.sendiko.calcmenus.remote.responses.EmployeeLoginResponse
 import com.sendiko.calcmenus.repository.EmployeeRepository
+import com.sendiko.calcmenus.repository.preferences.AppPreferences
 import com.sendiko.calcmenus.ui.screens.employee.login_screen.EmployeeLoginEvents
 import com.sendiko.calcmenus.ui.screens.employee.login_screen.EmployeeLoginScreenState
 import com.sendiko.calcmenus.ui.utils.FailedState
+import com.sendiko.calcmenus.ui.utils.LoginState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class EmployeeLoginViewModel(private val repo: EmployeeRepository) : ViewModel() {
+class EmployeeLoginViewModel(private val appPreferences: AppPreferences) : ViewModel() {
 
-
+    private val repo = EmployeeRepository()
     private val _state = MutableStateFlow(EmployeeLoginScreenState())
     val state = _state.asStateFlow()
 
@@ -65,6 +69,14 @@ class EmployeeLoginViewModel(private val repo: EmployeeRepository) : ViewModel()
                         }
 
                         200 -> {
+                            viewModelScope.launch {
+                                response.body()?.token?.let {
+                                    appPreferences.saveLoginState(
+                                        loginState = LoginState.EmployeeAccount.account,
+                                        token = it
+                                    )
+                                }
+                            }
                             _state.update {
                                 it.copy(
                                     loginSuccessful = true

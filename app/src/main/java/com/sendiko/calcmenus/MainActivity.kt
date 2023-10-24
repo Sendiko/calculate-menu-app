@@ -13,12 +13,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.sendiko.calcmenus.repository.EmployeeRepository
 import com.sendiko.calcmenus.repository.RestoRepository
+import com.sendiko.calcmenus.repository.preferences.AppPreferences
+import com.sendiko.calcmenus.repository.viewmodels.SplashScreenViewModel
+import com.sendiko.calcmenus.repository.viewmodels.ViewModelFactory
 import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeLoginViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoLoginViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoRegisterViewModel
@@ -40,14 +45,40 @@ import com.sendiko.calcmenus.ui.screens.restaurant.main.employee.CreateEmployeeS
 import com.sendiko.calcmenus.ui.screens.restaurant.main.employee.ViewEmployeeScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.menu.CreateMenuScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.main.menu.EditMenuScreen
+import com.sendiko.calcmenus.ui.screens.welcome.SplashScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
 import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreenEvents
 import com.sendiko.calcmenus.ui.theme.CalcMenusTheme
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
+import com.sendiko.calcmenus.ui.utils.dataStore
 import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreen as RestoProfileScreen
 
 class MainActivity : ComponentActivity() {
+
+    private val appPreferences by lazy {
+        AppPreferences.getInstance(requireNotNull(applicationContext).dataStore)
+    }
+
+    private fun <T : ViewModel> obtainViewModel(
+        appPreferences: AppPreferences,
+        modelClass: Class<T>
+    ): T {
+        val factory = ViewModelFactory.getInstance(appPreferences)
+        return ViewModelProvider(this, factory)[modelClass]
+    }
+
+    private val splashScreenViewModel by lazy {
+        obtainViewModel(appPreferences, SplashScreenViewModel::class.java)
+    }
+
+    private val restoLoginViewModel by lazy {
+        obtainViewModel(appPreferences, RestoLoginViewModel::class.java)
+    }
+
+    private val employeeLoginViewModel by lazy {
+        obtainViewModel(appPreferences, EmployeeLoginViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +90,6 @@ class MainActivity : ComponentActivity() {
         val restoRepository = RestoRepository()
         val employeeRepository = EmployeeRepository()
 
-        val employeeLoginViewModel = EmployeeLoginViewModel(employeeRepository)
-        val restoLoginViewModel = RestoLoginViewModel(restoRepository)
         val restoRegisterViewModel = RestoRegisterViewModel(restoRepository)
 
         setContent {
@@ -82,7 +111,7 @@ class MainActivity : ComponentActivity() {
                         }
                         NavHost(
                             navController = navController,
-                            startDestination = Routes.WelcomeScreenRoute.route,
+                            startDestination = Routes.SplashScreenRoute.route,
                             builder = {
                                 composable(
                                     route = Routes.WelcomeScreenRoute.route,
@@ -92,6 +121,15 @@ class MainActivity : ComponentActivity() {
                                                 navController.navigate(route = route)
                                                 WelcomeScreenEvents.OnNavigate(route)
                                             }
+                                        )
+                                    }
+                                )
+                                composable(
+                                    route = Routes.SplashScreenRoute.route,
+                                    content = {
+                                        SplashScreen(
+                                            state = splashScreenViewModel.state.collectAsState().value,
+                                            navController = navController
                                         )
                                     }
                                 )
@@ -245,7 +283,7 @@ class MainActivity : ComponentActivity() {
                                             route = Routes.EmployeeProfileScreen.route,
                                             content = {
                                                 ProfileScreen(onNavigateBack = { route ->
-                                                    navController.navigate(route )
+                                                    navController.navigate(route)
                                                 })
                                             }
                                         )

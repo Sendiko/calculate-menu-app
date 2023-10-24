@@ -8,6 +8,7 @@ sealed class Graphs(val graph: String){
 }
 
 sealed class Routes(val route: String){
+    object SplashScreenRoute: Routes("splash_screen")
     object WelcomeScreenRoute: Routes("welcome_screen")
     object RestoWelcome: Routes("resto_welcome")
     object RestoLogin: Routes("resto_login")

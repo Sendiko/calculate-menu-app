@@ -1,25 +1,30 @@
 package com.sendiko.calcmenus.repository.viewmodels.resto
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sendiko.calcmenus.remote.requests.RestoLoginRequest
 import com.sendiko.calcmenus.remote.responses.RestoLoginResponse
 import com.sendiko.calcmenus.repository.RestoRepository
+import com.sendiko.calcmenus.repository.preferences.AppPreferences
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.login.RestoLoginScreenEvent
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.login.RestoLoginScreenState
 import com.sendiko.calcmenus.ui.utils.FailedState
+import com.sendiko.calcmenus.ui.utils.LoginState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RestoLoginViewModel(private val repo: RestoRepository): ViewModel() {
+class RestoLoginViewModel(private val appPreferences: AppPreferences): ViewModel() {
 
+    private val repo = RestoRepository()
     private val _state = MutableStateFlow(RestoLoginScreenState())
     val state = _state.asStateFlow()
 
-    fun restoLogin(restoLoginRequest: RestoLoginRequest){
+    private fun restoLogin(restoLoginRequest: RestoLoginRequest){
         _state.update { it.copy(isLoading = true) }
         val request = repo.restoLogin(restoLoginRequest)
         request.enqueue(
@@ -64,6 +69,14 @@ class RestoLoginViewModel(private val repo: RestoRepository): ViewModel() {
                         }
 
                         200 -> {
+                            viewModelScope.launch {
+                                response.body()?.token?.let {
+                                    appPreferences.saveLoginState(
+                                        loginState = LoginState.RestaurantAccount.account,
+                                        token = it
+                                    )
+                                }
+                            }
                             _state.update {
                                 it.copy(
                                     loginSuccessful = true
@@ -88,7 +101,8 @@ class RestoLoginViewModel(private val repo: RestoRepository): ViewModel() {
                             failedState = FailedState(
                                 isFailed = true,
                                 failedMessage = "Server error."
-                            )
+                            ),
+                            isLoading = false
                         )
                     }
                 }
