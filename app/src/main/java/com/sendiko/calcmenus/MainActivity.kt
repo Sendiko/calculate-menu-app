@@ -76,6 +76,10 @@ class MainActivity : ComponentActivity() {
         obtainViewModel(appPreferences, RestoLoginViewModel::class.java)
     }
 
+    private val employeeLoginViewModel by lazy {
+        obtainViewModel(appPreferences, EmployeeLoginViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -86,7 +90,6 @@ class MainActivity : ComponentActivity() {
         val restoRepository = RestoRepository()
         val employeeRepository = EmployeeRepository()
 
-        val employeeLoginViewModel = EmployeeLoginViewModel(employeeRepository)
         val restoRegisterViewModel = RestoRegisterViewModel(restoRepository)
 
         setContent {
