@@ -3,6 +3,7 @@ package com.sendiko.calcmenus.repository.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.sendiko.calcmenus.repository.preferences.AppPreferences
+import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeLoginViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoLoginViewModel
 
 class ViewModelFactory private constructor(private val appPreferences: AppPreferences) :
@@ -10,8 +11,12 @@ class ViewModelFactory private constructor(private val appPreferences: AppPrefer
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-            modelClass.isAssignableFrom(SplashScreenViewModel::class.java) -> SplashScreenViewModel(appPreferences) as T
-            modelClass.isAssignableFrom(RestoLoginViewModel::class.java) -> RestoLoginViewModel(appPreferences) as T
+            modelClass.isAssignableFrom(SplashScreenViewModel::class.java) ->
+                SplashScreenViewModel(appPreferences) as T
+            modelClass.isAssignableFrom(RestoLoginViewModel::class.java) ->
+                RestoLoginViewModel(appPreferences) as T
+            modelClass.isAssignableFrom(EmployeeLoginViewModel::class.java) ->
+                EmployeeLoginViewModel(appPreferences) as T
             else -> throw IllegalArgumentException("Unknown modelClass: " + modelClass.name)
         }
     }
