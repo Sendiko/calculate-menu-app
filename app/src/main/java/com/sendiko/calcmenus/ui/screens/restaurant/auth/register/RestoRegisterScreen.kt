@@ -46,14 +46,13 @@ import com.sendiko.calcmenus.ui.components.buttons.OutlineButton
 import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
 import com.sendiko.calcmenus.ui.components.others.ErrorMessageView
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
-import com.sendiko.calcmenus.ui.screens.Graphs
+import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.register.RestoRegisterEvent.*
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.theme.myFont
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RestoRegisterScreen(
     state: RestoRegisterState,
@@ -65,7 +64,7 @@ fun RestoRegisterScreen(
         block = {
             when (state.loginSuccessful) {
                 true -> navController.navigate(
-                    route = Graphs.RestoMainGraph.graph
+                    route = Routes.RestoLogin.route
                 ) {
                     popUpTo(
                         navController.graph.id,
