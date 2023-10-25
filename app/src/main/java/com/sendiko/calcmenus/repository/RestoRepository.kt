@@ -11,4 +11,6 @@ class RestoRepository {
     fun restoRegister(restoRegisterRequest: RestoRegisterRequest) = client.restoRegister(restoRegisterRequest)
 
     fun restoLogin(restoLoginRequest: RestoLoginRequest) = client.restoLogin(restoLoginRequest)
+
+    fun restoLogout(token: String) = client.restoLogout(token)
 }
