@@ -89,7 +89,8 @@ class RestoLoginViewModel(private val appPreferences: AppPreferences): ViewModel
                                 failedState = FailedState(
                                     isFailed = true,
                                     failedMessage = "Server error."
-                                )
+                                ),
+                                isLoading = false
                             )
                         }
                     }
