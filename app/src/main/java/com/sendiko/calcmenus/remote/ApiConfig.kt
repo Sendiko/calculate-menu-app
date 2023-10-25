@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiConfig {
 
-    private const val BASE_URL = "http://192.168.1.24:8000/api/"
+    private const val BASE_URL = "http://192.168.1.20:8000/api/"
 
     private fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
