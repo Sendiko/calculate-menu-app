@@ -5,6 +5,7 @@ sealed class Graphs(val graph: String){
     object EmpAuthGraph: Graphs("emp_auth_graph")
     object RestoMainGraph: Graphs("resto_main_graph")
     object RestoAuthGraph: Graphs("resto_auth_graph")
+    object WholeGraphRoute: Graphs("whole_graph")
 }
 
 sealed class Routes(val route: String){
