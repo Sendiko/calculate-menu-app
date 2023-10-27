@@ -101,7 +101,8 @@ class EmployeeLoginViewModel(private val appPreferences: AppPreferences) : ViewM
                             failedState = FailedState(
                                 isFailed = true,
                                 failedMessage = t.message
-                            )
+                            ),
+                            isLoading = false
                         )
                     }
                 }
