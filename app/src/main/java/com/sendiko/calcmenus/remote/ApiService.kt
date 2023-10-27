@@ -4,10 +4,13 @@ import com.sendiko.calcmenus.remote.requests.EmployeeLoginRequest
 import com.sendiko.calcmenus.remote.requests.RestoLoginRequest
 import com.sendiko.calcmenus.remote.requests.RestoRegisterRequest
 import com.sendiko.calcmenus.remote.responses.EmployeeLoginResponse
+import com.sendiko.calcmenus.remote.responses.EmployeeLogoutResponse
 import com.sendiko.calcmenus.remote.responses.RestoLoginResponse
+import com.sendiko.calcmenus.remote.responses.RestoLogoutResponse
 import com.sendiko.calcmenus.remote.responses.RestoRegisterResponse
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ApiService {
@@ -26,5 +29,15 @@ interface ApiService {
     fun restoLogin(
         @Body  restoLoginRequest: RestoLoginRequest
     ): Call<RestoLoginResponse>
+
+    @POST("resto/logout")
+    fun restoLogout(
+        @Header("Authorization") token: String
+    ): Call<RestoLogoutResponse>
+
+    @POST("emp/logout")
+    fun employeeLogout(
+        @Header("Authorization") token: String
+    ): Call<EmployeeLogoutResponse>
 
 }

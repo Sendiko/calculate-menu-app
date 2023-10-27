@@ -1,9 +1,5 @@
 package com.sendiko.calcmenus.ui.screens.restaurant.profile
 
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +16,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.SignalWifiConnectedNoInternet4
 import androidx.compose.material.icons.filled.Store
@@ -32,10 +29,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -45,11 +39,26 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.SubcomposeAsyncImage
 import com.sendiko.calcmenus.ui.components.appbars.CustomAppBar
+import com.sendiko.calcmenus.ui.components.buttons.IconInButtonPosition
+import com.sendiko.calcmenus.ui.components.buttons.OutlineButton
 import com.sendiko.calcmenus.ui.components.buttons.SmallOutlineButton
+import com.sendiko.calcmenus.ui.components.others.ErrorMessageView
+import com.sendiko.calcmenus.ui.components.others.MessageNotificationView
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
+import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
+import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreenEvent.OnAddressEdit
+import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreenEvent.OnEditButtonClick
+import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreenEvent.OnEmailEdit
+import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreenEvent.OnLogoutClick
+import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreenEvent.OnNameEdit
+import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreenEvent.OnPasswordEdit
+import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreenEvent.OnPasswordVisibilityClick
+import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreenEvent.OnPhoneEdit
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.theme.Yellowyellow
@@ -57,21 +66,25 @@ import com.sendiko.calcmenus.ui.theme.myFont
 
 @Composable
 fun ProfileScreen(
+    state: ProfileScreenState,
+    onEvent: (ProfileScreenEvent) -> Unit,
+    navController: NavController = rememberNavController(),
     onNavigateBack: (route: String) -> Unit
 ) {
-    var imageUri by remember {
-        mutableStateOf<Uri?>(null)
-    }
-    var editable by remember {
-        mutableStateOf(false)
-    }
-    val imagePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri ->
-            imageUri = uri
+    LaunchedEffect(
+        key1 = state.logoutSuccessful,
+        block = {
+            if (state.logoutSuccessful) {
+                navController.navigate(
+                    route = Graphs.WholeGraphRoute.graph
+                ) {
+                    popUpTo(
+                        navController.graph.id,
+                    ) { inclusive = true }
+                }
+            }
         }
     )
-    imageUri = Uri.parse("http://192.168.1.8:8000/storage/images/menu/MbaC4FwN5iRwoSAVgmk3ORcVcsiumkXw93I9Fd9s.jpg")
     Scaffold(
         containerColor = PrimaryRed,
         topBar = {
@@ -94,7 +107,7 @@ fun ProfileScreen(
                         text = "Edit Profile",
                         background = Yellowyellow,
                         onClick = {
-                            editable = !editable
+                            onEvent(OnEditButtonClick(!state.editable))
                         }
                     )
                 }
@@ -102,7 +115,7 @@ fun ProfileScreen(
         },
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
-            if(editable){
+            if (state.editable) {
                 FloatingActionButton(
                     containerColor = PrimaryRed,
                     contentColor = NotWhite,
@@ -122,11 +135,19 @@ fun ProfileScreen(
                 )
             }
         }
-    ) {
+    ) { paddingValues ->
+        ErrorMessageView(
+            errorMessage = state.failedState.failedMessage.toString(),
+            isVisible = state.failedState.isFailed
+        )
+        MessageNotificationView(
+            message = "Logout success.",
+            isVisible = state.logoutSuccessful
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
                 .clip(
                     RoundedCornerShape(
                         topStartPercent = 10, topEndPercent = 10
@@ -141,7 +162,7 @@ fun ProfileScreen(
                             modifier = Modifier.padding(8.dp)
                         ) {
                             Box(modifier = Modifier.weight(1f))
-                            if (imageUri == null) {
+                            if (state.imageUri == null) {
                                 IconButton(
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(10))
@@ -149,9 +170,9 @@ fun ProfileScreen(
                                         .aspectRatio(1f)
                                         .weight(2f),
                                     onClick = {
-                                        imagePicker.launch(
-                                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                                        )
+//                                        imagePicker.launch(
+//                                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+//                                        )
                                     },
                                     content = {
                                         Icon(
@@ -170,12 +191,12 @@ fun ProfileScreen(
                                         .background(Color.Gray)
                                         .aspectRatio(1f)
                                         .weight(2f),
-                                ){
+                                ) {
                                     SubcomposeAsyncImage(
                                         modifier = Modifier
                                             .aspectRatio(1f)
                                             .clip(RoundedCornerShape(5)),
-                                        model = imageUri,
+                                        model = state.imageUri,
                                         contentDescription = null,
                                         loading = {
                                             CircularProgressIndicator(
@@ -193,14 +214,14 @@ fun ProfileScreen(
                                         },
                                         contentScale = ContentScale.Crop
                                     )
-                                    if(editable){
+                                    if (state.editable) {
                                         IconButton(
                                             modifier = Modifier
                                                 .aspectRatio(1f),
                                             onClick = {
-                                                imagePicker.launch(
-                                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                                                )
+//                                                imagePicker.launch(
+//                                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+//                                                )
                                             },
                                             content = {
                                                 Icon(
@@ -226,8 +247,8 @@ fun ProfileScreen(
                                 .padding(8.dp),
                             hint = "Nama Resto",
                             isError = false,
-                            textValue = "",
-                            enabled = editable,
+                            textValue = state.restoName,
+                            enabled = state.editable,
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.Store,
@@ -237,7 +258,9 @@ fun ProfileScreen(
                                     )
                                 )
                             },
-                            onNewValue = {}
+                            onNewValue = {
+                                onEvent(OnNameEdit(it))
+                            }
                         )
                     }
                     item {
@@ -247,8 +270,8 @@ fun ProfileScreen(
                                 .padding(8.dp),
                             hint = "Address",
                             isError = false,
-                            textValue = "",
-                            enabled = editable,
+                            textValue = state.restoAddress,
+                            enabled = state.editable,
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.LocationOn,
@@ -258,7 +281,9 @@ fun ProfileScreen(
                                     )
                                 )
                             },
-                            onNewValue = {}
+                            onNewValue = {
+                                onEvent(OnAddressEdit(it))
+                            }
                         )
                     }
                     item {
@@ -268,8 +293,8 @@ fun ProfileScreen(
                                 .padding(8.dp),
                             hint = "82241626760",
                             isError = false,
-                            textValue = "",
-                            enabled = editable,
+                            textValue = state.restoPhone,
+                            enabled = state.editable,
                             prefix = {
                                 Text(
                                     "+62",
@@ -288,20 +313,21 @@ fun ProfileScreen(
                                     )
                                 )
                             },
-                            trailingIcon = {
-
-                            },
-                            onNewValue = {}
+                            trailingIcon = {},
+                            onNewValue = {
+                                onEvent(OnPhoneEdit(it))
+                            }
                         )
                     }
                     item {
                         OutlinedTextField(
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
                                 .padding(8.dp),
                             hint = "Email",
                             isError = false,
                             textValue = "",
-                            enabled = editable,
+                            enabled = state.editable,
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.Email,
@@ -312,19 +338,20 @@ fun ProfileScreen(
                                 )
                             },
                             onNewValue = {
-
+                                onEvent(OnEmailEdit(it))
                             }
                         )
                     }
                     item {
                         OutlinedTextField(
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
                                 .padding(8.dp),
                             hint = "*******",
                             isError = false,
                             textValue = "",
                             isPasswordVisible = true,
-                            enabled = editable,
+                            enabled = state.editable,
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.Lock,
@@ -336,7 +363,7 @@ fun ProfileScreen(
                             },
                             trailingIcon = {
                                 IconButton(
-                                    onClick = { /*TODO*/ },
+                                    onClick = { onEvent(OnPasswordVisibilityClick(!state.isPasswordVisible)) },
                                     modifier = Modifier.padding(
                                         end = 8.dp
                                     )
@@ -348,7 +375,21 @@ fun ProfileScreen(
                                 }
                             },
                             onNewValue = {
-
+                                onEvent(OnPasswordEdit(it))
+                            }
+                        )
+                    }
+                    item {
+                        OutlineButton(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            text = if (!state.isLoading) "Logout" else "Logging out...",
+                            icon = Icons.Default.Logout,
+                            iconPosition = IconInButtonPosition.AfterText,
+                            enabled = !state.isLoading,
+                            onClick = {
+                                onEvent(OnLogoutClick)
                             }
                         )
                     }

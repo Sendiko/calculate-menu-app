@@ -29,7 +29,8 @@ fun SplashScreen(
     LaunchedEffect(
         key1 = state.isLoggedIn,
         block = {
-            delay(0.25  .seconds)
+            // to avoid race condition
+            delay(1.seconds)
             when(state.isLoggedIn){
                 LoginState.EmployeeAccount.account -> {
                     navController.navigate(

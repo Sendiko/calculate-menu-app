@@ -17,15 +17,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.sendiko.calcmenus.repository.EmployeeRepository
 import com.sendiko.calcmenus.repository.RestoRepository
 import com.sendiko.calcmenus.repository.preferences.AppPreferences
 import com.sendiko.calcmenus.repository.viewmodels.SplashScreenViewModel
 import com.sendiko.calcmenus.repository.viewmodels.ViewModelFactory
 import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeLoginViewModel
+import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeProfileViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoLoginViewModel
+import com.sendiko.calcmenus.repository.viewmodels.resto.RestoProfileViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoRegisterViewModel
 import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
@@ -36,7 +38,6 @@ import com.sendiko.calcmenus.ui.screens.employee.order_resume.OrderResumeScreen
 import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostDeliverScreen
 import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostOrderResumeScreen
 import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostPayedScreen
-import com.sendiko.calcmenus.ui.screens.employee.profile.ProfileScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.login.RestoLoginScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.auth.register.RestoRegisterScreen
@@ -52,6 +53,7 @@ import com.sendiko.calcmenus.ui.theme.CalcMenusTheme
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.utils.dataStore
+import com.sendiko.calcmenus.ui.screens.employee.profile.ProfileScreen as EmployeeProfileScreen
 import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreen as RestoProfileScreen
 
 class MainActivity : ComponentActivity() {
@@ -78,6 +80,14 @@ class MainActivity : ComponentActivity() {
 
     private val employeeLoginViewModel by lazy {
         obtainViewModel(appPreferences, EmployeeLoginViewModel::class.java)
+    }
+
+    private val restoProfileLoginViewModel by lazy {
+        obtainViewModel(appPreferences, RestoProfileViewModel::class.java)
+    }
+
+    private val employeeProfileViewModel by lazy {
+        obtainViewModel(appPreferences, EmployeeProfileViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,239 +121,253 @@ class MainActivity : ComponentActivity() {
                         }
                         NavHost(
                             navController = navController,
-                            startDestination = Routes.SplashScreenRoute.route,
+                            startDestination = Graphs.WholeGraphRoute.graph,
                             builder = {
-                                composable(
-                                    route = Routes.WelcomeScreenRoute.route,
-                                    content = {
-                                        WelcomeScreen(
-                                            onNavigate = { route ->
-                                                navController.navigate(route = route)
-                                                WelcomeScreenEvents.OnNavigate(route)
-                                            }
-                                        )
-                                    }
-                                )
-                                composable(
-                                    route = Routes.SplashScreenRoute.route,
-                                    content = {
-                                        SplashScreen(
-                                            state = splashScreenViewModel.state.collectAsState().value,
-                                            navController = navController
-                                        )
-                                    }
-                                )
                                 navigation(
-                                    route = Graphs.RestoAuthGraph.graph,
-                                    startDestination = Routes.RestoWelcome.route,
+                                    route = Graphs.WholeGraphRoute.graph,
+                                    startDestination = Routes.SplashScreenRoute.route,
                                     builder = {
                                         composable(
-                                            route = Routes.RestoWelcome.route,
+                                            route = Routes.WelcomeScreenRoute.route,
                                             content = {
-                                                WelcomeResto(
+                                                WelcomeScreen(
                                                     onNavigate = { route ->
                                                         navController.navigate(route = route)
+                                                        WelcomeScreenEvents.OnNavigate(route)
                                                     }
                                                 )
                                             }
                                         )
                                         composable(
-                                            route = Routes.RestoLogin.route,
+                                            route = Routes.SplashScreenRoute.route,
                                             content = {
-                                                RestoLoginScreen(
-                                                    state = restoLoginViewModel.state.collectAsState().value,
-                                                    onEvent = restoLoginViewModel::onEvent,
+                                                SplashScreen(
+                                                    state = splashScreenViewModel.state.collectAsState().value,
                                                     navController = navController
                                                 )
                                             }
                                         )
-                                        composable(
-                                            route = Routes.RestoRegister.route,
-                                            content = {
-                                                RestoRegisterScreen(
-                                                    state = restoRegisterViewModel.state.collectAsState().value,
-                                                    onEvent = restoRegisterViewModel::onEvent,
-                                                    navController = navController
+                                        navigation(
+                                            route = Graphs.RestoAuthGraph.graph,
+                                            startDestination = Routes.RestoWelcome.route,
+                                            builder = {
+                                                composable(
+                                                    route = Routes.RestoWelcome.route,
+                                                    content = {
+                                                        WelcomeResto(
+                                                            onNavigate = { route ->
+                                                                navController.navigate(route = route)
+                                                            }
+                                                        )
+                                                    }
                                                 )
-                                            }
-                                        )
-                                    }
-                                )
-                                navigation(
-                                    route = Graphs.EmpAuthGraph.graph,
-                                    startDestination = Routes.EmployeeLogin.route,
-                                    builder = {
-                                        composable(
-                                            route = Routes.EmployeeLogin.route,
-                                            content = {
-                                                EmployeeLoginScreen(
-                                                    state = employeeLoginViewModel.state.collectAsState().value,
-                                                    onEvents = employeeLoginViewModel::onEvent,
-                                                    navController = navController
+                                                composable(
+                                                    route = Routes.RestoLogin.route,
+                                                    content = {
+                                                        RestoLoginScreen(
+                                                            state = restoLoginViewModel.state.collectAsState().value,
+                                                            onEvent = restoLoginViewModel::onEvent,
+                                                            navController = navController
+                                                        )
+                                                    }
                                                 )
-                                            }
-                                        )
-                                    }
-                                )
-                                navigation(
-                                    route = Graphs.RestoMainGraph.graph,
-                                    startDestination = Routes.RestoDashboardScreen.route,
-                                    builder = {
-                                        composable(
-                                            route = Routes.RestoProfileScreen.route,
-                                            content = {
-                                                RestoProfileScreen(
-                                                    onNavigateBack = { route ->
-                                                        navController.navigate(route)
+                                                composable(
+                                                    route = Routes.RestoRegister.route,
+                                                    content = {
+                                                        RestoRegisterScreen(
+                                                            state = restoRegisterViewModel.state.collectAsState().value,
+                                                            onEvent = restoRegisterViewModel::onEvent,
+                                                            navController = navController
+                                                        )
                                                     }
                                                 )
                                             }
                                         )
-                                        composable(
-                                            route = Routes.RestoDashboardScreen.route,
-                                            content = {
-                                                DashboardScreen(
-                                                    onCreateMenu = { route ->
-                                                        navController.navigate(route)
-                                                    },
-                                                    onEditMenu = { route ->
-                                                        navController.navigate(route)
-                                                    },
-                                                    onEmployeeDetails = { route ->
-                                                        navController.navigate(route)
-                                                    },
-                                                    onCreateEmployee = { route ->
-                                                        navController.navigate(route)
-                                                    },
-                                                    onNavigate = { route ->
-                                                        navController.navigate(route)
+                                        navigation(
+                                            route = Graphs.EmpAuthGraph.graph,
+                                            startDestination = Routes.EmployeeLogin.route,
+                                            builder = {
+                                                composable(
+                                                    route = Routes.EmployeeLogin.route,
+                                                    content = {
+                                                        EmployeeLoginScreen(
+                                                            state = employeeLoginViewModel.state.collectAsState().value,
+                                                            onEvents = employeeLoginViewModel::onEvent,
+                                                            navController = navController
+                                                        )
                                                     }
                                                 )
                                             }
                                         )
-                                        composable(
-                                            route = Routes.RestoCreateMenuScreen.route,
-                                            content = {
-                                                CreateMenuScreen(
-                                                    onNavigateBack = { route ->
-                                                        navController.navigate(route)
-                                                    },
-                                                    onMenuCreated = {
-                                                        Toast.makeText(
-                                                            applicationContext,
-                                                            "IconButtonClicked",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
+                                        navigation(
+                                            route = Graphs.RestoMainGraph.graph,
+                                            startDestination = Routes.RestoDashboardScreen.route,
+                                            builder = {
+                                                composable(
+                                                    route = Routes.RestoProfileScreen.route,
+                                                    content = {
+                                                        RestoProfileScreen(
+                                                            state = restoProfileLoginViewModel.state.collectAsState().value,
+                                                            onEvent = restoProfileLoginViewModel::onEvent,
+                                                            navController = navController,
+                                                            onNavigateBack = { route ->
+                                                                navController.navigate(route)
+                                                            }
+                                                        )
+                                                    }
+                                                )
+                                                composable(
+                                                    route = Routes.RestoDashboardScreen.route,
+                                                    content = {
+                                                        DashboardScreen(
+                                                            onCreateMenu = { route ->
+                                                                navController.navigate(route)
+                                                            },
+                                                            onEditMenu = { route ->
+                                                                navController.navigate(route)
+                                                            },
+                                                            onEmployeeDetails = { route ->
+                                                                navController.navigate(route)
+                                                            },
+                                                            onCreateEmployee = { route ->
+                                                                navController.navigate(route)
+                                                            },
+                                                            onNavigate = { route ->
+                                                                navController.navigate(route)
+                                                            }
+                                                        )
+                                                    }
+                                                )
+                                                composable(
+                                                    route = Routes.RestoCreateMenuScreen.route,
+                                                    content = {
+                                                        CreateMenuScreen(
+                                                            onNavigateBack = { route ->
+                                                                navController.navigate(route)
+                                                            },
+                                                            onMenuCreated = {
+                                                                Toast.makeText(
+                                                                    applicationContext,
+                                                                    "IconButtonClicked",
+                                                                    Toast.LENGTH_SHORT
+                                                                ).show()
 
+                                                            }
+                                                        )
                                                     }
                                                 )
-                                            }
-                                        )
-                                        composable(
-                                            route = Routes.RestoEditMenuScreen.route,
-                                            content = {
-                                                EditMenuScreen(
-                                                    onNavigateBack = { route ->
-                                                        navController.navigate(route)
-                                                    },
-                                                    onMenuUpdated = {}
-                                                )
-                                            }
-                                        )
-                                        composable(
-                                            route = Routes.RestoViewEmployeeScreen.route,
-                                            content = {
-                                                ViewEmployeeScreen(
-                                                    onNavigateBack = { route ->
-                                                        navController.navigate(route)
+                                                composable(
+                                                    route = Routes.RestoEditMenuScreen.route,
+                                                    content = {
+                                                        EditMenuScreen(
+                                                            onNavigateBack = { route ->
+                                                                navController.navigate(route)
+                                                            },
+                                                            onMenuUpdated = {}
+                                                        )
                                                     }
                                                 )
-                                            }
-                                        )
-                                        composable(
-                                            route = Routes.RestoCreateEmployeeScreen.route,
-                                            content = {
-                                                CreateEmployeeScreen(
-                                                    onNavigateBack = { route ->
-                                                        navController.navigate(route)
-                                                    },
-                                                    onEmployeeCreated = {
+                                                composable(
+                                                    route = Routes.RestoViewEmployeeScreen.route,
+                                                    content = {
+                                                        ViewEmployeeScreen(
+                                                            onNavigateBack = { route ->
+                                                                navController.navigate(route)
+                                                            }
+                                                        )
+                                                    }
+                                                )
+                                                composable(
+                                                    route = Routes.RestoCreateEmployeeScreen.route,
+                                                    content = {
+                                                        CreateEmployeeScreen(
+                                                            onNavigateBack = { route ->
+                                                                navController.navigate(route)
+                                                            },
+                                                            onEmployeeCreated = {
 
+                                                            }
+                                                        )
                                                     }
                                                 )
                                             }
                                         )
-                                    }
-                                )
-                                navigation(
-                                    route = Graphs.EmpMainGraph.graph,
-                                    startDestination = Routes.EmployeeMenuScreen.route,
-                                    builder = {
-                                        composable(
-                                            route = Routes.EmployeeProfileScreen.route,
-                                            content = {
-                                                ProfileScreen(onNavigateBack = { route ->
-                                                    navController.navigate(route)
-                                                })
-                                            }
-                                        )
-                                        composable(
-                                            route = Routes.EmployeeMenuScreen.route,
-                                            content = {
-                                                MenuScreen(
-                                                    onNavigate = { route ->
-                                                        navController.navigate(route)
-                                                    },
-                                                    onPlaceOrder = { route ->
-                                                        navController.navigate(route)
+                                        navigation(
+                                            route = Graphs.EmpMainGraph.graph,
+                                            startDestination = Routes.EmployeeMenuScreen.route,
+                                            builder = {
+                                                composable(
+                                                    route = Routes.EmployeeProfileScreen.route,
+                                                    content = {
+                                                        EmployeeProfileScreen(
+                                                            state = employeeProfileViewModel.state.collectAsState().value,
+                                                            onEvent = employeeProfileViewModel::onEvent,
+                                                            navController = navController,
+                                                            onNavigateBack = { route ->
+                                                                navController.navigate(route)
+                                                            }
+                                                        )
                                                     }
                                                 )
-                                            }
-                                        )
-                                        composable(
-                                            route = Routes.EmployeeOngoingOrdersScreen.route,
-                                            content = {
-                                                OnGoingOrderScreen(
-                                                    onNavigate = { route ->
-                                                        navController.navigate(route)
+                                                composable(
+                                                    route = Routes.EmployeeMenuScreen.route,
+                                                    content = {
+                                                        MenuScreen(
+                                                            onNavigate = { route ->
+                                                                navController.navigate(route)
+                                                            },
+                                                            onPlaceOrder = { route ->
+                                                                navController.navigate(route)
+                                                            }
+                                                        )
                                                     }
                                                 )
-                                            }
-                                        )
-                                        composable(
-                                            route = Routes.EmployeeOrderResumeScreen.route,
-                                            content = {
-                                                OrderResumeScreen(
-                                                    onAddMoreMenu = { route ->
-                                                        navController.navigate(route)
-                                                    },
-                                                    onPlaceOrder = {
-                                                        navController.navigate(Routes.EmployeePostOrderScreen.route)
+                                                composable(
+                                                    route = Routes.EmployeeOngoingOrdersScreen.route,
+                                                    content = {
+                                                        OnGoingOrderScreen(
+                                                            onNavigate = { route ->
+                                                                navController.navigate(route)
+                                                            }
+                                                        )
                                                     }
                                                 )
-                                            }
-                                        )
-                                        composable(
-                                            route = Routes.EmployeePostOrderScreen.route,
-                                            content = {
-                                                PostOrderResumeScreen(
-                                                    navController = navController
+                                                composable(
+                                                    route = Routes.EmployeeOrderResumeScreen.route,
+                                                    content = {
+                                                        OrderResumeScreen(
+                                                            onAddMoreMenu = { route ->
+                                                                navController.navigate(route)
+                                                            },
+                                                            onPlaceOrder = {
+                                                                navController.navigate(Routes.EmployeePostOrderScreen.route)
+                                                            }
+                                                        )
+                                                    }
                                                 )
-                                            }
-                                        )
-                                        composable(
-                                            route = Routes.EmployeePostDeliverScreen.route,
-                                            content = {
-                                                PostDeliverScreen(
-                                                    navController = navController
+                                                composable(
+                                                    route = Routes.EmployeePostOrderScreen.route,
+                                                    content = {
+                                                        PostOrderResumeScreen(
+                                                            navController = navController
+                                                        )
+                                                    }
                                                 )
-                                            }
-                                        )
-                                        composable(
-                                            route = Routes.EmployeePostPayedScreen.route,
-                                            content = {
-                                                PostPayedScreen(
-                                                    navController = navController
+                                                composable(
+                                                    route = Routes.EmployeePostDeliverScreen.route,
+                                                    content = {
+                                                        PostDeliverScreen(
+                                                            navController = navController
+                                                        )
+                                                    }
+                                                )
+                                                composable(
+                                                    route = Routes.EmployeePostPayedScreen.route,
+                                                    content = {
+                                                        PostPayedScreen(
+                                                            navController = navController
+                                                        )
+                                                    }
                                                 )
                                             }
                                         )
