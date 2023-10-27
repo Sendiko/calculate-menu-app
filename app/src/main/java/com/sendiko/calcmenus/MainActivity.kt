@@ -25,6 +25,7 @@ import com.sendiko.calcmenus.repository.preferences.AppPreferences
 import com.sendiko.calcmenus.repository.viewmodels.SplashScreenViewModel
 import com.sendiko.calcmenus.repository.viewmodels.ViewModelFactory
 import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeLoginViewModel
+import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeProfileViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoLoginViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoProfileViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoRegisterViewModel
@@ -83,6 +84,10 @@ class MainActivity : ComponentActivity() {
 
     private val restoProfileLoginViewModel by lazy {
         obtainViewModel(appPreferences, RestoProfileViewModel::class.java)
+    }
+
+    private val employeeProfileViewModel by lazy {
+        obtainViewModel(appPreferences, EmployeeProfileViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -295,6 +300,9 @@ class MainActivity : ComponentActivity() {
                                                     route = Routes.EmployeeProfileScreen.route,
                                                     content = {
                                                         EmployeeProfileScreen(
+                                                            state = employeeProfileViewModel.state.collectAsState().value,
+                                                            onEvent = employeeProfileViewModel::onEvent,
+                                                            navController = navController,
                                                             onNavigateBack = { route ->
                                                                 navController.navigate(route)
                                                             }
