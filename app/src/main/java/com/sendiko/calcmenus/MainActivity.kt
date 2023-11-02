@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
@@ -12,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +28,7 @@ import com.sendiko.calcmenus.repository.preferences.AppPreferences
 import com.sendiko.calcmenus.repository.viewmodels.SplashScreenViewModel
 import com.sendiko.calcmenus.repository.viewmodels.ViewModelFactory
 import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeLoginViewModel
+import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeMenuViewModel
 import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeProfileViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoLoginViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoProfileViewModel
@@ -90,8 +94,14 @@ class MainActivity : ComponentActivity() {
         obtainViewModel(appPreferences, EmployeeProfileViewModel::class.java)
     }
 
+    private val employeeMenuViewModel by lazy {
+        obtainViewModel(appPreferences, EmployeeMenuViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        installSplashScreen()
 
         WindowCompat.setDecorFitsSystemWindows(
             window,
@@ -122,6 +132,8 @@ class MainActivity : ComponentActivity() {
                         NavHost(
                             navController = navController,
                             startDestination = Graphs.WholeGraphRoute.graph,
+                            enterTransition = { fadeIn() },
+                            exitTransition = { fadeOut() },
                             builder = {
                                 navigation(
                                     route = Graphs.WholeGraphRoute.graph,
@@ -313,11 +325,10 @@ class MainActivity : ComponentActivity() {
                                                     route = Routes.EmployeeMenuScreen.route,
                                                     content = {
                                                         MenuScreen(
+                                                            state = employeeMenuViewModel.state.collectAsState().value,
+                                                            onEvent = employeeMenuViewModel::onEvent,
                                                             onNavigate = { route ->
-                                                                navController.navigate(route)
-                                                            },
-                                                            onPlaceOrder = { route ->
-                                                                navController.navigate(route)
+                                                                navController.navigate(route )
                                                             }
                                                         )
                                                     }

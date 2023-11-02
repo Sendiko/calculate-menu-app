@@ -3,6 +3,8 @@ package com.sendiko.calcmenus.ui.screens.welcome
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -11,6 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.sendiko.calcmenus.R
@@ -67,9 +70,17 @@ fun SplashScreen(
             modifier = Modifier
                 .padding(it)
                 .fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.BottomCenter
         ){
-            Image(painter = painterResource(id = R.drawable.sss_logo), contentDescription = "logo")
+            Row{
+               Spacer(modifier = Modifier.weight(1f))
+                Image(
+                    modifier = Modifier.weight(3f).padding(bottom = 16.dp),
+                    painter = painterResource(id = R.drawable.powered_by),
+                    contentDescription = "logo"
+                )
+                Spacer(modifier = Modifier.weight(1f))
+            }
         }
     }
 }

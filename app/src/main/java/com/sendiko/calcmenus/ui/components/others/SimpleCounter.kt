@@ -48,9 +48,7 @@ fun SimpleCounter(
                     contentDescription = "Minus",
                 )
             },
-            onClick = {
-
-            }
+            onClick = onMinusClick
         )
         Box(
             modifier = Modifier
@@ -79,9 +77,7 @@ fun SimpleCounter(
                     contentDescription = "Add"
                 )
             },
-            onClick = {
-
-            }
+            onClick = onPlusClick
         )
     }
 }

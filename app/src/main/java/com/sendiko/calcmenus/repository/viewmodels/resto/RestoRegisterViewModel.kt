@@ -59,7 +59,8 @@ class RestoRegisterViewModel(private val repo: RestoRepository) : ViewModel() {
                             failedState = FailedState(
                                 isFailed = true,
                                 failedMessage = t.message
-                            )
+                            ),
+                            isLoading = false
                         )
                     }
                 }

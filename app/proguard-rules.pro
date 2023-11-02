@@ -11,6 +11,13 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep class androidx.datastore.preferences.** {
+    * *;
+}
+
+-keep class retrofit2.** {
+    * *;
+}
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.

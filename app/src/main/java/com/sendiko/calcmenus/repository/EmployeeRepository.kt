@@ -10,4 +10,6 @@ class EmployeeRepository {
     fun employeeLogin(employeeLoginRequest: EmployeeLoginRequest) = client.employeeLogin(employeeLoginRequest)
 
     fun employeeLogout(token: String) = client.employeeLogout(token)
+
+    fun getMenu(token: String) = client.getMenu(token)
 }
