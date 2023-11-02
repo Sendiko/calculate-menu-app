@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.CalcMenus" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">
+            false
+        </item>
+        <item name="android:statusBarColor">
+            @android:color/transparent
+        </item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/avd_calc_menu</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">#FFFFFBFF</item>
+        <item name="android:windowSplashScreenBackground">#FFFFFBFF</item>
+        <item name="android:windowSplashScreenAnimationDuration">1000</item>
+    </style>
+</resources>
