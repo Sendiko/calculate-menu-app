@@ -12,9 +12,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SignalWifiConnectedNoInternet4
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -75,6 +78,13 @@ fun MenuCard(
                         strokeCap = StrokeCap.Butt
                     )
                 },
+                error = {
+                    Icon(
+                        modifier = Modifier.padding(16.dp),
+                        imageVector = Icons.Filled.SignalWifiConnectedNoInternet4,
+                        contentDescription = "No Connection"
+                    )
+                },
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .weight(4f)
@@ -96,7 +106,7 @@ fun MenuCard(
                         text = title,
                         style = TextStyle(
                             fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
+                            fontWeight = FontWeight.ExtraBold,
                             textAlign = TextAlign.Start,
                             fontFamily = myFont
                         )
@@ -105,7 +115,7 @@ fun MenuCard(
                         modifier = Modifier.fillMaxWidth(),
                         text = description,
                         style = TextStyle(
-                            fontSize = 16.sp,
+                            fontSize = 14.sp,
                             fontWeight = FontWeight.Normal,
                             textAlign = TextAlign.Start,
                             fontFamily = myFont
@@ -113,7 +123,7 @@ fun MenuCard(
                     )
                 }
 
-                AnimatedVisibility(visible = amount > 1 && !editable) {
+                AnimatedVisibility(visible = amount >= 1 && !editable) {
                     SimpleCounter(
                         modifier = Modifier.padding(top = 16.dp),
                         amount = amount,
