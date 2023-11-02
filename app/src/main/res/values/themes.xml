@@ -8,5 +8,7 @@
         <item name="android:statusBarColor">
             @android:color/transparent
         </item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/avd_calc_menu</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
     </style>
 </resources>
