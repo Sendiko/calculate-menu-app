@@ -5,11 +5,13 @@ import com.sendiko.calcmenus.remote.requests.RestoLoginRequest
 import com.sendiko.calcmenus.remote.requests.RestoRegisterRequest
 import com.sendiko.calcmenus.remote.responses.EmployeeLoginResponse
 import com.sendiko.calcmenus.remote.responses.EmployeeLogoutResponse
+import com.sendiko.calcmenus.remote.responses.GetMenuResponse
 import com.sendiko.calcmenus.remote.responses.RestoLoginResponse
 import com.sendiko.calcmenus.remote.responses.RestoLogoutResponse
 import com.sendiko.calcmenus.remote.responses.RestoRegisterResponse
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 
@@ -39,5 +41,10 @@ interface ApiService {
     fun employeeLogout(
         @Header("Authorization") token: String
     ): Call<EmployeeLogoutResponse>
+
+    @GET("menu")
+    fun getMenu(
+        @Header("Authorization") token: String
+    ): Call<GetMenuResponse>
 
 }
