@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sendiko.calcmenus.remote.responses.GetMenuResponse
+import com.sendiko.calcmenus.remote.responses.MenusItem
 import com.sendiko.calcmenus.repository.EmployeeRepository
 import com.sendiko.calcmenus.repository.preferences.AppPreferences
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreenEvent
@@ -50,19 +51,27 @@ class EmployeeMenuViewModel(private val appPreferences: AppPreferences) : ViewMo
                             )
                         }
 
-                        500 -> _state.update {
-                            it.copy(
-                                failedState = FailedState(
-                                    isFailed = true,
-                                    failedMessage = "Server error."
+                        500 -> viewModelScope.launch {
+                            _state.update {
+                                it.copy(
+                                    failedState = FailedState(
+                                        isFailed = true,
+                                        failedMessage = "Server error."
+                                    )
                                 )
-                            )
+                            }
                         }
 
                         200 -> response.body()?.menus.let { menusItem ->
                             Log.i("MENU", "response: ${response.body()?.menus}")
                             _state.update {
-                                it.copy(menuList = menusItem)
+                                it.copy(
+                                    menuList = menusItem,
+                                    failedState = FailedState(
+                                        isFailed = false,
+                                        failedMessage = null
+                                    )
+                                )
                             }
                         }
                     }
@@ -115,7 +124,11 @@ class EmployeeMenuViewModel(private val appPreferences: AppPreferences) : ViewMo
             }
 
             MenuScreenEvent.OnPlaceOrder -> {
+                _state.update { it.copy(orderedMenuList = emptyList<MenusItem>()) }
+            }
 
+            is MenuScreenEvent.OnLoadMenuList -> _state.update {
+                it.copy(orderedMenuList = event.menuList)
             }
         }
     }
