@@ -14,4 +14,5 @@ data class MenuScreenState(
     val token: String = "",
     val isLoading: Boolean = false,
     val failedState: FailedState = FailedState(),
+    val restoId: String = "",
 )
