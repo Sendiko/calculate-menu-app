@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.sendiko.calcmenus.repository.preferences.AppPreferences
 import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeLoginViewModel
 import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeMenuViewModel
+import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeOrderResumeViewModel
 import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeProfileViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoLoginViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoProfileViewModel
@@ -26,6 +27,8 @@ class ViewModelFactory private constructor(private val appPreferences: AppPrefer
                 EmployeeProfileViewModel(appPreferences) as T
             modelClass.isAssignableFrom(EmployeeMenuViewModel::class.java) ->
                 EmployeeMenuViewModel(appPreferences) as T
+            modelClass.isAssignableFrom(EmployeeOrderResumeViewModel::class.java) ->
+                EmployeeOrderResumeViewModel(appPreferences) as T
             else -> throw IllegalArgumentException("Unknown modelClass: " + modelClass.name)
         }
     }
