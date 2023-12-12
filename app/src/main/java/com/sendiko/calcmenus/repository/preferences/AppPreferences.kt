@@ -10,7 +10,20 @@ import kotlinx.coroutines.flow.map
 class AppPreferences private constructor(private val dataStore: DataStore<Preferences>){
 
     private val loginStateKey = stringPreferencesKey("login_account")
+    private val restoIdKey = stringPreferencesKey("resto_id")
     private val tokenKey = stringPreferencesKey("token")
+
+    fun getRestoId(): Flow<String> {
+        return dataStore.data.map {
+            it[restoIdKey]?:""
+        }
+    }
+
+    suspend fun saveRestoId(restoId: String){
+        dataStore.edit {
+            it[restoIdKey] = restoId
+        }
+    }
 
     fun getLoginState(): Flow<String> {
         return dataStore.data.map {
