@@ -14,6 +14,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
 
@@ -42,8 +43,9 @@ interface ApiService {
         @Header("Authorization") token: String
     ): Call<EmployeeLogoutResponse>
 
-    @GET("menu")
+    @GET("menu/{id}")
     fun getMenu(
+        @Path("id") id: String,
         @Header("Authorization") token: String
     ): Call<GetMenuResponse>
 
