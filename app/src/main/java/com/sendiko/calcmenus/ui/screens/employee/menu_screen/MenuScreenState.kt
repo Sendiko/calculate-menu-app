@@ -4,7 +4,7 @@ import com.sendiko.calcmenus.remote.responses.MenusItem
 import com.sendiko.calcmenus.ui.utils.FailedState
 
 data class MenuScreenState(
-    val orderedMenuList: List<String> = emptyList(),
+    val orderedMenuList: List<MenusItem> = emptyList(),
     val orderedMenuNoteList: List<String> = emptyList(),
     val menuList: List<MenusItem?>? = emptyList(),
     val currentPage: Int = 0,
