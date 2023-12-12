@@ -26,14 +26,15 @@ class EmployeeMenuViewModel(private val appPreferences: AppPreferences) : ViewMo
 
     private val _state = MutableStateFlow(MenuScreenState())
     private val _token = appPreferences.getToken()
-    val state = combine(_state, _token) { state, token ->
-        state.copy(token = token)
+    private val _restoId = appPreferences.getRestoId()
+    val state = combine(_state, _token, _restoId) { state, token, restoId ->
+        state.copy(token = token, restoId = restoId)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(1000), MenuScreenState())
 
     private fun getMenuList(token: String) {
         _state.update { it.copy(isLoading = true) }
         val bearerToken = "Bearer $token"
-        val request = repository.getMenu(bearerToken)
+        val request = repository.getMenu(bearerToken, state.value.restoId)
         request.enqueue(
             object : Callback<GetMenuResponse> {
                 override fun onResponse(
