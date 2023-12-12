@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -17,7 +18,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.NoteAdd
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -33,15 +33,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sendiko.calcmenus.remote.responses.MenusItem
 import com.sendiko.calcmenus.ui.components.appbars.CustomAppBar
 import com.sendiko.calcmenus.ui.components.buttons.SmallOutlineButton
 import com.sendiko.calcmenus.ui.components.others.SimpleCounter
+import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.components.textfields.SmallTextArea
 import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.theme.LessGray
@@ -50,11 +50,12 @@ import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.theme.myFont
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrderResumeScreen(
+    state: OrderResumeScreenState,
+    onEvent: (OrderResumeScreenEvent) -> Unit,
     onPlaceOrder: () -> Unit,
-    onAddMoreMenu: (route: String) -> Unit
+    onAddMoreMenu: (route: String, updatedMenuList: List<MenusItem>) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -68,7 +69,7 @@ fun OrderResumeScreen(
                     Text(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         text = "Place Order",
-                        style = TextStyle(
+                        style = androidx.compose.ui.text.TextStyle(
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Black,
                             fontFamily = myFont
@@ -85,7 +86,7 @@ fun OrderResumeScreen(
                 headerIcon = {
                     IconButton(
                         onClick = {
-                            onAddMoreMenu(Routes.EmployeeMenuScreen.route)
+                            onAddMoreMenu(Routes.EmployeeMenuScreen.route, state.orderedMenuList)
                         },
                         content = {
                             Icon(
@@ -93,12 +94,10 @@ fun OrderResumeScreen(
                                 tint = NotWhite,
                                 contentDescription = "Back"
                             )
-                        }
+                        },
                     )
                 },
-                trailingIcon = {
-
-                }
+                trailingIcon = { }
             )
         }
     ) { paddingValues ->
@@ -113,12 +112,23 @@ fun OrderResumeScreen(
                     end = 16.dp,
                     bottom = 108.dp
                 )
-                .clip(RoundedCornerShape(4))
+                .clip(RoundedCornerShape(8))
                 .background(NotWhite),
             state = rememberLazyListState(),
             contentPadding = PaddingValues(16.dp),
             content = {
-                items(count = 5) {
+                item {
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        hint = "Table number",
+                        isError = state.tableName.isEmpty(),
+                        textValue = state.tableName,
+                        onNewValue = {
+                            onEvent(OrderResumeScreenEvent.OnInputTableName(it))
+                        }
+                    )
+                }
+                items(state.orderedMenuList.distinct()) {
                     Column {
                         Row(
                             Modifier.fillMaxWidth(),
@@ -128,16 +138,16 @@ fun OrderResumeScreen(
                                 modifier = Modifier.weight(1f),
                             ) {
                                 Text(
-                                    text = "Title",
-                                    style = TextStyle(
+                                    text = it.name.toString(),
+                                    style = androidx.compose.ui.text.TextStyle(
                                         fontSize = 18.sp,
                                         fontWeight = FontWeight.SemiBold,
                                         fontFamily = myFont
                                     )
                                 )
                                 Text(
-                                    text = "Lorem ipsum dolor sit amet, Aenean commodo ligula eget dolor. Aenean massa.",
-                                    style = TextStyle(
+                                    text = it.description.toString(),
+                                    style = androidx.compose.ui.text.TextStyle(
                                         fontFamily = myFont,
                                         fontWeight = FontWeight.Thin
                                     )
@@ -167,10 +177,16 @@ fun OrderResumeScreen(
                                 }
                             }
                             SimpleCounter(
-                                amount = it,
+                                amount = state.orderedMenuList.count { amount ->
+                                    amount == it
+                                },
                                 fillContainer = false,
-                                onMinusClick = { /*TODO*/ },
-                                onPlusClick = { /*TODO*/ }
+                                onMinusClick = {
+                                    onEvent(OrderResumeScreenEvent.OnRemoveMenu(it))
+                                },
+                                onPlusClick = {
+                                    onEvent(OrderResumeScreenEvent.OnAddMenu(it))
+                                }
                             )
                         }
                         Divider(modifier = Modifier.padding(8.dp), thickness = 2.dp)
@@ -182,8 +198,9 @@ fun OrderResumeScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         TextButton(
+                            modifier = Modifier.fillMaxSize(),
                             onClick = {
-                                onAddMoreMenu(Routes.EmployeeMenuScreen.route)
+                                onAddMoreMenu(Routes.EmployeeMenuScreen.route, state.orderedMenuList)
                             },
                             content = {
                                 Icon(
@@ -193,7 +210,7 @@ fun OrderResumeScreen(
                                 )
                                 Text(
                                     text = "Add more menu",
-                                    style = TextStyle(
+                                    style = androidx.compose.ui.text.TextStyle(
                                         fontSize = 24.sp,
                                         color = LessGray,
                                         fontFamily = myFont
@@ -209,17 +226,4 @@ fun OrderResumeScreen(
         )
     }
 
-}
-
-@Preview
-@Composable
-fun OrderResumePrev() {
-    OrderResumeScreen(
-        onAddMoreMenu = {
-
-        },
-        onPlaceOrder = {
-
-        }
-    )
 }
