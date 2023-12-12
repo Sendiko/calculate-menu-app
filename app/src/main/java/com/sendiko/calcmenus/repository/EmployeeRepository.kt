@@ -11,5 +11,5 @@ class EmployeeRepository {
 
     fun employeeLogout(token: String) = client.employeeLogout(token)
 
-    fun getMenu(token: String) = client.getMenu(token)
+    fun getMenu(token: String, restoId: String) = client.getMenu(restoId, token)
 }
