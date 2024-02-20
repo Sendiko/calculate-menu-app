@@ -8,6 +8,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.sendiko.calcmenus.remote.responses.MenusItem
 import com.sendiko.calcmenus.repository.EmployeeRepository
 import com.sendiko.calcmenus.repository.RestoRepository
 import com.sendiko.calcmenus.repository.preferences.AppPreferences
@@ -29,6 +31,7 @@ import com.sendiko.calcmenus.repository.viewmodels.SplashScreenViewModel
 import com.sendiko.calcmenus.repository.viewmodels.ViewModelFactory
 import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeLoginViewModel
 import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeMenuViewModel
+import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeOrderResumeViewModel
 import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeProfileViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoLoginViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoProfileViewModel
@@ -37,8 +40,10 @@ import com.sendiko.calcmenus.ui.screens.Graphs
 import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.employee.login_screen.EmployeeLoginScreen
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreen
+import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreenEvent
 import com.sendiko.calcmenus.ui.screens.employee.ongoing_order.OnGoingOrderScreen
 import com.sendiko.calcmenus.ui.screens.employee.order_resume.OrderResumeScreen
+import com.sendiko.calcmenus.ui.screens.employee.order_resume.OrderResumeScreenEvent
 import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostDeliverScreen
 import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostOrderResumeScreen
 import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostPayedScreen
@@ -98,6 +103,10 @@ class MainActivity : ComponentActivity() {
         obtainViewModel(appPreferences, EmployeeMenuViewModel::class.java)
     }
 
+    private val employeeOrderResumeViewModel by lazy {
+        obtainViewModel(appPreferences, EmployeeOrderResumeViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -111,6 +120,7 @@ class MainActivity : ComponentActivity() {
         val employeeRepository = EmployeeRepository()
 
         val restoRegisterViewModel = RestoRegisterViewModel(restoRepository)
+        var tempList = emptyList<MenusItem>()
 
         setContent {
             var outsideApp by remember { mutableStateOf(true) }
@@ -324,11 +334,21 @@ class MainActivity : ComponentActivity() {
                                                 composable(
                                                     route = Routes.EmployeeMenuScreen.route,
                                                     content = {
+                                                        val list = employeeMenuViewModel.state.collectAsState().value.orderedMenuList
+                                                        LaunchedEffect(
+                                                            key1 = list,
+                                                            block = {
+                                                                if (list == emptyList<MenusItem>())
+                                                                    employeeMenuViewModel.onEvent(MenuScreenEvent.OnLoadMenuList(tempList))
+                                                            }
+                                                        )
                                                         MenuScreen(
                                                             state = employeeMenuViewModel.state.collectAsState().value,
                                                             onEvent = employeeMenuViewModel::onEvent,
-                                                            onNavigate = { route ->
-                                                                navController.navigate(route )
+                                                            onNavigate = { route, listt ->
+                                                                navController.navigate(route)
+                                                                tempList = emptyList()
+                                                                tempList = listt
                                                             }
                                                         )
                                                     }
@@ -346,13 +366,25 @@ class MainActivity : ComponentActivity() {
                                                 composable(
                                                     route = Routes.EmployeeOrderResumeScreen.route,
                                                     content = {
+                                                        val list = employeeOrderResumeViewModel.state.collectAsState().value.orderedMenuList
+                                                        LaunchedEffect(
+                                                            key1 = list,
+                                                            block = {
+                                                                if (list == emptyList<MenusItem>())
+                                                                    employeeOrderResumeViewModel.onEvent(   OrderResumeScreenEvent.OnLoadList(tempList))
+                                                            }
+                                                        )
                                                         OrderResumeScreen(
-                                                            onAddMoreMenu = { route ->
+                                                            onAddMoreMenu = { route, listt ->
                                                                 navController.navigate(route)
+                                                                tempList = emptyList()
+                                                                tempList = listt
                                                             },
                                                             onPlaceOrder = {
                                                                 navController.navigate(Routes.EmployeePostOrderScreen.route)
-                                                            }
+                                                            },
+                                                            onEvent = employeeOrderResumeViewModel::onEvent,
+                                                            state = employeeOrderResumeViewModel.state.collectAsState().value
                                                         )
                                                     }
                                                 )
