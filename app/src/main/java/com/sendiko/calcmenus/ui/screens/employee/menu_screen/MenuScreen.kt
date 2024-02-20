@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -25,6 +27,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SortByAlpha
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -99,6 +102,7 @@ fun MenuScreen(
                 },
                 onClick = {
                     onNavigate(Routes.EmployeeOrderResumeScreen.route, state.orderedMenuList)
+                    onEvent(MenuScreenEvent.OnPlaceOrder)
                 }
             )
         },
@@ -243,6 +247,7 @@ fun MenuScreen(
                                         title = menu.name!!,
                                         description = menu.description!!,
                                         price = menu.price!!.toString(),
+                                        imageUrl = menu.imageUrl!!,
                                         amount = state.orderedMenuList.count { amount ->
                                             amount == menu
                                         },
@@ -268,6 +273,7 @@ fun MenuScreen(
                                     title = menu?.name!!,
                                     description = menu.description!!,
                                     price = menu.price!!.toString(),
+                                    imageUrl = menu.imageUrl!!,
                                     amount = state.orderedMenuList.count { amount ->
                                         amount == menu
                                     },
@@ -282,6 +288,9 @@ fun MenuScreen(
                                     }
                                 )
                             }
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(72.dp))
                         }
                     }
                 }
