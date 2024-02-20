@@ -1,11 +1,13 @@
 package com.sendiko.calcmenus.remote
 
 import com.sendiko.calcmenus.remote.requests.EmployeeLoginRequest
+import com.sendiko.calcmenus.remote.requests.PostOrderRequest
 import com.sendiko.calcmenus.remote.requests.RestoLoginRequest
 import com.sendiko.calcmenus.remote.requests.RestoRegisterRequest
 import com.sendiko.calcmenus.remote.responses.EmployeeLoginResponse
 import com.sendiko.calcmenus.remote.responses.EmployeeLogoutResponse
 import com.sendiko.calcmenus.remote.responses.GetMenuResponse
+import com.sendiko.calcmenus.remote.responses.PostOrderResponse
 import com.sendiko.calcmenus.remote.responses.RestoLoginResponse
 import com.sendiko.calcmenus.remote.responses.RestoLogoutResponse
 import com.sendiko.calcmenus.remote.responses.RestoRegisterResponse
@@ -48,5 +50,11 @@ interface ApiService {
         @Path("id") id: String,
         @Header("Authorization") token: String
     ): Call<GetMenuResponse>
+
+    @POST("order")
+    fun postOrder(
+        @Header("Authorization") token: String,
+        @Body postOrderRequest: PostOrderRequest
+    ): Call<PostOrderResponse>
 
 }
