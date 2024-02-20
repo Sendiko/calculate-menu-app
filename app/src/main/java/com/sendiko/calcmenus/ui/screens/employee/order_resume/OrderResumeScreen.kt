@@ -26,6 +26,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -55,8 +56,14 @@ fun OrderResumeScreen(
     state: OrderResumeScreenState,
     onEvent: (OrderResumeScreenEvent) -> Unit,
     onPlaceOrder: () -> Unit,
-    onAddMoreMenu: (route: String, updatedMenuList: List<MenusItem>) -> Unit
+    onAddMoreMenu: (route: String, updatedMenuList: List<MenusItem>) -> Unit,
 ) {
+    LaunchedEffect(
+        key1 = state.isSuccess,
+        block = {
+            onPlaceOrder()
+        }
+    )
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = PrimaryRed,
@@ -76,7 +83,9 @@ fun OrderResumeScreen(
                         )
                     )
                 },
-                onClick = onPlaceOrder
+                onClick = {
+                    onEvent(OrderResumeScreenEvent.OnPlaceOrder)
+                }
             )
         },
         floatingActionButtonPosition = FabPosition.Center,
@@ -87,6 +96,7 @@ fun OrderResumeScreen(
                     IconButton(
                         onClick = {
                             onAddMoreMenu(Routes.EmployeeMenuScreen.route, state.orderedMenuList)
+                            onEvent(OrderResumeScreenEvent.OnClearMenu)
                         },
                         content = {
                             Icon(
@@ -200,6 +210,7 @@ fun OrderResumeScreen(
                         TextButton(
                             modifier = Modifier.fillMaxSize(),
                             onClick = {
+                                onEvent(OrderResumeScreenEvent.OnClearMenu)
                                 onAddMoreMenu(Routes.EmployeeMenuScreen.route, state.orderedMenuList)
                             },
                             content = {
