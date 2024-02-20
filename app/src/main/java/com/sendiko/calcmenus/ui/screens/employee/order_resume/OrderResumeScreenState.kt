@@ -9,4 +9,6 @@ data class OrderResumeScreenState(
     val tableName: String = "",
     val isLoading: Boolean = false,
     val failedState: FailedState = FailedState(isFailed = false, failedMessage = null),
+    val token: String = "",
+    val isSuccess: Boolean = false,
 )
