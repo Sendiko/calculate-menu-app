@@ -125,7 +125,8 @@ class EmployeeMenuViewModel(private val appPreferences: AppPreferences) : ViewMo
             }
 
             MenuScreenEvent.OnPlaceOrder -> {
-                _state.update { it.copy(orderedMenuList = emptyList<MenusItem>()) }
+                Log.i("OnPlaceOrder", "onEvent: test")
+                _state.update { it.copy(orderedMenuList = emptyList()) }
             }
 
             is MenuScreenEvent.OnLoadMenuList -> _state.update {
