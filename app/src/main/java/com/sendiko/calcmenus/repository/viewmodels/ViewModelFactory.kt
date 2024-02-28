@@ -7,8 +7,8 @@ import com.sendiko.calcmenus.employee.login.presentation.EmployeeLoginViewModel
 import com.sendiko.calcmenus.employee.menu.presentation.EmployeeMenuViewModel
 import com.sendiko.calcmenus.employee.order_resume.presentation.EmployeeOrderResumeViewModel
 import com.sendiko.calcmenus.employee.profile.presentation.EmployeeProfileViewModel
-import com.sendiko.calcmenus.repository.viewmodels.resto.RestoLoginViewModel
-import com.sendiko.calcmenus.repository.viewmodels.resto.RestoProfileViewModel
+import com.sendiko.calcmenus.resto.auth.login.presentation.RestoLoginViewModel
+import com.sendiko.calcmenus.resto.profile.presentation.RestoProfileViewModel
 
 class ViewModelFactory private constructor(private val appPreferences: AppPreferences) :
     ViewModelProvider.NewInstanceFactory() {

@@ -2,15 +2,15 @@ package com.sendiko.calcmenus.remote
 
 import com.sendiko.calcmenus.employee.login.data.EmployeeLoginRequest
 import com.sendiko.calcmenus.employee.menu.data.PostOrderRequest
-import com.sendiko.calcmenus.remote.requests.RestoLoginRequest
-import com.sendiko.calcmenus.remote.requests.RestoRegisterRequest
+import com.sendiko.calcmenus.resto.auth.login.data.RestoLoginRequest
+import com.sendiko.calcmenus.resto.auth.register.data.RestoRegisterRequest
 import com.sendiko.calcmenus.employee.login.data.EmployeeLoginResponse
 import com.sendiko.calcmenus.employee.profile.data.EmployeeLogoutResponse
 import com.sendiko.calcmenus.employee.menu.data.GetMenuResponse
 import com.sendiko.calcmenus.employee.menu.data.PostOrderResponse
-import com.sendiko.calcmenus.remote.responses.RestoLoginResponse
-import com.sendiko.calcmenus.remote.responses.RestoLogoutResponse
-import com.sendiko.calcmenus.remote.responses.RestoRegisterResponse
+import com.sendiko.calcmenus.resto.auth.login.data.RestoLoginResponse
+import com.sendiko.calcmenus.resto.profile.data.RestoLogoutResponse
+import com.sendiko.calcmenus.resto.auth.register.data.RestoRegisterResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
