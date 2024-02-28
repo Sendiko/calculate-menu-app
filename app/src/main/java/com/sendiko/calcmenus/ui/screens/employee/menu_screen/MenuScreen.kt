@@ -1,10 +1,11 @@
 package com.sendiko.calcmenus.ui.screens.employee.menu_screen
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -26,8 +27,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SortByAlpha
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -50,6 +51,7 @@ import com.sendiko.calcmenus.ui.components.appbars.CustomAppBar
 import com.sendiko.calcmenus.ui.components.buttons.SelectableOutlineButton
 import com.sendiko.calcmenus.ui.components.buttons.SmallOutlineButton
 import com.sendiko.calcmenus.ui.components.menu.MenuCard
+import com.sendiko.calcmenus.ui.components.others.ErrorMessageView
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.screens.Routes
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuTypeList.menuTypeList
@@ -59,26 +61,26 @@ import com.sendiko.calcmenus.ui.theme.PrimaryRed
 import com.sendiko.calcmenus.ui.theme.Yellowyellow
 import com.sendiko.calcmenus.ui.theme.myFont
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MenuScreen(
     state: MenuScreenState,
     onEvent: (MenuScreenEvent) -> Unit,
-    onNavigate: (String) -> Unit
+    onNavigate: (
+        route: String,
+        orderedMenuList: List<MenusItem>
+    ) -> Unit
 ) {
+    val enterCardAnimation = expandHorizontally(tween(durationMillis = 700, easing = EaseInOut))
+    val exitCardAnimation = shrinkHorizontally(tween(durationMillis = 700, easing = EaseInOut))
     LaunchedEffect(
         key1 = state.menuList,
         block = {
-            when (state.menuList) {
-                emptyList<MenusItem>() -> {
-                    onEvent(MenuScreenEvent.RequestMenuData(state.token))
-                }
+            if (state.menuList == emptyList<MenusItem>()) {
+                onEvent(MenuScreenEvent.RequestMenuData(state.token))
             }
         }
     )
-    var foods = state.menuList?.filter { it?.category == "food" }
-    var beverages = state.menuList?.filter { it?.category == "beverage" }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = PrimaryRed,
@@ -99,7 +101,8 @@ fun MenuScreen(
                     )
                 },
                 onClick = {
-                    onNavigate(Routes.EmployeeOrderResumeScreen.route)
+                    onNavigate(Routes.EmployeeOrderResumeScreen.route, state.orderedMenuList)
+                    onEvent(MenuScreenEvent.OnPlaceOrder)
                 }
             )
         },
@@ -120,7 +123,10 @@ fun MenuScreen(
                     ) {
                         IconButton(
                             onClick = {
-                                onNavigate(Routes.EmployeeProfileScreen.route)
+                                onNavigate(
+                                    Routes.EmployeeProfileScreen.route,
+                                    state.orderedMenuList
+                                )
                             }
                         ) {
                             Icon(
@@ -136,15 +142,18 @@ fun MenuScreen(
                         text = "On Going Orders",
                         background = Yellowyellow,
                         onClick = {
-                            onNavigate(Routes.EmployeeOngoingOrdersScreen.route)
+                            onNavigate(
+                                Routes.EmployeeOngoingOrdersScreen.route,
+                                state.orderedMenuList
+                            )
                         }
                     )
                 }
             )
         }
-    ) {
+    ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(it),
+            modifier = Modifier.padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             // SearchBar
@@ -158,21 +167,7 @@ fun MenuScreen(
                     imeAction = ImeAction.Search
                 ),
                 keyboardActions = KeyboardActions(
-                    onSearch = {
-                        when (state.currentPage) {
-                            0 -> {
-                                foods = state.menuList?.filter { menus ->
-                                    menus?.name == state.searchText
-                                }
-                            }
-
-                            1 -> {
-                                beverages = state.menuList?.filter { menus ->
-                                    menus?.name == state.searchText
-                                }
-                            }
-                        }
-                    }
+                    onSearch = { TODO("apply search") }
                 ),
                 textValue = state.searchText,
                 onNewValue = { value ->
@@ -219,7 +214,14 @@ fun MenuScreen(
                     .background(NotWhite)
                     .fillMaxSize(),
                 contentPadding = PaddingValues(start = 8.dp, end = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
                 content = {
+                    item {
+                        ErrorMessageView(
+                            errorMessage = state.failedState.failedMessage.toString(),
+                            isVisible = state.failedState.isFailed
+                        )
+                    }
                     item {
                         AnimatedVisibility(visible = state.isLoading) {
                             Box(
@@ -230,85 +232,69 @@ fun MenuScreen(
                             }
                         }
                     }
-                    item {
-                        AnimatedVisibility(visible = !state.isLoading) {
-                            Text(
-                                modifier = Modifier.padding(start = 10.dp, top = 16.dp),
-                                text = "Menu",
-                                style = TextStyle(
-                                    fontWeight = FontWeight.Black,
-                                    color = PrimaryRed,
-                                    fontSize = 32.sp,
-                                    fontFamily = myFont
-                                )
-                            )
-                        }
-                    }
-                    items(foods!!) { food ->
-                        Spacer(modifier = Modifier.height(8.dp))
-                        AnimatedVisibility(
-                            visible = state.currentPage == 0 && !state.isLoading,
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            if (food != null) {
+                    if (state.menuList != null){
+                        val food = state.menuList.filter { it!!.category == "food" }
+                        val beverage = state.menuList.filter { it!!.category == "beverage" }
+                        items(if (state.currentPage == 0) food else beverage) { menu ->
+                            AnimatedVisibility(
+                                modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp),
+                                visible = state.currentPage == 0,
+                                enter = enterCardAnimation,
+                                exit = exitCardAnimation
+                            ) {
+                                if (menu != null) {
+                                    MenuCard(
+                                        title = menu.name!!,
+                                        description = menu.description!!,
+                                        price = menu.price!!.toString(),
+                                        imageUrl = menu.imageUrl!!,
+                                        amount = state.orderedMenuList.count { amount ->
+                                            amount == menu
+                                        },
+                                        onButtonClick = {
+                                            onEvent(MenuScreenEvent.OnAddMenuToList(menu))
+                                        },
+                                        onMinusClick = {
+                                            onEvent(MenuScreenEvent.OnRemoveMenuFromList(menu))
+                                        },
+                                        onPlusClick = {
+                                            onEvent(MenuScreenEvent.OnAddMenuToList(menu))
+                                        }
+                                    )
+                                }
+                            }
+                            AnimatedVisibility(
+                                modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp),
+                                visible = state.currentPage == 1,
+                                enter = enterCardAnimation,
+                                exit = exitCardAnimation
+                            ) {
                                 MenuCard(
-                                    title = food.name.toString(),
-                                    description = food.description.toString(),
-                                    imageUrl = food.imageUrl.toString(),
-                                    price = food.price.toString(),
+                                    title = menu?.name!!,
+                                    description = menu.description!!,
+                                    price = menu.price!!.toString(),
+                                    imageUrl = menu.imageUrl!!,
                                     amount = state.orderedMenuList.count { amount ->
-                                        amount == food.name!!
+                                        amount == menu
                                     },
                                     onButtonClick = {
-                                        onEvent(MenuScreenEvent.OnAddMenuToList(food.name!!))
+                                        onEvent(MenuScreenEvent.OnAddMenuToList(menu))
                                     },
                                     onMinusClick = {
-                                        onEvent(MenuScreenEvent.OnRemoveMenuFromList(food.name!!))
+                                        onEvent(MenuScreenEvent.OnRemoveMenuFromList(menu))
                                     },
                                     onPlusClick = {
-                                        Log.i("MENU_SCREEN_EVENT", "MenuScreen: onPlusClick")
-                                        onEvent(MenuScreenEvent.OnAddMenuToList(food.name!!))
+                                        onEvent(MenuScreenEvent.OnAddMenuToList(menu))
                                     }
                                 )
                             }
                         }
-                    }
-
-                    items(beverages!!) { beverage ->
-                        Spacer(modifier = Modifier.height(8.dp))
-                        AnimatedVisibility(
-                            visible = state.currentPage == 1 && !state.isLoading,
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            if (beverage != null) {
-                                MenuCard(
-                                    title = beverage.name.toString(),
-                                    description = beverage.description.toString(),
-                                    price = beverage.price.toString(),
-                                    imageUrl = beverage.imageUrl.toString(),
-                                    amount = state.orderedMenuList.count { amount ->
-                                        amount == beverage.name!!
-                                    },
-                                    onButtonClick = {
-                                        onEvent(MenuScreenEvent.OnAddMenuToList(beverage.name!!))
-                                    },
-                                    onMinusClick = {
-                                        onEvent(MenuScreenEvent.OnRemoveMenuFromList(beverage.name!!))
-                                    },
-                                    onPlusClick = {
-                                        Log.i("MENU_SCREEN_EVENT", "MenuScreen: onPlusClick")
-                                        onEvent(MenuScreenEvent.OnAddMenuToList(beverage.name!!))
-                                    }
-                                )
-                            }
+                        item {
+                            Spacer(modifier = Modifier.height(72.dp))
                         }
-
                     }
                 }
             )
-
         }
     }
 }

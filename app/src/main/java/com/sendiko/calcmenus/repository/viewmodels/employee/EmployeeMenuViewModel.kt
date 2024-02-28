@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sendiko.calcmenus.remote.responses.GetMenuResponse
+import com.sendiko.calcmenus.remote.responses.MenusItem
 import com.sendiko.calcmenus.repository.EmployeeRepository
 import com.sendiko.calcmenus.repository.preferences.AppPreferences
 import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreenEvent
@@ -25,14 +26,15 @@ class EmployeeMenuViewModel(private val appPreferences: AppPreferences) : ViewMo
 
     private val _state = MutableStateFlow(MenuScreenState())
     private val _token = appPreferences.getToken()
-    val state = combine(_state, _token) { state, token ->
-        state.copy(token = token)
+    private val _restoId = appPreferences.getRestoId()
+    val state = combine(_state, _token, _restoId) { state, token, restoId ->
+        state.copy(token = token, restoId = restoId)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(1000), MenuScreenState())
 
     private fun getMenuList(token: String) {
         _state.update { it.copy(isLoading = true) }
         val bearerToken = "Bearer $token"
-        val request = repository.getMenu(bearerToken)
+        val request = repository.getMenu(bearerToken, state.value.restoId)
         request.enqueue(
             object : Callback<GetMenuResponse> {
                 override fun onResponse(
@@ -50,19 +52,27 @@ class EmployeeMenuViewModel(private val appPreferences: AppPreferences) : ViewMo
                             )
                         }
 
-                        500 -> _state.update {
-                            it.copy(
-                                failedState = FailedState(
-                                    isFailed = true,
-                                    failedMessage = "Server error."
+                        500 -> viewModelScope.launch {
+                            _state.update {
+                                it.copy(
+                                    failedState = FailedState(
+                                        isFailed = true,
+                                        failedMessage = "Server error."
+                                    )
                                 )
-                            )
+                            }
                         }
 
                         200 -> response.body()?.menus.let { menusItem ->
                             Log.i("MENU", "response: ${response.body()?.menus}")
                             _state.update {
-                                it.copy(menuList = menusItem)
+                                it.copy(
+                                    menuList = menusItem,
+                                    failedState = FailedState(
+                                        isFailed = false,
+                                        failedMessage = null
+                                    )
+                                )
                             }
                         }
                     }
@@ -115,7 +125,12 @@ class EmployeeMenuViewModel(private val appPreferences: AppPreferences) : ViewMo
             }
 
             MenuScreenEvent.OnPlaceOrder -> {
+                Log.i("OnPlaceOrder", "onEvent: test")
+                _state.update { it.copy(orderedMenuList = emptyList()) }
+            }
 
+            is MenuScreenEvent.OnLoadMenuList -> _state.update {
+                it.copy(orderedMenuList = event.menuList)
             }
         }
     }

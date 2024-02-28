@@ -75,6 +75,9 @@ class EmployeeLoginViewModel(private val appPreferences: AppPreferences) : ViewM
                                         loginState = LoginState.EmployeeAccount.account,
                                         token = it
                                     )
+                                    response.body()?.user?.restaurantId?.let { restoId ->
+                                        appPreferences.saveRestoId(restoId = restoId)
+                                    }
                                 }
                             }
                             _state.update {

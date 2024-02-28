@@ -1,5 +1,6 @@
 package com.sendiko.calcmenus.ui.theme
 
+import android.graphics.Color
 import androidx.compose.ui.graphics.Color
 
 val PrimaryRed = Color(0xFFC93C3C)

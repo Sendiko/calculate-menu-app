@@ -61,7 +61,8 @@ fun MenuCard(
         colors = CardDefaults.cardColors(
             containerColor = CardBackgroundColor,
             contentColor = LessGray
-        )
+        ),
+        shape = RoundedCornerShape(percent = 12)
     ) {
         Row(
             modifier = Modifier
@@ -125,7 +126,7 @@ fun MenuCard(
 
                 AnimatedVisibility(visible = amount >= 1 && !editable) {
                     SimpleCounter(
-                        modifier = Modifier.padding(top = 16.dp),
+                        modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
                         amount = amount,
                         onMinusClick = onMinusClick,
                         onPlusClick = onPlusClick

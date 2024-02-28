@@ -70,17 +70,17 @@ class RestoLoginViewModel(private val appPreferences: AppPreferences): ViewModel
 
                         200 -> {
                             viewModelScope.launch {
-                                response.body()?.token?.let {
+                                response.body()?.token?.let { token ->
                                     appPreferences.saveLoginState(
                                         loginState = LoginState.RestaurantAccount.account,
-                                        token = it
+                                        token = token
                                     )
+                                    _state.update {
+                                        it.copy(
+                                            loginSuccessful = true
+                                        )
+                                    }
                                 }
-                            }
-                            _state.update {
-                                it.copy(
-                                    loginSuccessful = true
-                                )
                             }
                         }
 
