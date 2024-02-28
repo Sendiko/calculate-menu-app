@@ -1,8 +1,8 @@
 package com.sendiko.calcmenus.employee.core
 
-import com.sendiko.calcmenus.remote.ApiConfig
+import com.sendiko.calcmenus.core.network.ApiConfig
 import com.sendiko.calcmenus.employee.login.data.EmployeeLoginRequest
-import com.sendiko.calcmenus.employee.menu.data.PostOrderRequest
+import com.sendiko.calcmenus.employee.order_resume.data.PostOrderRequest
 
 class EmployeeRepository {
 

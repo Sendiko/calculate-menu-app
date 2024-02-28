@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.sendiko.calcmenus.resto.auth.register.data.RestoRegisterRequest
 import com.sendiko.calcmenus.resto.auth.register.data.RestoRegisterResponse
 import com.sendiko.calcmenus.resto.core.RestoRepository
-import com.sendiko.calcmenus.ui.utils.FailedState
+import com.sendiko.calcmenus.core.utils.FailedState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sendiko.calcmenus.resto.profile.data.RestoLogoutResponse
 import com.sendiko.calcmenus.resto.core.RestoRepository
-import com.sendiko.calcmenus.repository.preferences.AppPreferences
-import com.sendiko.calcmenus.ui.utils.FailedState
+import com.sendiko.calcmenus.core.preferences.AppPreferences
+import com.sendiko.calcmenus.core.utils.FailedState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectIndexed

@@ -43,20 +43,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.SubcomposeAsyncImage
-import com.sendiko.calcmenus.ui.components.appbars.CustomAppBar
-import com.sendiko.calcmenus.ui.components.buttons.ButtonSize
-import com.sendiko.calcmenus.ui.components.buttons.IconInButtonPosition
-import com.sendiko.calcmenus.ui.components.buttons.OutlineButton
-import com.sendiko.calcmenus.ui.components.buttons.SmallOutlineButton
-import com.sendiko.calcmenus.ui.components.others.ErrorMessageView
-import com.sendiko.calcmenus.ui.components.others.MessageNotificationView
-import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
-import com.sendiko.calcmenus.ui.screens.Graphs
-import com.sendiko.calcmenus.ui.screens.Routes
-import com.sendiko.calcmenus.ui.theme.NotWhite
-import com.sendiko.calcmenus.ui.theme.PrimaryRed
-import com.sendiko.calcmenus.ui.theme.Yellowyellow
-import com.sendiko.calcmenus.ui.theme.myFont
+import com.sendiko.calcmenus.core.ui.components.appbars.CustomAppBar
+import com.sendiko.calcmenus.core.ui.components.buttons.ButtonSize
+import com.sendiko.calcmenus.core.ui.components.buttons.IconInButtonPosition
+import com.sendiko.calcmenus.core.ui.components.buttons.OutlineButton
+import com.sendiko.calcmenus.core.ui.components.buttons.SmallOutlineButton
+import com.sendiko.calcmenus.core.ui.components.others.ErrorMessageView
+import com.sendiko.calcmenus.core.ui.components.others.MessageNotificationView
+import com.sendiko.calcmenus.core.ui.components.textfields.OutlinedTextField
+import com.sendiko.calcmenus.core.navigation.Graphs
+import com.sendiko.calcmenus.core.navigation.Routes
+import com.sendiko.calcmenus.core.theme.NotWhite
+import com.sendiko.calcmenus.core.theme.PrimaryRed
+import com.sendiko.calcmenus.core.theme.Yellowyellow
+import com.sendiko.calcmenus.core.theme.myFont
 
 @Composable
 fun ProfileScreen(

@@ -1,6 +1,6 @@
 package com.sendiko.calcmenus.resto.auth.register.presentation
 
-import com.sendiko.calcmenus.ui.utils.FailedState
+import com.sendiko.calcmenus.core.utils.FailedState
 
 data class RestoRegisterState(
     val restoName: String = "",

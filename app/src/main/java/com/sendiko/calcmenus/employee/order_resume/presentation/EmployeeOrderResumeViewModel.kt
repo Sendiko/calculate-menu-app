@@ -3,11 +3,11 @@ package com.sendiko.calcmenus.employee.order_resume.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sendiko.calcmenus.employee.menu.data.PostOrderRequest
-import com.sendiko.calcmenus.employee.menu.data.PostOrderResponse
+import com.sendiko.calcmenus.employee.order_resume.data.PostOrderRequest
+import com.sendiko.calcmenus.employee.order_resume.data.PostOrderResponse
 import com.sendiko.calcmenus.employee.core.EmployeeRepository
-import com.sendiko.calcmenus.repository.preferences.AppPreferences
-import com.sendiko.calcmenus.ui.utils.FailedState
+import com.sendiko.calcmenus.core.preferences.AppPreferences
+import com.sendiko.calcmenus.core.utils.FailedState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine

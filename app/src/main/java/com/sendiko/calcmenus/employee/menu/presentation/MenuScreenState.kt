@@ -1,7 +1,7 @@
 package com.sendiko.calcmenus.employee.menu.presentation
 
 import com.sendiko.calcmenus.employee.menu.data.MenusItem
-import com.sendiko.calcmenus.ui.utils.FailedState
+import com.sendiko.calcmenus.core.utils.FailedState
 
 data class MenuScreenState(
     val orderedMenuList: List<MenusItem> = emptyList(),

@@ -33,15 +33,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.sendiko.calcmenus.R
-import com.sendiko.calcmenus.ui.components.buttons.ButtonSize
-import com.sendiko.calcmenus.ui.components.buttons.PrimaryButton
-import com.sendiko.calcmenus.ui.components.others.ErrorMessageView
-import com.sendiko.calcmenus.ui.components.others.MessageNotificationView
-import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
-import com.sendiko.calcmenus.ui.screens.Graphs
-import com.sendiko.calcmenus.ui.theme.NotWhite
-import com.sendiko.calcmenus.ui.theme.PrimaryRed
-import com.sendiko.calcmenus.ui.theme.myFont
+import com.sendiko.calcmenus.core.ui.components.buttons.ButtonSize
+import com.sendiko.calcmenus.core.ui.components.buttons.PrimaryButton
+import com.sendiko.calcmenus.core.ui.components.others.ErrorMessageView
+import com.sendiko.calcmenus.core.ui.components.others.MessageNotificationView
+import com.sendiko.calcmenus.core.ui.components.textfields.OutlinedTextField
+import com.sendiko.calcmenus.core.navigation.Graphs
+import com.sendiko.calcmenus.core.theme.NotWhite
+import com.sendiko.calcmenus.core.theme.PrimaryRed
+import com.sendiko.calcmenus.core.theme.myFont
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

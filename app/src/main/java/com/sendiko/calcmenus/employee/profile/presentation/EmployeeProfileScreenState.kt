@@ -1,7 +1,7 @@
 package com.sendiko.calcmenus.employee.profile.presentation
 
 import android.net.Uri
-import com.sendiko.calcmenus.ui.utils.FailedState
+import com.sendiko.calcmenus.core.utils.FailedState
 
 data class EmployeeProfileScreenState(
     val name: String = "",

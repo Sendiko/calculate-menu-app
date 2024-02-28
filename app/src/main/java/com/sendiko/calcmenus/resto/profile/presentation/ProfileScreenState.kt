@@ -1,7 +1,7 @@
 package com.sendiko.calcmenus.resto.profile.presentation
 
 import android.net.Uri
-import com.sendiko.calcmenus.ui.utils.FailedState
+import com.sendiko.calcmenus.core.utils.FailedState
 
 data class ProfileScreenState(
     val isLoading: Boolean = false,

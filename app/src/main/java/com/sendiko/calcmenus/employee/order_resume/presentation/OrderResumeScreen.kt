@@ -39,16 +39,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sendiko.calcmenus.employee.menu.data.MenusItem
-import com.sendiko.calcmenus.ui.components.appbars.CustomAppBar
-import com.sendiko.calcmenus.ui.components.buttons.SmallOutlineButton
-import com.sendiko.calcmenus.ui.components.others.SimpleCounter
-import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
-import com.sendiko.calcmenus.ui.components.textfields.SmallTextArea
-import com.sendiko.calcmenus.ui.screens.Routes
-import com.sendiko.calcmenus.ui.theme.LessGray
-import com.sendiko.calcmenus.ui.theme.NotWhite
-import com.sendiko.calcmenus.ui.theme.PrimaryRed
-import com.sendiko.calcmenus.ui.theme.myFont
+import com.sendiko.calcmenus.core.ui.components.appbars.CustomAppBar
+import com.sendiko.calcmenus.core.ui.components.buttons.SmallOutlineButton
+import com.sendiko.calcmenus.core.ui.components.others.SimpleCounter
+import com.sendiko.calcmenus.core.ui.components.textfields.OutlinedTextField
+import com.sendiko.calcmenus.core.ui.components.textfields.SmallTextArea
+import com.sendiko.calcmenus.core.navigation.Routes
+import com.sendiko.calcmenus.core.theme.LessGray
+import com.sendiko.calcmenus.core.theme.NotWhite
+import com.sendiko.calcmenus.core.theme.PrimaryRed
+import com.sendiko.calcmenus.core.theme.myFont
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

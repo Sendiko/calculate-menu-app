@@ -1,6 +1,6 @@
 package com.sendiko.calcmenus.resto.core
 
-import com.sendiko.calcmenus.remote.ApiConfig
+import com.sendiko.calcmenus.core.network.ApiConfig
 import com.sendiko.calcmenus.resto.auth.login.data.RestoLoginRequest
 import com.sendiko.calcmenus.resto.auth.register.data.RestoRegisterRequest
 

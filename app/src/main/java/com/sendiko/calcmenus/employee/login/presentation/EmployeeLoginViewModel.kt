@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.sendiko.calcmenus.employee.login.data.EmployeeLoginRequest
 import com.sendiko.calcmenus.employee.login.data.EmployeeLoginResponse
 import com.sendiko.calcmenus.employee.core.EmployeeRepository
-import com.sendiko.calcmenus.repository.preferences.AppPreferences
-import com.sendiko.calcmenus.ui.utils.FailedState
-import com.sendiko.calcmenus.ui.utils.LoginState
+import com.sendiko.calcmenus.core.preferences.AppPreferences
+import com.sendiko.calcmenus.core.utils.FailedState
+import com.sendiko.calcmenus.core.utils.LoginState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
