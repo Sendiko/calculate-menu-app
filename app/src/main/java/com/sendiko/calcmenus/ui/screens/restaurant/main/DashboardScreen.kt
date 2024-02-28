@@ -56,7 +56,7 @@ import com.sendiko.calcmenus.ui.components.employee.EmployeeCard
 import com.sendiko.calcmenus.ui.components.menu.MenuCard
 import com.sendiko.calcmenus.ui.components.textfields.OutlinedTextField
 import com.sendiko.calcmenus.ui.screens.Routes
-import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuTypeList.menuTypeList
+import com.sendiko.calcmenus.employee.menu.presentation.MenuTypeList.menuTypeList
 import com.sendiko.calcmenus.ui.theme.LessGray
 import com.sendiko.calcmenus.ui.theme.NotWhite
 import com.sendiko.calcmenus.ui.theme.PrimaryRed

@@ -3,10 +3,10 @@ package com.sendiko.calcmenus.repository.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.sendiko.calcmenus.repository.preferences.AppPreferences
-import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeLoginViewModel
-import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeMenuViewModel
-import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeOrderResumeViewModel
-import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeProfileViewModel
+import com.sendiko.calcmenus.employee.login.presentation.EmployeeLoginViewModel
+import com.sendiko.calcmenus.employee.menu.presentation.EmployeeMenuViewModel
+import com.sendiko.calcmenus.employee.order_resume.presentation.EmployeeOrderResumeViewModel
+import com.sendiko.calcmenus.employee.profile.presentation.EmployeeProfileViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoLoginViewModel
 import com.sendiko.calcmenus.repository.viewmodels.resto.RestoProfileViewModel
 
