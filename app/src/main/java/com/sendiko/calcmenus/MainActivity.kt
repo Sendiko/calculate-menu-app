@@ -23,47 +23,47 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.sendiko.calcmenus.remote.responses.MenusItem
-import com.sendiko.calcmenus.repository.EmployeeRepository
-import com.sendiko.calcmenus.repository.RestoRepository
-import com.sendiko.calcmenus.repository.preferences.AppPreferences
-import com.sendiko.calcmenus.repository.viewmodels.SplashScreenViewModel
-import com.sendiko.calcmenus.repository.viewmodels.ViewModelFactory
-import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeLoginViewModel
-import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeMenuViewModel
-import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeOrderResumeViewModel
-import com.sendiko.calcmenus.repository.viewmodels.employee.EmployeeProfileViewModel
-import com.sendiko.calcmenus.repository.viewmodels.resto.RestoLoginViewModel
-import com.sendiko.calcmenus.repository.viewmodels.resto.RestoProfileViewModel
-import com.sendiko.calcmenus.repository.viewmodels.resto.RestoRegisterViewModel
-import com.sendiko.calcmenus.ui.screens.Graphs
-import com.sendiko.calcmenus.ui.screens.Routes
-import com.sendiko.calcmenus.ui.screens.employee.login_screen.EmployeeLoginScreen
-import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreen
-import com.sendiko.calcmenus.ui.screens.employee.menu_screen.MenuScreenEvent
-import com.sendiko.calcmenus.ui.screens.employee.ongoing_order.OnGoingOrderScreen
-import com.sendiko.calcmenus.ui.screens.employee.order_resume.OrderResumeScreen
-import com.sendiko.calcmenus.ui.screens.employee.order_resume.OrderResumeScreenEvent
-import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostDeliverScreen
-import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostOrderResumeScreen
-import com.sendiko.calcmenus.ui.screens.employee.post_screen.PostPayedScreen
-import com.sendiko.calcmenus.ui.screens.restaurant.WelcomeResto
-import com.sendiko.calcmenus.ui.screens.restaurant.auth.login.RestoLoginScreen
-import com.sendiko.calcmenus.ui.screens.restaurant.auth.register.RestoRegisterScreen
-import com.sendiko.calcmenus.ui.screens.restaurant.main.DashboardScreen
-import com.sendiko.calcmenus.ui.screens.restaurant.main.employee.CreateEmployeeScreen
-import com.sendiko.calcmenus.ui.screens.restaurant.main.employee.ViewEmployeeScreen
-import com.sendiko.calcmenus.ui.screens.restaurant.main.menu.CreateMenuScreen
-import com.sendiko.calcmenus.ui.screens.restaurant.main.menu.EditMenuScreen
-import com.sendiko.calcmenus.ui.screens.welcome.SplashScreen
-import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreen
-import com.sendiko.calcmenus.ui.screens.welcome.WelcomeScreenEvents
-import com.sendiko.calcmenus.ui.theme.CalcMenusTheme
-import com.sendiko.calcmenus.ui.theme.NotWhite
-import com.sendiko.calcmenus.ui.theme.PrimaryRed
-import com.sendiko.calcmenus.ui.utils.dataStore
-import com.sendiko.calcmenus.ui.screens.employee.profile.ProfileScreen as EmployeeProfileScreen
-import com.sendiko.calcmenus.ui.screens.restaurant.profile.ProfileScreen as RestoProfileScreen
+import com.sendiko.calcmenus.employee.menu.data.MenusItem
+import com.sendiko.calcmenus.employee.core.EmployeeRepository
+import com.sendiko.calcmenus.resto.core.RestoRepository
+import com.sendiko.calcmenus.core.preferences.AppPreferences
+import com.sendiko.calcmenus.splash.presentation.SplashScreenViewModel
+import com.sendiko.calcmenus.core.viewmodels.ViewModelFactory
+import com.sendiko.calcmenus.employee.login.presentation.EmployeeLoginViewModel
+import com.sendiko.calcmenus.employee.menu.presentation.EmployeeMenuViewModel
+import com.sendiko.calcmenus.employee.order_resume.presentation.EmployeeOrderResumeViewModel
+import com.sendiko.calcmenus.employee.profile.presentation.EmployeeProfileViewModel
+import com.sendiko.calcmenus.resto.auth.login.presentation.RestoLoginViewModel
+import com.sendiko.calcmenus.resto.profile.presentation.RestoProfileViewModel
+import com.sendiko.calcmenus.resto.auth.register.presentation.RestoRegisterViewModel
+import com.sendiko.calcmenus.core.navigation.Graphs
+import com.sendiko.calcmenus.core.navigation.Routes
+import com.sendiko.calcmenus.employee.login.presentation.EmployeeLoginScreen
+import com.sendiko.calcmenus.employee.menu.presentation.MenuScreen
+import com.sendiko.calcmenus.employee.menu.presentation.MenuScreenEvent
+import com.sendiko.calcmenus.employee.on_going_order.presentation.screens.OnGoingOrderScreen
+import com.sendiko.calcmenus.employee.order_resume.presentation.OrderResumeScreen
+import com.sendiko.calcmenus.employee.order_resume.presentation.OrderResumeScreenEvent
+import com.sendiko.calcmenus.employee.post_screen.presentation.PostDeliverScreen
+import com.sendiko.calcmenus.employee.post_screen.presentation.PostOrderResumeScreen
+import com.sendiko.calcmenus.employee.post_screen.presentation.PostPayedScreen
+import com.sendiko.calcmenus.welcome.presentation.WelcomeResto
+import com.sendiko.calcmenus.resto.auth.login.presentation.RestoLoginScreen
+import com.sendiko.calcmenus.resto.auth.register.presentation.RestoRegisterScreen
+import com.sendiko.calcmenus.resto.main.dashboard.presentation.DashboardScreen
+import com.sendiko.calcmenus.resto.main.employee.presentation.screens.CreateEmployeeScreen
+import com.sendiko.calcmenus.resto.main.employee.presentation.screens.ViewEmployeeScreen
+import com.sendiko.calcmenus.resto.main.menu.presentation.CreateMenuScreen
+import com.sendiko.calcmenus.resto.main.menu.presentation.EditMenuScreen
+import com.sendiko.calcmenus.splash.presentation.SplashScreen
+import com.sendiko.calcmenus.welcome.presentation.WelcomeScreen
+import com.sendiko.calcmenus.welcome.presentation.WelcomeScreenEvents
+import com.sendiko.calcmenus.core.theme.CalcMenusTheme
+import com.sendiko.calcmenus.core.theme.NotWhite
+import com.sendiko.calcmenus.core.theme.PrimaryRed
+import com.sendiko.calcmenus.core.utils.dataStore
+import com.sendiko.calcmenus.employee.profile.presentation.ProfileScreen as EmployeeProfileScreen
+import com.sendiko.calcmenus.resto.profile.presentation.ProfileScreen as RestoProfileScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -339,7 +339,8 @@ class MainActivity : ComponentActivity() {
                                                             key1 = list,
                                                             block = {
                                                                 if (list == emptyList<MenusItem>())
-                                                                    employeeMenuViewModel.onEvent(MenuScreenEvent.OnLoadMenuList(tempList))
+                                                                    employeeMenuViewModel.onEvent(
+                                                                        MenuScreenEvent.OnLoadMenuList(tempList))
                                                             }
                                                         )
                                                         MenuScreen(
