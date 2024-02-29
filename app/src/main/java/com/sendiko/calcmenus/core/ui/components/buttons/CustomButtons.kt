@@ -28,12 +28,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sendiko.calcmenus.core.ui.components.buttons.ButtonSize.*
-import com.sendiko.calcmenus.core.ui.components.buttons.IconInButtonPosition.*
 import com.sendiko.calcmenus.core.theme.LessGray
 import com.sendiko.calcmenus.core.theme.NotWhite
 import com.sendiko.calcmenus.core.theme.PrimaryRed
 import com.sendiko.calcmenus.core.theme.myFont
+import com.sendiko.calcmenus.core.ui.components.buttons.ButtonSize.BIG
+import com.sendiko.calcmenus.core.ui.components.buttons.ButtonSize.REGULAR
+import com.sendiko.calcmenus.core.ui.components.buttons.ButtonSize.SMALL
+import com.sendiko.calcmenus.core.ui.components.buttons.IconInButtonPosition.AfterText
+import com.sendiko.calcmenus.core.ui.components.buttons.IconInButtonPosition.BeforeText
 
 @Composable
 fun PrimaryButton(
@@ -190,10 +193,7 @@ fun SmallOutlineButton(
     AssistChip(
         modifier = modifier,
         onClick = onClick,
-        border = AssistChipDefaults.assistChipBorder(
-            borderColor = LessGray,
-            borderWidth = 1.dp,
-        ),
+        border = BorderStroke(width = 1.dp, color = LessGray),
         colors = AssistChipDefaults.assistChipColors(
             containerColor = background,
             labelColor = LessGray,
@@ -224,10 +224,7 @@ fun SelectableOutlineButton(
     AssistChip(
         modifier = modifier,
         onClick = onClick,
-        border = AssistChipDefaults.assistChipBorder(
-            borderColor = LessGray,
-            borderWidth = 1.dp,
-        ),
+        border = BorderStroke(width = 1.dp, color = LessGray),
         colors = AssistChipDefaults.assistChipColors(
             containerColor = if (isSelected) NotWhite else PrimaryRed,
             labelColor = if (isSelected) LessGray else NotWhite,
