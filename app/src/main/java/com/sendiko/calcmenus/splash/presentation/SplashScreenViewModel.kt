@@ -4,12 +4,15 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sendiko.calcmenus.core.preferences.AppPreferences
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
-class SplashScreenViewModel(appPreferences: AppPreferences): ViewModel() {
+@HiltViewModel
+class SplashScreenViewModel @Inject constructor(appPreferences: AppPreferences): ViewModel() {
 
     private val _state = MutableStateFlow(SplashScreenState())
     private val _isLoggedIn = appPreferences.getLoginState()

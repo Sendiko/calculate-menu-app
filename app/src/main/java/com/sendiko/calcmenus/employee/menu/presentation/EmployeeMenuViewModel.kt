@@ -3,10 +3,11 @@ package com.sendiko.calcmenus.employee.menu.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sendiko.calcmenus.employee.menu.data.GetMenuResponse
-import com.sendiko.calcmenus.employee.core.EmployeeRepository
 import com.sendiko.calcmenus.core.preferences.AppPreferences
 import com.sendiko.calcmenus.core.utils.FailedState
+import com.sendiko.calcmenus.employee.core.EmployeeRepository
+import com.sendiko.calcmenus.employee.menu.data.GetMenuResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -16,10 +17,13 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class EmployeeMenuViewModel(private val appPreferences: AppPreferences) : ViewModel() {
-
-    private val repository = EmployeeRepository()
+@HiltViewModel
+class EmployeeMenuViewModel @Inject constructor(
+    appPreferences: AppPreferences,
+    private val repo: EmployeeRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow(MenuScreenState())
     private val _token = appPreferences.getToken()
@@ -31,7 +35,7 @@ class EmployeeMenuViewModel(private val appPreferences: AppPreferences) : ViewMo
     private fun getMenuList(token: String) {
         _state.update { it.copy(isLoading = true) }
         val bearerToken = "Bearer $token"
-        val request = repository.getMenu(bearerToken, state.value.restoId)
+        val request = repo.getMenu(bearerToken, state.value.restoId)
         request.enqueue(
             object : Callback<GetMenuResponse> {
                 override fun onResponse(
