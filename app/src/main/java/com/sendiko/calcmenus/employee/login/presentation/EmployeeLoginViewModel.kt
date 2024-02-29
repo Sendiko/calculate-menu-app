@@ -8,6 +8,7 @@ import com.sendiko.calcmenus.employee.core.EmployeeRepository
 import com.sendiko.calcmenus.core.preferences.AppPreferences
 import com.sendiko.calcmenus.core.utils.FailedState
 import com.sendiko.calcmenus.core.utils.LoginState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -15,10 +16,14 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class EmployeeLoginViewModel(private val appPreferences: AppPreferences) : ViewModel() {
+@HiltViewModel
+class EmployeeLoginViewModel @Inject constructor(
+    private val appPreferences: AppPreferences,
+    private val repo: EmployeeRepository
+) : ViewModel() {
 
-    private val repo = EmployeeRepository()
     private val _state = MutableStateFlow(EmployeeLoginScreenState())
     val state = _state.asStateFlow()
 

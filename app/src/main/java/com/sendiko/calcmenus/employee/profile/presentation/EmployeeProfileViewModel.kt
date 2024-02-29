@@ -2,10 +2,11 @@ package com.sendiko.calcmenus.employee.profile.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sendiko.calcmenus.employee.profile.data.EmployeeLogoutResponse
-import com.sendiko.calcmenus.employee.core.EmployeeRepository
 import com.sendiko.calcmenus.core.preferences.AppPreferences
 import com.sendiko.calcmenus.core.utils.FailedState
+import com.sendiko.calcmenus.employee.core.EmployeeRepository
+import com.sendiko.calcmenus.employee.profile.data.EmployeeLogoutResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectIndexed
@@ -14,16 +15,20 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class EmployeeProfileViewModel(private val appPreferences: AppPreferences) : ViewModel() {
+@HiltViewModel
+class EmployeeProfileViewModel @Inject constructor(
+    private val appPreferences: AppPreferences,
+    private val repo: EmployeeRepository
+) : ViewModel() {
 
-    private val repository = EmployeeRepository()
     private val _state = MutableStateFlow(EmployeeProfileScreenState())
     val state = _state.asStateFlow()
 
     private fun employeeLogout(token: String) {
         _state.update { it.copy(isLoading = true) }
-        val request = repository.employeeLogout("Bearer $token")
+        val request = repo.employeeLogout("Bearer $token")
         request.enqueue(
             object : Callback<EmployeeLogoutResponse> {
                 override fun onResponse(

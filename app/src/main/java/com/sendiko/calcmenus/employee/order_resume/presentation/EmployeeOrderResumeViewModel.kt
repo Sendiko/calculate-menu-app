@@ -3,11 +3,12 @@ package com.sendiko.calcmenus.employee.order_resume.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sendiko.calcmenus.employee.order_resume.data.PostOrderRequest
-import com.sendiko.calcmenus.employee.order_resume.data.PostOrderResponse
-import com.sendiko.calcmenus.employee.core.EmployeeRepository
 import com.sendiko.calcmenus.core.preferences.AppPreferences
 import com.sendiko.calcmenus.core.utils.FailedState
+import com.sendiko.calcmenus.employee.core.EmployeeRepository
+import com.sendiko.calcmenus.employee.order_resume.data.PostOrderRequest
+import com.sendiko.calcmenus.employee.order_resume.data.PostOrderResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -16,8 +17,13 @@ import kotlinx.coroutines.flow.update
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class EmployeeOrderResumeViewModel(appPreferences: AppPreferences): ViewModel() {
+@HiltViewModel
+class EmployeeOrderResumeViewModel @Inject constructor(
+    appPreferences: AppPreferences,
+    private val repo: EmployeeRepository
+): ViewModel() {
 
     private val _state = MutableStateFlow(OrderResumeScreenState())
     private val _token = appPreferences.getToken()
@@ -25,11 +31,9 @@ class EmployeeOrderResumeViewModel(appPreferences: AppPreferences): ViewModel() 
         state.copy(token = token)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), OrderResumeScreenState())
 
-    private val employeeRepository = EmployeeRepository()
     private fun postOrder(){
         _state.update { it.copy(isLoading = true) }
-        val request = employeeRepository
-            .postOrder(
+        val request = repo.postOrder(
                 token = "Bearer ${state.value.token}",
                 request = PostOrderRequest(
                     tableNumber = state.value.tableName,

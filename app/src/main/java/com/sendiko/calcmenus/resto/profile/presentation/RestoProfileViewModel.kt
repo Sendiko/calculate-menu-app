@@ -3,10 +3,11 @@ package com.sendiko.calcmenus.resto.profile.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sendiko.calcmenus.resto.profile.data.RestoLogoutResponse
-import com.sendiko.calcmenus.resto.core.RestoRepository
 import com.sendiko.calcmenus.core.preferences.AppPreferences
 import com.sendiko.calcmenus.core.utils.FailedState
+import com.sendiko.calcmenus.resto.core.RestoRepository
+import com.sendiko.calcmenus.resto.profile.data.RestoLogoutResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectIndexed
@@ -15,17 +16,20 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class RestoProfileViewModel(private val appPreferences: AppPreferences) : ViewModel() {
-
-    private val repository = RestoRepository()
+@HiltViewModel
+class RestoProfileViewModel @Inject constructor(
+    private val appPreferences: AppPreferences,
+    private val repo: RestoRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow(ProfileScreenState())
     val state = _state.asStateFlow()
 
     private fun restoLogout(token: String) {
         _state.update { it.copy(isLoading = true) }
-        val request = repository.restoLogout(token)
+        val request = repo.restoLogout(token)
         request.enqueue(
             object : Callback<RestoLogoutResponse> {
                 override fun onResponse(

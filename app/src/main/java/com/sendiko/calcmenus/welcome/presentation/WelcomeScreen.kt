@@ -36,7 +36,6 @@ import com.sendiko.calcmenus.core.theme.TextColor
 import com.sendiko.calcmenus.core.theme.myFont
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WelcomeScreen(
     onNavigate: (route: String) -> Unit

@@ -2,12 +2,13 @@ package com.sendiko.calcmenus.resto.auth.login.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sendiko.calcmenus.resto.auth.login.data.RestoLoginRequest
-import com.sendiko.calcmenus.resto.auth.login.data.RestoLoginResponse
-import com.sendiko.calcmenus.resto.core.RestoRepository
 import com.sendiko.calcmenus.core.preferences.AppPreferences
 import com.sendiko.calcmenus.core.utils.FailedState
 import com.sendiko.calcmenus.core.utils.LoginState
+import com.sendiko.calcmenus.resto.auth.login.data.RestoLoginRequest
+import com.sendiko.calcmenus.resto.auth.login.data.RestoLoginResponse
+import com.sendiko.calcmenus.resto.core.RestoRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -15,10 +16,14 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class RestoLoginViewModel(private val appPreferences: AppPreferences): ViewModel() {
+@HiltViewModel
+class RestoLoginViewModel @Inject constructor(
+    private val appPreferences: AppPreferences,
+    private val repo: RestoRepository
+): ViewModel() {
 
-    private val repo = RestoRepository()
     private val _state = MutableStateFlow(RestoLoginScreenState())
     val state = _state.asStateFlow()
 
